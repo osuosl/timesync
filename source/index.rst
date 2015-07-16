@@ -10,4 +10,3 @@ TimeSync is an OSU Open Source Lab developed Time Tracking system.
     Draft API <draft_api>
     Authorization <draft_auth>
     Errors <draft_errors>
-    Draft Data Models <draft_models>
