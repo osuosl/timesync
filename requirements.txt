@@ -1,7 +1,7 @@
 alabaster==0.7.6
 Babel==2.0
 chardet==2.3.0
-doc8==0.6.0
+-e git+https://github.com/tschuy/doc8.git@605002dd45d913e0c85be14a930de35311ed3c44#egg=doc8-master
 docutils==0.12
 Jinja2==2.8
 MarkupSafe==0.23
