@@ -1,24 +1,31 @@
-.. _draft-errors:
+.. _draft_errors:
 
 ======
 Errors
 ======
+
 Error types from the TimeSync API.
 
-Errors will consist of an error number which matches the HTTP status code to be returned,
-an error name, and a further informational text. The existence of the "error"
-key indicates an error.
+.. contents::
 
-In the docs following, string literals are indicated by double quotes (as in JSON standard),
-variables/tokens are indicated by lowercase_with_underscore, and plus signs indicate
-concatenation for building strings using tokens from the context.
+Errors will consist of an error number which matches the HTTP status code to be
+returned, an error name, and a further informational text. The existence of the
+"error" key indicates an error.
+
+In the docs following, string literals are indicated by double quotes (as in
+JSON standard), variables/tokens are indicated by lowercase_with_underscore,
+and plus signs indicate concatenation for building strings using tokens from
+the context.
 
 The following error codes will exist:
 
+-------------------
+
 1. Object not found
-~~~~~~~~~~~~~~~~~~~
-To be returned if the server receives a valid key (e.g. Time ID or Activity Slug) which
-does not match an object in the database.
+-------------------
+
+To be returned if the server receives a valid key (e.g. Time ID or Activity
+Slug) which does not match an object in the database.
 
 .. code-block:: javascript
 
@@ -28,11 +35,14 @@ does not match an object in the database.
         "text": "Nonexistent " + object
     }
 
+---------------
+
 2. Server error
-~~~~~~~~~~~~~~~
-A generic catch-all for when there is a server error outside of the client's control.
-This may be the result of an uncaught exception, a database error, or any other condition
-which renders the server unable to process a valid request.
+---------------
+
+A generic catch-all for when there is a server error outside of the client's
+control.  This may be the result of an uncaught exception, a database error, or
+any other condition which renders the server unable to process a valid request.
 
 .. code-block:: javascript
 
@@ -42,8 +52,11 @@ which renders the server unable to process a valid request.
         "text": server_error //(e.g. exception text or sql error)
     }
 
+----------------------
+
 3. Invalid foreign key
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
+
 A client attempts to make a POST request to create or update an object, but the new object
 sent by the client contains a foreign key parameter which does not point to a valid object
 in the database. (E.g. the client sends a new time which does not have a valid project.)
@@ -56,8 +69,11 @@ in the database. (E.g. the client sends a new time which does not have a valid p
         "text": "The " + object_type + " does not contain a valid " + foreign_key + " reference"
     }
 
+-------------
+
 4. Bad object
-~~~~~~~~~~~~~
+-------------
+
 A client attempts to make a POST request to create or update an object, but the new object
 sent by the client contains a non-existent key, lacks a necessary key, or contains an invalid
 value for a key (e.g. a time with a string in the duration field.)
@@ -81,8 +97,11 @@ value for a key (e.g. a time with a string in the duration field.)
                     expected_type + " but was sent as " + received_type
     }
 
+---------------------
+
 5. Invalid identifier
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
+
 This error would be returned when an identifier field (e.g. time ID or activity slug) is
 malformed or otherwise not valid for use. This is to be distinguished from Object not found:
 Object not found occurs when a perfectly valid, well-formed identifier is supplied, but

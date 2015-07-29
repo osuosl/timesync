@@ -1,27 +1,36 @@
-.. _draft-api:
+.. _draft_api:
 
 =========
 Draft API
 =========
+
 Below are the API specs for the TimeSync project.
 
+.. contents::
+
+----------
 
 Connection
 ----------
+
 All requests will be made via HTTPS. Available methods are GET to request an
 object, POST to create and/or edit a new object, and DELETE to remove an
 object.
 
+------
 
 Format
 ------
+
 Responses will be returned in standard JSON format. Multiple results will be
 sent as a list of JSON objects. Order of results is not guaranteed. Single
 results will be a single JSON object.
 
+--------
 
 Versions
 --------
+
 The API will be versioned with the letter 'v' followed by increasing integers.
 
 For example: https://timesync.osuosl.org/v1/projects
@@ -29,8 +38,11 @@ For example: https://timesync.osuosl.org/v1/projects
 Versions will be updated any time there is a significant change to the public
 API (not to the implementation).
 
+-------------
+
 GET Endpoints
 -------------
+
 *GET /projects*
 
 .. code-block:: javascript
@@ -119,11 +131,12 @@ GET Endpoints
       "id": 1
     }
 
+--------------
+
 POST Endpoints
 --------------
 
 To add a new object, POST to */<object name>/* with a JSON body.
-
 
 *POST /projects/*
 
@@ -197,6 +210,16 @@ a valid object or a malformed object sent in the request, an Object Not Found
 or Malformed Object error (respectively) will be returned, validation will
 return immediately, and the object will not be saved.
 
+The following content is checked by the API for validity:
+
+* Time/Date must be a valid ISO 8601 Date/Time.
+* URI must be a valid URI.
+* Activities must exist in the database.
+* The Project must exist in the database.
+* The owner of the request must be the user in the time submission.
+    * This is authorization not authentication.
+
+----------------
 
 DELETE Endpoints
 ----------------

@@ -1,7 +1,8 @@
-.. _timesync-docs:
+.. _timesync_docs:
 
 Welcome to TimeSync's API documentation!
 ========================================
+
 TimeSync is an OSU Open Source Lab developed Time Tracking system.
 
 .. toctree::
