@@ -57,9 +57,10 @@ any other condition which renders the server unable to process a valid request.
 3. Invalid foreign key
 ----------------------
 
-A client attempts to make a POST request to create or update an object, but the new object
-sent by the client contains a foreign key parameter which does not point to a valid object
-in the database. (E.g. the client sends a new time which does not have a valid project.)
+A client attempts to make a POST request to create or update an object, but the
+new object sent by the client contains a foreign key parameter which does not
+point to a valid object in the database. (E.g. the client sends a new time
+which does not have a valid project.)
 
 .. code-block:: javascript
 
@@ -74,9 +75,10 @@ in the database. (E.g. the client sends a new time which does not have a valid p
 4. Bad object
 -------------
 
-A client attempts to make a POST request to create or update an object, but the new object
-sent by the client contains a non-existent key, lacks a necessary key, or contains an invalid
-value for a key (e.g. a time with a string in the duration field.)
+A client attempts to make a POST request to create or update an object, but the
+new object sent by the client contains a non-existent key, lacks a necessary
+key, or contains an invalid value for a key (e.g. a time with a string in the
+duration field.)
 
 .. code-block:: javascript
 
@@ -102,12 +104,12 @@ value for a key (e.g. a time with a string in the duration field.)
 5. Invalid identifier
 ---------------------
 
-This error would be returned when an identifier field (e.g. time ID or activity slug) is
-malformed or otherwise not valid for use. This is to be distinguished from Object not found:
-Object not found occurs when a perfectly valid, well-formed identifier is supplied, but
-no object matching the identifier could be found; an identifier is considered invalid if
-it does not match the expected format (e.g. a slug with special characters or a non-numeric
-ID field).
+This error would be returned when an identifier field (e.g. time ID or activity
+slug) is malformed or otherwise not valid for use. This is to be distinguished
+from Object not found: Object not found occurs when a perfectly valid,
+well-formed identifier is supplied, but no object matching the identifier could
+be found; an identifier is considered invalid if it does not match the expected
+format (e.g. a slug with special characters or a non-numeric ID field).
 
 .. code-block:: javascript
 

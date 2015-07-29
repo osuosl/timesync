@@ -239,4 +239,5 @@ response body.
 If the object does not exist, the API will return an Object Not Found error
 (see error docs).
 
-In case of any other error, the API will return a Server Error (see error docs).
+In case of any other error, the API will return a Server Error (see error
+docs).
