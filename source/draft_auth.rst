@@ -1,4 +1,4 @@
-.. _draft-auth:
+.. _draft_auth:
 
 =============
 Authorization
