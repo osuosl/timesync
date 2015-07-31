@@ -118,3 +118,36 @@ format (e.g. a slug with special characters or a non-numeric ID field).
         "error": "The provided identifier was invalid",
         "text": "Expected " + (slug|id) + " but received " + received_identifier
     }
+
+-------------------
+
+6. Invalid username
+-------------------
+
+This error is returned when the username passed for authentication is not a
+valid username.
+
+.. code-block:: javascript
+
+    {
+        "status": 401
+        "error": "Invalid username",
+        "text": "${username} is not a valid username"
+    }
+
+-------------------------
+
+7. Authentication failure
+-------------------------
+
+This error is returned when authentication fails for a valid user. The text of
+the error may change based on what kind of authentication backend the TimeSync
+server is running.
+
+.. code-block:: javascript
+
+    {
+        "status": 401
+        "error": "Authentication failure",
+        "text": "Invalid password" / "Bad oAuth token" / etc
+    }
