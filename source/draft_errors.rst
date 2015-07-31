@@ -147,7 +147,7 @@ server is running.
 .. code-block:: javascript
 
     {
-    "status": 401
-    "error": "Authentication failure",
-    "text": "Invalid password" / "Bad oAuth token" / etc
+        "status": 401
+        "error": "Authentication failure",
+        "text": "Invalid password" / "Bad oAuth token" / etc
     }
