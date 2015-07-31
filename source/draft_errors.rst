@@ -129,11 +129,11 @@ valid username.
 
 .. code-block:: javascript
 
-{
-    "status": 401
-    "error": "Invalid username",
-    "text": "${username} is not a valid username"
-}
+    {
+        "status": 401
+        "error": "Invalid username",
+        "text": "${username} is not a valid username"
+    }
 
 -------------------------
 
@@ -146,8 +146,8 @@ server is running.
 
 .. code-block:: javascript
 
-{
-"status": 401
-"error": "Authentication failure",
-"text": "Invalid password" / "Bad oAuth token" / etc
-}
+    {
+    "status": 401
+    "error": "Authentication failure",
+    "text": "Invalid password" / "Bad oAuth token" / etc
+    }
