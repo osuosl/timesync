@@ -12,9 +12,9 @@ this:
 
     {
         "auth": {
-            "type": "password",
-            "username": "example-user",
-            "password": "hunter2"
+            "type": // type
+            "username": // username
+            ...
         },
         "object": {
            "name": "Ganeti Web Manager",
@@ -32,3 +32,20 @@ specifying what kind of authentication the client is connecting with, an other
 fields as necessary for that kind of connection.
 
 These other fields might be things like ``password``, ``token``, ``key``, etc.
+
+Password authentication
+-----------------------
+
+When used with password-based authentication, TimeSync uses a username field and
+a password field:
+
+.. code-block:: javascript
+
+    {
+        "auth": {
+            "type": "password",
+            "username": "tschuy",
+            "password": "password"
+        },
+        ...
+    }
