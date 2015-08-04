@@ -119,6 +119,10 @@ format (e.g. a slug with special characters or a non-numeric ID field).
         "text": "Expected " + (slug|id) + " but received " + received_identifier
     }
 
+With multiple invalid identifiers, the text of the error is formatted like so::
+
+  "text": "Expected ${slug/id} but received: ${bad}, ${bad}, ${bad}"
+
 -------------------
 
 6. Invalid username
