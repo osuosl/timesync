@@ -32,7 +32,7 @@ Slug) which does not match an object in the database.
     {
         "status": 404,
         "error": "Object not found",
-        "text": "Nonexistent " + object
+        "text": "Nonexistent ${object}"
     }
 
 ---------------
@@ -49,7 +49,7 @@ any other condition which renders the server unable to process a valid request.
     {
         "status": 500,
         "error": "Server error",
-        "text": server_error //(e.g. exception text or sql error)
+        "text": server_error // (e.g. exception text or sql error)
     }
 
 ----------------------
@@ -67,7 +67,7 @@ which does not have a valid project.)
     {
         "status": 409
         "error": "Invalid foreign key",
-        "text": "The " + object_type + " does not contain a valid " + foreign_key + " reference"
+        "text": "The ${object_type} does not contain a valid ${foreign_key} reference"
     }
 
 -------------
@@ -85,18 +85,18 @@ duration field.)
     unknown_field_error = {
         "status": 400
         "error": "Bad object",
-        "text": object_type + " does not have a " + field_name + " field"
+        "text": "${object_type} does not have a ${field_name} field"
     }
     missing_field_error = {
         "status": 400
         "error": "Bad object",
-        "text": "The " + object_type + " is missing a " + field_name
+        "text": "The ${object_type} is missing a ${field_name}"
     }
     invalid_field_error = {
         "status": 400
         "error": "Bad object",
-        "text": "Field " + field_name + " of " + object_type + " should be " +
-                    expected_type + " but was sent as " + received_type
+        "text": "Field ${field_name} of ${object_type} should be ${expected_type}
+            but was sent as ${received_type}"
     }
 
 ---------------------
@@ -116,8 +116,12 @@ format (e.g. a slug with special characters or a non-numeric ID field).
     {
         "status": 400
         "error": "The provided identifier was invalid",
-        "text": "Expected " + (slug|id) + " but received " + received_identifier
+        "text": "Expected ${slug/id} but received ${received_identifier}
     }
+
+With multiple invalid identifiers, the text of the error is formatted like so::
+
+  "text": "Expected ${slug/id} but received: ${bad}, ${bad}, ${bad}"
 
 -------------------
 
@@ -150,4 +154,48 @@ server is running.
         "status": 401
         "error": "Authentication failure",
         "text": "Invalid password" / "Bad oAuth token" / etc
+    }
+
+----------------------
+
+8. Slug already exists
+----------------------
+
+This error is returned when a new object is being created but the slugs passed
+in contain a slug that already exists.
+
+.. code-block:: javascript
+
+    {
+        status: 409,
+        error: 'The slug provided already exists',
+        text: 'slug ${slug} already exists'
+    }
+
+If multiple slugs are duplicated:
+
+.. code-block:: javascript
+
+    {
+        status: 409,
+        error: 'The slug provided already exists',
+        text: 'slugs ${slug}. ${slug} already exist'
+    }
+
+------------------------
+
+9. Authorization failure
+------------------------
+
+This error is returned when the user is successfully authenticated, but lacks
+the authorization to complete the task they are attempting to do. This is used
+when a non-administrator user attempts to create time or project entries for
+another user.
+
+.. code-block:: javascript
+
+    {
+        status: 409,
+        error: 'Authorization failure',
+        text: '${user} is not authorized to ${activity}'
     }
