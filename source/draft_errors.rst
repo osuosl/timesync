@@ -151,3 +151,47 @@ server is running.
         "error": "Authentication failure",
         "text": "Invalid password" / "Bad oAuth token" / etc
     }
+
+----------------------
+
+8. Slug already exists
+----------------------
+
+This error is returned when a new object is being created but the slugs passed
+in contain a slug that already exists.
+
+.. code-block:: javascript
+
+    {
+        status: 409,
+        error: 'The slug provided already exists',
+        text: 'slug ${slug} already exists'
+    }
+
+If multiple slugs are duplicated:
+
+.. code-block:: javascript
+
+    {
+        status: 409,
+        error: 'The slug provided already exists',
+        text: 'slugs ${slug}. ${slug} already exist'
+    }
+
+------------------------
+
+9. Authorization failure
+------------------------
+
+This error is returned when the user is successfully authenticated, but lacks
+the authorization to complete the task they are attempting to do. This is used
+when a non-administrator user attempts to create time or project entries for
+another user.
+
+.. code-block:: javascript
+
+    {
+        status: 409,
+        error: 'Authorization failure',
+        text: '${user} is not authorized to ${activity}'
+    }
