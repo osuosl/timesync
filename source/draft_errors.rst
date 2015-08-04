@@ -32,7 +32,7 @@ Slug) which does not match an object in the database.
     {
         "status": 404,
         "error": "Object not found",
-        "text": "Nonexistent " + object
+        "text": "Nonexistent ${object}"
     }
 
 ---------------
@@ -49,7 +49,7 @@ any other condition which renders the server unable to process a valid request.
     {
         "status": 500,
         "error": "Server error",
-        "text": server_error //(e.g. exception text or sql error)
+        "text": server_error // (e.g. exception text or sql error)
     }
 
 ----------------------
@@ -67,7 +67,7 @@ which does not have a valid project.)
     {
         "status": 409
         "error": "Invalid foreign key",
-        "text": "The " + object_type + " does not contain a valid " + foreign_key + " reference"
+        "text": "The ${object_type} does not contain a valid ${foreign_key} reference"
     }
 
 -------------
@@ -85,18 +85,18 @@ duration field.)
     unknown_field_error = {
         "status": 400
         "error": "Bad object",
-        "text": object_type + " does not have a " + field_name + " field"
+        "text": "${object_type} does not have a ${field_name} field"
     }
     missing_field_error = {
         "status": 400
         "error": "Bad object",
-        "text": "The " + object_type + " is missing a " + field_name
+        "text": "The ${object_type} is missing a ${field_name}"
     }
     invalid_field_error = {
         "status": 400
         "error": "Bad object",
-        "text": "Field " + field_name + " of " + object_type + " should be " +
-                    expected_type + " but was sent as " + received_type
+        "text": "Field ${field_name} of ${object_type} should be ${expected_type}
+            but was sent as ${received_type}"
     }
 
 ---------------------
@@ -116,7 +116,7 @@ format (e.g. a slug with special characters or a non-numeric ID field).
     {
         "status": 400
         "error": "The provided identifier was invalid",
-        "text": "Expected " + (slug|id) + " but received " + received_identifier
+        "text": "Expected ${slug/id} but received ${received_identifier}
     }
 
 With multiple invalid identifiers, the text of the error is formatted like so::
