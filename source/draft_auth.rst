@@ -36,8 +36,8 @@ These other fields might be things like ``password``, ``token``, ``key``, etc.
 Password authentication
 -----------------------
 
-When used with password-based authentication, TimeSync uses a username field and
-a password field:
+When used with password-based authentication, TimeSync requires a username field
+and a password field:
 
 .. code-block:: javascript
 
