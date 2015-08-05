@@ -8,16 +8,20 @@ Error types from the TimeSync API.
 
 .. contents::
 
-Errors will consist of an error number which matches the HTTP status code to be
-returned, an error name, and a further informational text. The existence of the
-"error" key indicates an error.
+Errors will consist of:
+
+#) a descriptive HTTP status code
+#) a standardized error name
+#) informational text
+#) a ``values`` array containing variables relevant to the error, if any
+
+The existence of an 'error' key indicates an error.
 
 In the docs following, string literals are indicated by double quotes (as in
-JSON standard), variables/tokens are indicated by lowercase_with_underscore,
-and plus signs indicate concatenation for building strings using tokens from
-the context.
+JSON standard), but use the ECMAScript 2015 string interpolation specification
+to represent variables like slugs and object types.
 
-The following error codes will exist:
+TimeSync uses the following error codes:
 
 -------------------
 
@@ -65,7 +69,7 @@ which does not have a valid project.)
 .. code-block:: javascript
 
     {
-        "status": 409
+        "status": 409,
         "error": "Invalid foreign key",
         "text": "The ${object_type} does not contain a valid ${foreign_key} reference"
     }
@@ -83,17 +87,17 @@ duration field.)
 .. code-block:: javascript
 
     unknown_field_error = {
-        "status": 400
+        "status": 400,
         "error": "Bad object",
         "text": "${object_type} does not have a ${field_name} field"
     }
     missing_field_error = {
-        "status": 400
+        "status": 400,
         "error": "Bad object",
         "text": "The ${object_type} is missing a ${field_name}"
     }
     invalid_field_error = {
-        "status": 400
+        "status": 400,
         "error": "Bad object",
         "text": "Field ${field_name} of ${object_type} should be ${expected_type}
             but was sent as ${received_type}"
@@ -114,14 +118,22 @@ format (e.g. a slug with special characters or a non-numeric ID field).
 .. code-block:: javascript
 
     {
-        "status": 400
+        "status": 400,
         "error": "The provided identifier was invalid",
-        "text": "Expected ${slug/id} but received ${received_identifier}
+        "text": "Expected ${slug/id} but received ${received_identifier}",
+        "values": [${received_identifier}]
     }
 
-With multiple invalid identifiers, the text of the error is formatted like so::
+With multiple invalid identifiers, the error is formatted like so:
 
-  "text": "Expected ${slug/id} but received: ${bad}, ${bad}, ${bad}"
+.. code-block:: javascript
+
+    {
+        "status": 400,
+        "error": "The provided identifier was invalid",
+        "text": "Expected ${slug/id} but received: ${bad}, ${bad}, ${bad}",
+        "values": [${bad}, ${bad}, ...]
+    }
 
 -------------------
 
@@ -134,7 +146,7 @@ valid username.
 .. code-block:: javascript
 
     {
-        "status": 401
+        "status": 401,
         "error": "Invalid username",
         "text": "${username} is not a valid username"
     }
@@ -151,7 +163,7 @@ server is running.
 .. code-block:: javascript
 
     {
-        "status": 401
+        "status": 401,
         "error": "Authentication failure",
         "text": "Invalid password" / "Bad oAuth token" / etc
     }
@@ -169,7 +181,8 @@ in contain a slug that already exists.
     {
         status: 409,
         error: 'The slug provided already exists',
-        text: 'slug ${slug} already exists'
+        text: 'slug ${slug} already exists',
+        "values": [${slug}]
     }
 
 If multiple slugs are duplicated:
@@ -179,7 +192,8 @@ If multiple slugs are duplicated:
     {
         status: 409,
         error: 'The slug provided already exists',
-        text: 'slugs ${slug}. ${slug} already exist'
+        text: 'slugs ${slug}, ${slug} already exist',
+        "values": [${slug}, ${slug}, ...]
     }
 
 ------------------------
@@ -195,7 +209,7 @@ another user.
 .. code-block:: javascript
 
     {
-        status: 409,
+        status: 401,
         error: 'Authorization failure',
         text: '${user} is not authorized to ${activity}'
     }
