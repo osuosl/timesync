@@ -136,9 +136,16 @@ GET Endpoints
 POST Endpoints
 --------------
 
-To add a new object, POST to */<object name>/* with a JSON body.
+To add a new object, POST to */<object name>/* with a JSON body. The response
+body will contain the object in the same manner as the GET endpoints above.
+
+In general, the only difference between the request body and the response body
+will be the inclusion of the object's ``id``.
 
 *POST /projects/*
+~~~~~~~~~~~~~~~~~
+
+Request body:
 
 .. code-block:: javascript
 
@@ -149,7 +156,20 @@ To add a new object, POST to */<object name>/* with a JSON body.
        "owner": "example-2"
     }
 
+Response body:
+
+.. code-block:: javascript
+
+    {
+       "uri":"https://code.osuosl.org/projects/timesync",
+       "name":"TimeSync API",
+       "slugs":["timesync", "time"],
+       "owner": "example-2",
+       "id": 1
+    }
+
 *POST /activities/*
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -159,6 +179,7 @@ To add a new object, POST to */<object name>/* with a JSON body.
     }
 
 *POST /times/*
+~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -176,10 +197,12 @@ To add a new object, POST to */<object name>/* with a JSON body.
 
 Likewise, if you'd like to edit an existing object, POST to
 */<object name>/<slug>* (or for time objects, */times/<id>*) with a JSON body.
-The object only needs to contain the part that is being updated.
+The object only needs to contain the part that is being updated. The response
+body will contain the saved object, as shown above.
 
 
 *POST /projects/<slug>*
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -189,6 +212,7 @@ The object only needs to contain the part that is being updated.
     }
 
 *POST /activities/<slug>*
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -197,6 +221,7 @@ The object only needs to contain the part that is being updated.
     }
 
 *POST /times/<id>*
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
