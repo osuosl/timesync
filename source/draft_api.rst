@@ -38,6 +38,24 @@ For example: https://timesync.osuosl.org/v1/projects
 Versions will be updated any time there is a significant change to the public
 API (not to the implementation).
 
+-----
+
+Slugs
+-----
+
+Slugs appear in many places in TimeSync. They are used to get objects from the
+backend, reference objects from within other objects, etc. A valid slug follows
+a very specific format:
+
+#) First character is a lowercase letter
+#) May only contain lowercase letters and numbers
+#) Sets of lowercase letters and numbers can be separated with a single hyphen
+#) Must end with an alphanumeric character
+
+A regular expression matching a valid slug is::
+
+    ^[a-z]+[a-z0-9]*(?:-[a-z0-9]+)*$
+
 -------------
 
 GET Endpoints
