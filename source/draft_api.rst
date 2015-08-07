@@ -269,19 +269,16 @@ Response body:
     {
       "duration":12,
       "user": "example-2",
-      "project": "",
+      "project": "qa",
       "activities": ["gwm", "ganeti"],
       "notes":"",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
-      "date_worked":null,
-      "created_at":2014-09-18,
-      "updated_at":null
+      "date_worked":null
     }
 
 Likewise, if you'd like to edit an existing object, POST to
-*/<object name>/<slug>* (or for time objects, */times/<id>*) with a JSON body.
-The object only needs to contain the part that is being updated. The response
-body will contain the saved object, as shown above.
+*/<object name>/<slug>* (or for time objects, */times/<id>*) with a JSON body. The
+response body will contain the saved object, as shown above.
 
 
 *POST /projects/<slug>*
@@ -290,8 +287,10 @@ body will contain the saved object, as shown above.
 .. code-block:: javascript
 
     {
-       "name":"Ganeti Webmgr",
-       "slugs":["webmgr", "gwm"],
+       "uri":"https://code.osuosl.org/projects/timesync",
+       "name":"TimeSync API",
+       "slugs":["timesync", "time"],
+       "owner": "example-2"
     }
 
 *POST /activities/<slug>*
@@ -300,7 +299,8 @@ body will contain the saved object, as shown above.
 .. code-block:: javascript
 
     {
-       "slugs":["testing", "test"]
+       "name":"Quality Assurance/Testing",
+       "slugs":["qa", "test"]
     }
 
 *POST /times/<uuid>*
@@ -309,9 +309,46 @@ body will contain the saved object, as shown above.
 .. code-block:: javascript
 
     {
-      "duration":20,
-      "date_worked":"2015-04-17"
+      "duration":12,
+      "user": "example-2",
+      "project": "qa",
+      "activities": ["gwm", "ganeti"],
+      "notes":"",
+      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "date_worked":null
     }
+
+When sending an update to an object as above, it is not necessary to post all of The
+object's fields. When only part of an object is received, it is assumed that the remaining
+fields default to the values already stored. For example, after posting the previous
+object to /times/<id>, if we then send the following to the same ID:
+
+.. code-block:: javascript
+
+    {
+      "duration":18,
+      "notes":"Initial duration was inaccurate. Date worked also updated.",
+      "date_worked":2015-08-07
+    }
+
+The response body will be:
+
+.. code-block:: javascript
+
+    {
+      "duration":18,
+      "user": "example-2",
+      "project": "qa",
+      "activities": ["gwm", "ganeti"],
+      "notes":"Initial duration was inaccurate. Date worked also updated.",
+      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "date_worked":2015-08-07
+    }
+
+If a slugs field is passed to /project/<slug>, it is assumed to overwrite the existing
+slugs for the object. Any slugs which already exist on the object but are not in the
+request are dropped, and the slugs field on the request becomes canonical, assuming
+all of the slugs do not already belong to another project.
 
 In the case of a foreign key (such as project on a time) that does not point to
 a valid object or a malformed object sent in the request, an Object Not Found
