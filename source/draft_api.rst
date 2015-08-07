@@ -144,7 +144,7 @@ GET Endpoints
       {
         "duration":12,
         "user": "example-user",
-        "project": "ganeti",
+        "project": ["ganeti-webmgr", "gwm"],
         "activities": ["docs", "planning"],
         "notes":"Worked on documentation toward settings configuration.",
         "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
@@ -165,7 +165,7 @@ GET Endpoints
     {
       "duration":12,
       "user": "example-user",
-      "project": "gwm",
+      "project": ["gwm", "ganeti-webmgr"],
       "activities": ["doc", "research"],
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
