@@ -224,6 +224,9 @@ object and is rejected. It's used mainly in the instances when a user tries to
 delete something they are not supposed to. For example, a user may attempt to
 delete a project that has associated times.
 
+Allowed methods must be returned along with a 405 error. These will be listed
+in the allowed header.
+
 .. code-block:: javascript
 
     {
