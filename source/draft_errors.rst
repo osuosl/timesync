@@ -213,3 +213,22 @@ another user.
         error: 'Authorization failure',
         text: '${user} is not authorized to ${activity}'
     }
+
+-------------------
+
+10. Request failure
+-------------------
+
+This error is returned when a GET, POST, DELETE, etc. request is sent to an
+object and is rejected. It's used mainly in the instances when a user tries to
+delete something they are not supposed to. For example, a user may attempt to
+delete a project that has associated times.
+
+.. code-block:: javascript
+
+    {
+        status: 405,
+        error: 'Method not allowed',
+        text: 'The method specified is not allowed for the ${objectType}
+            identified'
+    }
