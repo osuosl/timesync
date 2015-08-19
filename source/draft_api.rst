@@ -49,11 +49,7 @@ a very specific format:
 
 #) May only contain lowercase letters and numbers
 #) Sets of lowercase letters and numbers can be separated with a single hyphen
-#) Must begin and end with an alphanumeric character
-
-A regular expression matching a valid slug is::
-
-    ^(?:[0-9]*-)*[0-9]*[a-z]+[a-z0-9]*(?:-[a-z0-9]+)*$
+#) Must contain at least one letter
 
 -------------
 
