@@ -318,10 +318,10 @@ response body will contain the saved object, as shown above.
       "date_worked":null
     }
 
-When sending an update to an object as above, it is not necessary to post all of The
+When sending an update to an object as above, it is not necessary to post all of the
 object's fields. When only part of an object is received, it is assumed that the remaining
 fields default to the values already stored. For example, after posting the previous
-object to /times/<id>, if we then send the following to the same ID:
+object to `/times/<id>`, if we then send the following to the same ID:
 
 .. code-block:: javascript
 
@@ -345,7 +345,7 @@ The response body will be:
       "date_worked":2015-08-07
     }
 
-If a slugs field is passed to /project/<slug>, it is assumed to overwrite the existing
+If a slugs field is passed to `/project/<slug>`, it is assumed to overwrite the existing
 slugs for the object. Any slugs which already exist on the object but are not in the
 request are dropped, and the slugs field on the request becomes canonical, assuming
 all of the slugs do not already belong to another project.
