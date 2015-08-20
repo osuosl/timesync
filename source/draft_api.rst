@@ -26,6 +26,9 @@ Responses will be returned in standard JSON format. Multiple results will be
 sent as a list of JSON objects. Order of results is not guaranteed. Single
 results will be a single JSON object.
 
+Throughout this API, any form of dates will use a simplified ISO-8601 format, as `defined
+by ECMA International. <http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15>`_
+
 --------
 
 Versions
@@ -131,20 +134,20 @@ GET Endpoints
       "id": 1
     }
 
-In addition, the endpoint at `/times` also supports several querystring parameters: user,
-project, activity, and date range. These are accessed via `/times?user=:username`,
-`/times?project=:projectslug`, `/times?activity=:activityslug`, `/times?start=:date`, and
-/times?end=:date (note that dates are in ISO-8601 format). When multiple different
+In addition, the endpoint at ``/times`` also supports several querystring parameters: user,
+project, activity, and date range. These are accessed via ``/times?user=:username``,
+``/times?project=:projectslug``, ``/times?activity=:activityslug``, ``/times?start=:date``, and
+``/times?end=:date`` (note that dates are in ISO-8601 format). When multiple different
 parameters are used, they narrow down the result set (for example,
-`/times?user=example-user&activity=dev` will return all time entries which were entered by
+``/times?user=example-user&activity=dev`` will return all time entries which were entered by
 example-user AND which were spent doing development). When the same parameter is repeated,
-they expand the result set (for example, `/times?activity=gwm&activity=pgd` will return all
+they expand the result set (for example, ``/times?activity=gwm&activity=pgd`` will return all
 time entries which were either for gwm OR pgd). Date ranges are inclusive on both ends.
 
 If a query parameter is provided with a bad value (e.g. invalid slug, or date not in ISO
-8601 format), a Bad Query Value error is returned. If a query parameter with a nonexistent
-name is provided, it is ignored. If multiple `start` or `end` parameters are provided,
-the first one sent is used. If a query parameter is not provided, it defaults to 'all values'
+8601 format), a Bad Query Value error is returned. Any query parameter other than those
+specified in this document will be ignored. If multiple ``start`` or ``end`` parameters are provided,
+the first one sent is used. If a query parameter is not provided, it defaults to 'all values'.
 
 --------------
 
