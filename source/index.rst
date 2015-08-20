@@ -8,6 +8,7 @@ TimeSync is an OSU Open Source Lab developed Time Tracking system.
 .. toctree::
     :maxdepth: 2
 
+    User Docs <usage/index>
     Draft API <draft_api>
     Authorization <draft_auth>
     Errors <draft_errors>
