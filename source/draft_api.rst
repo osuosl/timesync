@@ -38,6 +38,19 @@ For example: https://timesync.osuosl.org/v1/projects
 Versions will be updated any time there is a significant change to the public
 API (not to the implementation).
 
+-----
+
+Slugs
+-----
+
+Slugs appear in many places in TimeSync. They are used to get objects from the
+backend, reference objects from within other objects, etc. A valid slug follows
+a very specific format:
+
+#) May only contain lowercase letters and numbers
+#) Sets of lowercase letters and numbers can be separated with a single hyphen
+#) Must contain at least one letter
+
 -------------
 
 GET Endpoints
