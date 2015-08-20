@@ -231,7 +231,25 @@ in the allowed header.
 
     {
         status: 405,
-        error: 'Method not allowed',
-        text: 'The method specified is not allowed for the ${objectType}
-            identified'
+        error: 'Method Not Allowed',
+        text: 'The method specified is not allowed for the ${objectType} identified'
+    }
+
+-------------------
+
+11. Bad Query Value
+-------------------
+
+This error is returned when a GET request is made with query parameters, but the value
+of a parameter is invalid in some way. This includes dates which are not sent in
+ISO 8601 format, and slugs and IDs which are not considered valid. This error is not
+returned, however, if a query parameter is missing (default values are assumed), or if
+an extra query parameter is used (nonexistent keys are ignored).
+
+.. code-block:: javascript
+
+    {
+      status: 400,
+      error: 'Bad Query Value',
+      text: 'Parameter ${key} contained invalid value ${value}'
     }
