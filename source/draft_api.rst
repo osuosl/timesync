@@ -297,3 +297,41 @@ If the object does not exist, the API will return an Object Not Found error
 
 In case of any other error, the API will return a Server Error (see error
 docs).
+
+-----------------------
+
+Authorization and Roles
+-----------------------
+
+Each timesync user can be of one of two roles: user, and admin. In addition, each user
+has a role within each project to which they belong: member, data viewer, and project
+manager. Each role is cumulative: that is, a data viewer has all of the abilities that a
+member does plus more of their own; a project manager can do anything a member can do and
+everything a data viewer can do, and more.
+
+A user may be a member, viewer, or manager of multiple projects, and a project may have
+multiple members, viewers, and managers.
+
+If a user attempts to access an endpoint which they are not authorized for, the server
+will return an Authorization Failure.
+
+*GET Endpoints*
+~~~~~~~~~~~~~~~
+
+GET endpoints do not have authorization at this time, and so any user can request data
+from a GET endpoint.
+
+*POST and DELETE Endpoints*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+POST /activities, POST /activities/:slug, and DELETE /activities/:slug are all only
+accessible to admin users.
+
+POST /projects and DELETE /projects/:slug are only accessible to admin users.
+POST /projects/:slug is accessible to that project's manager(s).
+
+POST /times is accessible to any user under two conditions:
+
+ * The 'user' field of the posted time is the same as the user authenticating; and,
+
+ * The 'project' field of the posted time refers to a project to which the user belongs.
