@@ -339,6 +339,5 @@ POST /projects/:slug is accessible to that project's manager(s).
 
 POST /times is accessible to any user under two conditions:
 
- * The 'user' field of the posted time is the same as the user authenticating; and,
-
- * The 'project' field of the posted time refers to a project to which the user belongs.
+* The 'user' field of the posted time is the same as the user authenticating; and,
+* The 'project' field of the posted time refers to a project to which the user belongs.
