@@ -304,8 +304,8 @@ Authorization and Roles
 -----------------------
 
 Each timesync user can be of one of two roles: user, and admin. Admins have special
-permissions, including adding, updating, and deleting activities, creating and promoting
-users, as well as acting as automatic managers/viewers of all projects.
+permissions, including adding, updating, and deleting activities and projects, creating
+and promoting users, as well as acting as automatic managers/viewers of all projects.
 
 In addition, each user has a role within each project to which they belong:
 
