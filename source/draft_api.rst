@@ -305,9 +305,9 @@ Authorization and Roles
 
 Each timesync user can be of one of two roles: user, and admin. In addition, each user
 has a role within each project to which they belong: member, data viewer, and project
-manager. Each role is cumulative: that is, a data viewer has all of the abilities that a
-member does plus more of their own; a project manager can do anything a member can do and
-everything a data viewer can do, and more.
+manager. These roles exist independently, and are defined by their permissions: a user
+may have permission to write time entries, to view time entries, and/or to update the
+project information. 
 
 A user may be a member, viewer, or manager of multiple projects, and a project may have
 multiple members, viewers, and managers.
