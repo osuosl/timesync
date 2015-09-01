@@ -22,7 +22,7 @@ easier:
 * a ``uri``: a uri linking to the project's homepage.
 * a ``name``: this is the full name of the project that should be displayed
   to the user.
-* an ``creator``: this should be the original creator of the project, generally
+* a ``creator``: this should be the original creator of the project, generally
   an admin user. The creator acts as the default project manager and is the
   only person that can modify the project until they (or another admin) assigns
   project managers.
