@@ -6,7 +6,7 @@ Time Entries
 
 TimeSync entries have a few main fields:
 
-* ``duration``: the amount of time worked
+* ``duration``: the amount of time worked, in seconds
 * ``project``: the project you worked on during the time entry
 * ``activities``: the activities you worked on. This can be things like ``dev``,
   ``docs``, etc.
