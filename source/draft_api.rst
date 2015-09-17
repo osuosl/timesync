@@ -255,9 +255,6 @@ POST Endpoints
 To add a new object, POST to */<object name>/* with a JSON body. The response
 body will contain the object in the same manner as the GET endpoints above.
 
-In general, the only difference between the request body and the response body
-will be the inclusion of the object's ``id``.
-
 *POST /projects/*
 ~~~~~~~~~~~~~~~~~
 
@@ -289,6 +286,8 @@ Response body:
 *POST /activities/*
 ~~~~~~~~~~~~~~~~~~~
 
+Request body:
+
 .. code-block:: javascript
 
     {
@@ -296,19 +295,53 @@ Response body:
        "slugs":["qa", "test"]
     }
 
+Response body:
+
+.. code-block:: javascript
+
+    {
+       "name":"Quality Assurance/Testing",
+       "slugs":["qa", "test"],
+       "id": 1,
+       "deleted_at": null,
+       "parent": null
+    }
+
+
 *POST /times/*
 ~~~~~~~~~~~~~~
+
+Request body:
 
 .. code-block:: javascript
 
     {
       "duration":12,
       "user": "example-2",
-      "project": "",
+      "project": "Ganeti Web Manager",
       "activities": ["gwm", "ganeti"],
-      "notes":"",
+      "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
-      "date_worked":null,
+      "date_worked":2014-04-17,
+    }
+
+Response body:
+
+.. code-block:: javascript
+
+    {
+      "duration":12,
+      "user": "example-user",
+      "project": "Ganeti Web Manager",
+      "activities": ["docs", "planning"],
+      "notes":"Worked on documentation toward settings configuration.",
+      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "date_worked":2014-04-17,
+      "created_at":2014-04-17,
+      "updated_at":null,
+      "deleted_at":null,
+      "parent":null
+      "id": 1,
     }
 
 Likewise, if you'd like to edit an existing object, POST to
@@ -320,6 +353,8 @@ body will contain the saved object, as shown above.
 *POST /projects/<slug>*
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+Request body:
+
 .. code-block:: javascript
 
     {
@@ -327,17 +362,49 @@ body will contain the saved object, as shown above.
        "slugs":["webmgr", "gwm"],
     }
 
-*POST /activities/<slug>*
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Response body:
 
 .. code-block:: javascript
 
     {
-       "slugs":["testing", "test"]
+      "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
+      "name":"Ganeti Webmgr",
+      "slugs":["webmgr", "gwm"],
+      "owner": "example-user",
+      "id": 2,
+      "deleted_at": null,
+      "parent": 1
+    }
+
+*POST /activities/<slug>*
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Request body:
+
+
+.. code-block:: javascript
+
+    {
+      "slugs":["testing", "test"]
+    }
+
+Response body:
+
+.. code-block:: javascript
+
+    {
+      "name":"Testing Infra",
+      "slugs":["testing", "test"],
+      "id": 4,
+      "deleted_at": null,
+      "parent": 2
     }
 
 *POST /times/<uuid>*
 ~~~~~~~~~~~~~~~~~~
+
+Request body:
+
 
 .. code-block:: javascript
 
@@ -345,6 +412,26 @@ body will contain the saved object, as shown above.
       "duration":20,
       "date_worked":"2015-04-17"
     }
+
+Response body:
+
+.. code-block:: javascript
+
+    {
+      "duration":20,
+      "user": "example-user",
+      "project": "gwm",
+      "activities": ["doc", "research"],
+      "notes":"Worked on documentation toward settings configuration.",
+      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
+      "date_worked":2015-04-17,
+      "created_at":2014-06-12,
+      "updated_at":2015-04-18,
+      "id": 3,
+      "deleted_at": null,
+      "parent": 1
+    }
+
 
 In the case of a foreign key (such as project on a time) that does not point to
 a valid object or a malformed object sent in the request, an Object Not Found
@@ -359,6 +446,12 @@ The following content is checked by the API for validity:
 * The Project must exist in the database.
 * The owner of the request must be the user in the time submission.
     * This is authorization not authentication.
+
+.. note::
+
+    While they won't produce an error, empty data structures such as ``""`` and
+    ``[]`` will be ignored when sent to the api as the value of an object
+    variable.
 
 ----------------
 
