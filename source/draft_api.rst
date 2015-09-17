@@ -157,7 +157,7 @@ GET Endpoints
         "notes":"Worked on documentation toward settings configuration.",
         "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
         "date_worked":2014-04-17,
-        "created_at":2014-04-17,
+        "created_at":2014-04-17T16:30,
         "updated_at":null,
         "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
         "revision": 1,
@@ -337,7 +337,7 @@ Response body:
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
       "date_worked":2014-04-17,
-      "created_at":2014-04-17,
+      "created_at":2014-04-17T16:30,
       "updated_at":null,
       "deleted_at":null,
       "parent":null
@@ -425,8 +425,8 @@ Response body:
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
       "date_worked":2015-04-17,
-      "created_at":2014-06-12,
-      "updated_at":2015-04-18,
+      "created_at":2014-06-12T16:30,
+      "updated_at":2015-04-18T16:30,
       "id": 3,
       "deleted_at": null,
       "parent": 1
