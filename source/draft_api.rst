@@ -90,6 +90,8 @@ GET Endpoints
          "uuid": a034806c-00db-4fe1-8de8-514575f31bfb,
          "revision": 2,
          "id": 1
+         "deleted_at": null,
+         "parent": null
       },
       {...},
       ...
@@ -106,7 +108,9 @@ GET Endpoints
        "owner": "example-user",
        "uuid": a034806c-00db-4fe1-8de8-514575f31bfb,
        "revision": 4,
-       "id": 1
+       "id": 1,
+       "deleted_at": null,
+       "parent": null
     }
 
 *GET /activities*
@@ -120,6 +124,8 @@ GET Endpoints
            "uuid": adf036f5-3d49-4a84-bef9-062b46380bbf,
            "revision": 1,
            "id": 1
+           "deleted_at": null,
+           "parent": null
         },
         {...}
     ]
@@ -133,7 +139,9 @@ GET Endpoints
        "slugs":["doc", "docs"],
        "uuid": adf036f5-3d49-4a84-bef9-062b46380bbf,
        "revision": 5,
-       "id": 1
+       "id": 1,
+       "deleted_at": null,
+       "parent": null
     }
 
 *GET /times*
@@ -154,6 +162,8 @@ GET Endpoints
         "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
         "revision": 1,
         "id": 1
+        "deleted_at": null,
+        "parent": null
       },
       {...}
     ]
@@ -174,23 +184,46 @@ GET Endpoints
       "updated_at":2014-06-13,
       "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
       "revision": 3,
-      "id": 1
+      "id": 1,
+      "deleted_at": null,
+      "parent": null
     }
 
-In addition, the endpoint at ``/times`` also supports several querystring parameters: user,
-project, activity, and date range. These are accessed via ``/times?user=:username``,
-``/times?project=:projectslug``, ``/times?activity=:activityslug``, ``/times?start=:date``, and
-``/times?end=:date`` (note that dates are in ISO-8601 format). When multiple different
-parameters are used, they narrow down the result set (for example,
-``/times?user=example-user&activity=dev`` will return all time entries which were entered by
-example-user AND which were spent doing development). When the same parameter is repeated,
-they expand the result set (for example, ``/times?activity=gwm&activity=pgd`` will return all
-time entries which were either for gwm OR pgd). Date ranges are inclusive on both ends.
+In addition, the endpoint at ``/times`` also supports several querystring
+parameters:
 
-If a query parameter is provided with a bad value (e.g. invalid slug, or date not in ISO
-8601 format), a Bad Query Value error is returned. Any query parameter other than those
-specified in this document will be ignored. If multiple ``start`` or ``end`` parameters are provided,
-the first one sent is used. If a query parameter is not provided, it defaults to 'all values'.
+* user,
+* project,
+* activity, and
+* date range.
+
+These are accessed via
+
+* ``/times?user=:username``: Filters based on username
+* ``/times?project=:projectslug``: Filters based on project slugs
+* ``/times?activity=:activityslug``: Filters based on activity slug
+* ``/times?start=:date``: Filters to dates after and including the given date.
+* ``/times?end=:date``:  Filters to dates after and including the given date.
+* ``/times/?archived=:bool``: Filters on objects with ``deleted_at`` set to
+  ``null`` or a date.
+
+.. note:: Dates are in ISO-8601 format.
+
+When multiple different parameters are used, they narrow down the result set
+(for example, ``/times?user=example-user&activity=dev`` will return all time
+entries which were entered by example-user AND which were spent doing
+development). When the same parameter is repeated, they expand the result set
+(for example, ``/times?activity=gwm&activity=pgd`` will return all time entries
+which were either for gwm OR pgd). Date ranges are inclusive on both ends.
+
+If a query parameter is provided with a bad value (e.g. invalid slug, or date
+not in ISO-8601 format), a Bad Query Value error is returned.
+
+Any query parameter other than those specified in this document will be
+ignored.
+
+If multiple ``start`` or ``end`` parameters are provided, the first one sent is
+used. If a query parameter is not provided, it defaults to 'all values'.
 
 The endpoint at ``/times/:uuid`` also supports several querystring parameters:
 
@@ -248,7 +281,9 @@ Response body:
        "name":"TimeSync API",
        "slugs":["timesync", "time"],
        "owner": "example-2",
-       "id": 1
+       "id": 1,
+       "updated_at":null,
+       "parent":null
     }
 
 *POST /activities/*
@@ -275,7 +310,9 @@ Response body:
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
       "date_worked":null,
       "created_at":2014-09-18,
-      "updated_at":null
+      "updated_at":null,
+      "deleted_at":null,
+      "parent":null,
     }
 
 Likewise, if you'd like to edit an existing object, POST to
