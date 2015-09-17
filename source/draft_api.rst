@@ -309,10 +309,6 @@ Response body:
       "notes":"",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
       "date_worked":null,
-      "created_at":2014-09-18,
-      "updated_at":null,
-      "deleted_at":null,
-      "parent":null,
     }
 
 Likewise, if you'd like to edit an existing object, POST to
