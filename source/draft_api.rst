@@ -26,8 +26,9 @@ Responses will be returned in standard JSON format. Multiple results will be
 sent as a list of JSON objects. Order of results is not guaranteed. Single
 results will be a single JSON object.
 
-Throughout this API, any form of dates will use a simplified ISO-8601 format, as `defined
-by ECMA International. <http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15>`_
+Throughout this API, any form of dates will use a simplified ISO-8601 format,
+as `defined by ECMA International.
+<http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15>`_
 
 --------
 
@@ -453,6 +454,12 @@ The following content is checked by the API for validity:
     ``[]`` will be ignored when sent to the api as the value of an object
     variable.
 
+.. note::
+
+   When an object is updated it's ``parent`` is soft-deleted and a copy is
+   created with the new information. This results in the object having a new id
+   as well as the updated information specifed in the POST request.
+
 ----------------
 
 DELETE Endpoints
@@ -467,11 +474,11 @@ an object with that UUID/slug should succeed, and completely overwrite the
 deleted object, if it still exists in the database. To an end user, it should
 appear as though the object truly does not exist.
 
-If the object exists, the API will return a 200 OK status with an empty
-response body.
+If the object exists and the ``?archived=true`` parameter is not passed, the
+API will return a 200 OK status with an empty response body.
 
-If the object does not exist, the API will return an Object Not Found error
-(see error docs).
+If the object does not exist and the ``?archived=true`` parameter is not
+passed, the API will return an Object Not Found error (see error docs).
 
 In case of any other error, the API will return a Server Error (see error
 docs).
@@ -481,9 +488,10 @@ docs).
 Authorization and Roles
 -----------------------
 
-Each timesync user can be of one of two roles: user, and admin. Admins have special
-permissions, including adding, updating, and deleting activities and projects, creating
-and promoting users, as well as acting as automatic managers/viewers of all projects.
+Each timesync user can be of one of two roles: user, and admin. Admins have
+special permissions, including adding, updating, and deleting activities and
+projects, creating and promoting users, as well as acting as automatic
+managers/viewers of all projects.
 
 In addition, each user has a role within each project to which they belong:
 
@@ -497,26 +505,26 @@ These roles exist independently, and are defined by their permissions:
 * a data viewer may view time entries
 * a project manager may update the project information.
 
-A user may be a member, viewer, or manager of multiple projects, and a project may have
-multiple members, viewers, and managers.
+A user may be a member, viewer, or manager of multiple projects, and a project
+may have multiple members, viewers, and managers.
 
-If a user attempts to access an endpoint which they are not authorized for, the server
-will return an Authorization Failure.
+If a user attempts to access an endpoint which they are not authorized for, the
+server will return an Authorization Failure.
 
 *GET Endpoints*
 ~~~~~~~~~~~~~~~
 
-GET endpoints do not have authorization at this time, and so any user can request data
-from a GET endpoint.
+GET endpoints do not have authorization at this time, and so any user can
+request data from a GET endpoint.
 
 *POST and DELETE Endpoints*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-POST /activities, POST /activities/:slug, and DELETE /activities/:slug are all only
-accessible to admin users.
+POST /activities, POST /activities/:slug, and DELETE /activities/:slug are all
+only accessible to admin users.
 
 POST /projects and DELETE /projects/:slug are only accessible to admin users.
 POST /projects/:slug is accessible to that project's manager(s).
 
-POST /times is accessible to that project's member(s), given that the 'user' field of
-the posted time is the user authenticating.
+POST /times is accessible to that project's member(s), given that the 'user'
+field of the posted time is the user authenticating.
