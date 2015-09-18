@@ -92,7 +92,8 @@ GET Endpoints
          "revision": 2,
          "id": 1
          "deleted_at": null,
-         "parent": null
+         "parent": null,
+         "updated_at": null
       },
       {...},
       ...
@@ -111,7 +112,8 @@ GET Endpoints
        "revision": 4,
        "id": 1,
        "deleted_at": null,
-       "parent": null
+       "parent": null,
+       "updated_at": null
     }
 
 *GET /activities*
@@ -126,7 +128,8 @@ GET Endpoints
            "revision": 1,
            "id": 1
            "deleted_at": null,
-           "parent": null
+           "parent": null,
+           "updated_at": null
         },
         {...}
     ]
@@ -142,7 +145,8 @@ GET Endpoints
        "revision": 5,
        "id": 1,
        "deleted_at": null,
-       "parent": null
+       "parent": null,
+       "updated_at": null
     }
 
 *GET /times*
@@ -158,7 +162,7 @@ GET Endpoints
         "notes":"Worked on documentation toward settings configuration.",
         "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
         "date_worked":2014-04-17,
-        "created_at":2014-04-17T16:30,
+        "created_at":2014-04-17,
         "updated_at":null,
         "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
         "revision": 1,
@@ -303,6 +307,7 @@ Response body:
     {
        "name":"Quality Assurance/Testing",
        "slugs":["qa", "test"],
+       "updated_at": 2014-04-18,
        "id": 1,
        "deleted_at": null,
        "parent": null
@@ -320,7 +325,7 @@ Request body:
       "duration":12,
       "user": "example-2",
       "project": "Ganeti Web Manager",
-      "activities": ["gwm", "ganeti"],
+      "activities": ["documenting"],
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
       "date_worked":2014-04-17,
@@ -332,18 +337,18 @@ Response body:
 
     {
       "duration":12,
-      "user": "example-user",
+      "user": "example-2",
       "project": "Ganeti Web Manager",
-      "activities": ["docs", "planning"],
+      "activities": ["documenting"],
       "notes":"Worked on documentation toward settings configuration.",
-      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
       "date_worked":2014-04-17,
-      "created_at":2014-04-17T16:30,
-      "updated_at":null,
-      "deleted_at":null,
-      "parent":null
+      "created_at":2014-04-17,
+      "updated_at": 2014-04-18,
       "id": 1,
-    }
+      "deleted_at": null,
+      "parent": null
+    },
 
 Likewise, if you'd like to edit an existing object, POST to
 */<object name>/<slug>* (or for time objects, */times/<id>*) with a JSON body.
@@ -372,6 +377,7 @@ Response body:
       "name":"Ganeti Webmgr",
       "slugs":["webmgr", "gwm"],
       "owner": "example-user",
+      "updated_at": 2014-04-18,
       "id": 2,
       "deleted_at": null,
       "parent": 1
@@ -396,6 +402,7 @@ Response body:
     {
       "name":"Testing Infra",
       "slugs":["testing", "test"],
+      "updated_at": 2015-04-18,
       "id": 4,
       "deleted_at": null,
       "parent": 2
@@ -426,8 +433,8 @@ Response body:
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
       "date_worked":2015-04-17,
-      "created_at":2014-06-12T16:30,
-      "updated_at":2015-04-18T16:30,
+      "created_at":2014-06-12,
+      "updated_at":2015-04-18,
       "id": 3,
       "deleted_at": null,
       "parent": 1
@@ -457,8 +464,8 @@ The following content is checked by the API for validity:
 .. note::
 
    When an object is updated it's ``parent`` is soft-deleted and a copy is
-   created with the new information. This results in the object having a new id
-   as well as the updated information specifed in the POST request.
+   created with the new information. This results in the object having a new
+   ``id`` as well as the updated information specifed in the POST request.
 
 ----------------
 
