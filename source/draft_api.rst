@@ -148,8 +148,8 @@ GET Endpoints
         "activities": ["docs", "planning"],
         "notes":"Worked on documentation toward settings configuration.",
         "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
-        "date_worked":2014-04-17,
-        "created_at":2014-04-17,
+        "date_worked":"2014-04-17",
+        "created_at":"2014-04-17",
         "updated_at":null,
         "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
         "revision": 1,
@@ -169,9 +169,9 @@ GET Endpoints
       "activities": ["doc", "research"],
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
-      "date_worked":2014-06-12,
-      "created_at":2014-06-12,
-      "updated_at":2014-06-13,
+      "date_worked":"2014-06-12",
+      "created_at":"2014-06-12",
+      "updated_at":"2014-06-13",
       "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
       "revision": 3,
       "id": 1
@@ -273,7 +273,7 @@ Response body:
       "activities": ["gwm", "ganeti"],
       "notes":"",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
-      "date_worked":null
+      "date_worked":"2015-08-02"
     }
 
 Likewise, if you'd like to edit an existing object, POST to
@@ -315,7 +315,7 @@ response body will contain the saved object, as shown above.
       "activities": ["gwm", "ganeti"],
       "notes":"",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
-      "date_worked":null
+      "date_worked":"2015-07-29"
     }
 
 When sending an update to an object as above, it is not necessary to post all of the
@@ -328,7 +328,7 @@ object to `/times/<id>`, if we then send the following to the same ID:
     {
       "duration":18,
       "notes":"Initial duration was inaccurate. Date worked also updated.",
-      "date_worked":2015-08-07
+      "date_worked":"2015-08-07"
     }
 
 The response body will be:
@@ -342,7 +342,7 @@ The response body will be:
       "activities": ["gwm", "ganeti"],
       "notes":"Initial duration was inaccurate. Date worked also updated.",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
-      "date_worked":2015-08-07
+      "date_worked":"2015-08-07"
     }
 
 If a slugs field is passed to `/project/<slug>`, it is assumed to overwrite the existing
