@@ -87,7 +87,7 @@ GET Endpoints
          "name":"Ganeti Web Manager",
          "slugs":["gwm", "ganeti"],
          "owner": "example-user",
-         "uuid": 123e4567-e89b-42d3-a456-426655440000,
+         "uuid": a034806c-00db-4fe1-8de8-514575f31bfb,
          "revision": 2,
          "id": 1
       },
@@ -104,7 +104,7 @@ GET Endpoints
        "name":"Ganeti Web Manager",
        "slugs":["ganeti", "gwm"],
        "owner": "example-user",
-       "uuid": 123e4567-e89b-42d3-a456-426655440000,
+       "uuid": a034806c-00db-4fe1-8de8-514575f31bfb,
        "revision": 4,
        "id": 1
     }
@@ -117,7 +117,7 @@ GET Endpoints
         {
            "name":"Documentation",
            "slugs":["docs", "doc"],
-           "uuid": 123e4567-e89b-42d3-a456-426655440000,
+           "uuid": adf036f5-3d49-4a84-bef9-062b46380bbf,
            "revision": 1,
            "id": 1
         },
@@ -131,7 +131,7 @@ GET Endpoints
     {
        "name":"Documentation",
        "slugs":["doc", "docs"],
-       "uuid": 123e4567-e89b-42d3-a456-426655440000,
+       "uuid": adf036f5-3d49-4a84-bef9-062b46380bbf,
        "revision": 5,
        "id": 1
     }
@@ -151,7 +151,7 @@ GET Endpoints
         "date_worked":2014-04-17,
         "created_at":2014-04-17,
         "updated_at":null,
-        "uuid": 123e4567-e89b-42d3-a456-426655440000,
+        "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
         "revision": 1,
         "id": 1
       },
@@ -172,7 +172,7 @@ GET Endpoints
       "date_worked":2014-06-12,
       "created_at":2014-06-12,
       "updated_at":2014-06-13,
-      "uuid": 123e4567-e89b-42d3-a456-426655440000,
+      "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
       "revision": 3,
       "id": 1
     }
