@@ -54,6 +54,24 @@ a very specific format:
 #) Sets of lowercase letters and numbers can be separated with a single hyphen
 #) Must contain at least one letter
 
+---------
+
+Revisions
+---------
+
+When an object is first created, it is assigned a tracking ID. This is a UUID which will
+refer to all versions of the same object.
+
+When an object is updated, a new revision is created. This allows one to easily keep track
+of the changes to an object over time (its *audit trail*). This means that a database key
+such as an auto-assigned ID is relatively meaningless in referring to an object, as it
+will only point to a revision.
+
+Instead, a revision can be referred to by its unique compound key (UUID, revision), where
+revision is a number which refers to the position of that version of the object in the
+audit trail (where 1 is the original version from object creation, 2 is created after the
+first update, etc.). This revision number is re-used between objects.
+
 -------------
 
 GET Endpoints
@@ -69,6 +87,8 @@ GET Endpoints
          "name":"Ganeti Web Manager",
          "slugs":["gwm", "ganeti"],
          "owner": "example-user",
+         "uuid": a034806c-00db-4fe1-8de8-514575f31bfb,
+         "revision": 2,
          "id": 1
       },
       {...},
@@ -84,6 +104,8 @@ GET Endpoints
        "name":"Ganeti Web Manager",
        "slugs":["ganeti", "gwm"],
        "owner": "example-user",
+       "uuid": a034806c-00db-4fe1-8de8-514575f31bfb,
+       "revision": 4,
        "id": 1
     }
 
@@ -95,6 +117,8 @@ GET Endpoints
         {
            "name":"Documentation",
            "slugs":["docs", "doc"],
+           "uuid": adf036f5-3d49-4a84-bef9-062b46380bbf,
+           "revision": 1,
            "id": 1
         },
         {...}
@@ -107,6 +131,8 @@ GET Endpoints
     {
        "name":"Documentation",
        "slugs":["doc", "docs"],
+       "uuid": adf036f5-3d49-4a84-bef9-062b46380bbf,
+       "revision": 5,
        "id": 1
     }
 
@@ -125,12 +151,14 @@ GET Endpoints
         "date_worked":2014-04-17,
         "created_at":2014-04-17,
         "updated_at":null,
+        "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
+        "revision": 1,
         "id": 1
       },
       {...}
     ]
 
-*GET /times/<time entry id>*
+*GET /times/<time entry uuid>*
 
 .. code-block:: javascript
 
@@ -144,6 +172,8 @@ GET Endpoints
       "date_worked":2014-06-12,
       "created_at":2014-06-12,
       "updated_at":2014-06-13,
+      "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
+      "revision": 3,
       "id": 1
     }
 
@@ -161,6 +191,28 @@ If a query parameter is provided with a bad value (e.g. invalid slug, or date no
 8601 format), a Bad Query Value error is returned. Any query parameter other than those
 specified in this document will be ignored. If multiple ``start`` or ``end`` parameters are provided,
 the first one sent is used. If a query parameter is not provided, it defaults to 'all values'.
+
+The endpoint at ``/times/:uuid`` also supports several querystring parameters:
+
+* action
+* revision
+
+The ``action`` parameter can take one of three values:
+
+* recent (default)
+* trail
+* version
+
+If ``action`` is ``recent`` (or is not provided), the most recent revision of the object
+is returned.
+
+If it is ``trail``, the most recent revision of the object is returned, also
+containing a ``parent`` field, which will be a list of previous versions in reverse
+chronological order (i.e. the most recent revision at index 0, etc.), similar to the
+structure returned from /times.
+
+If ``action`` is ``version`` and a value for ``revision`` is provided, that revision of
+the object is returned.
 
 --------------
 
@@ -251,7 +303,7 @@ body will contain the saved object, as shown above.
        "slugs":["testing", "test"]
     }
 
-*POST /times/<id>*
+*POST /times/<uuid>*
 ~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
@@ -285,7 +337,7 @@ result in the deletion of the object from the records. It is up to the
 implementation to decide whether to use hard or soft deletes. What is important
 is that the object will not be included in requests to retrieve lists of
 objects, and attempts to access the object will fail. Future attempts to POST
-an object with that ID/slug should succeed, and completely overwrite the
+an object with that UUID/slug should succeed, and completely overwrite the
 deleted object, if it still exists in the database. To an end user, it should
 appear as though the object truly does not exist.
 
