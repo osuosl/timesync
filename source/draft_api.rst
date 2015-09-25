@@ -59,7 +59,7 @@ a very specific format:
 Revisions
 ---------
 
-When an object is first created, it is assigned a tracking ID. This a UUID which will
+When an object is first created, it is assigned a tracking ID. This is a UUID which will
 refer to all versions of the same object.
 
 When an object is updated, a new revision is created. This allows one to easily keep track
@@ -303,7 +303,7 @@ body will contain the saved object, as shown above.
        "slugs":["testing", "test"]
     }
 
-*POST /times/<id>*
+*POST /times/<uuid>*
 ~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
@@ -337,7 +337,7 @@ result in the deletion of the object from the records. It is up to the
 implementation to decide whether to use hard or soft deletes. What is important
 is that the object will not be included in requests to retrieve lists of
 objects, and attempts to access the object will fail. Future attempts to POST
-an object with that ID/slug should succeed, and completely overwrite the
+an object with that UUID/slug should succeed, and completely overwrite the
 deleted object, if it still exists in the database. To an end user, it should
 appear as though the object truly does not exist.
 
