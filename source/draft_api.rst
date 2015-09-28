@@ -187,8 +187,9 @@ example-user AND which were spent doing development). When the same parameter is
 they expand the result set (for example, ``/times?activity=gwm&activity=pgd`` will return all
 time entries which were either for gwm OR pgd). Date ranges are inclusive on both ends.
 
-If a query parameter is provided with a bad value (e.g. invalid slug, or date not in ISO
-8601 format), a Bad Query Value error is returned. Any query parameter other than those
+If a query parameter is provided with a bad value (e.g. invalid slug, valid but non-existent
+slug, or date not in ISO-8601 format), a Bad Query Value error is returned. This is also
+true when multiple other valid parameters are provided. Any query parameter other than those
 specified in this document will be ignored. If multiple ``start`` or ``end`` parameters are provided,
 the first one sent is used. If a query parameter is not provided, it defaults to 'all values'.
 
