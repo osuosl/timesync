@@ -89,13 +89,15 @@ There are three variables in all objects that assist in an audit process
   created.
 * ``updated_at``: The date at which an object was modified (the created_at date
   of a new object revision).
-* ``deleted_at``: When the DELETE operation was performed on an object (either
-  the object is deleted or depricated for a new version of the object).
-  Depricated version of an object will include a deleted_at field but will
-  appear in an audit trail (the ``parent`` field of an object)
+* ``deleted_at``: When the DELETE operation is performed on an object it's
+  ``deleted_at`` field is set to the date it was deleted. Historical
+  (``parent``) copies of an object do not have ``deleted_at`` set unless the
+  object was deleted for a given historical copy (and later un-deleted).
 
-**To view the audit trail of an object pass the ``?revisions=true`` parameter
-to any endpoint.**
+
+**To view the audit trail of an object pass the** ``?revisions=true``
+**parameter to any endpoint and insepct the 'parent' variable (a list of
+object revisions).**
 
 -------------
 
@@ -231,7 +233,7 @@ These are accessed via
 
 For example:
 
-``GET /projects/<slug>?archived=true``:
+``GET /projects/<slug>?revisions=true``:
 
 .. code-block:: javascript
 
@@ -255,7 +257,7 @@ For example:
           "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
           "revision": 3,
           "created_at": 2015-04-16,
-          "deleted_at": 2015-04-17,
+          "deleted_at": null,
           "updated_at": 2015-04-17
         },
         {...},
@@ -263,7 +265,7 @@ For example:
       ],
     }
 
-``GET /times/<uuid>?archived=true``:
+``GET /times/<uuid>?revisions=true``:
 
 .. code-block:: javascript
 
@@ -293,13 +295,13 @@ For example:
             "created_at":2014-06-12,
             "updated_at":null,
             "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
-            "deleted_at": 2014-04-18,
+            "deleted_at": null,
             "revision":1,
           },
         ],
     }
 
-``GET /activities/<slug>?archived=true``
+``GET /activities/<slug>?revisions=true``
 
 .. code-block:: javascript
 
@@ -318,7 +320,7 @@ For example:
             "name":"Testing Infrastructure",
             "slugs":["testing", "tests"],
             "created_at": 2015-04-17,
-            "deleted_at": 2015-04-18,
+            "deleted_at": null,
             "updated_at": null,
             "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
             "deleted_at": null,
@@ -348,7 +350,7 @@ used. If a query parameter is not provided, it defaults to 'all values'.
 
     All endpoints (``/activites/``, ``/activities/:slug``, ``/projects/``,
     ``/projects/:slug``, ``/times/``, ``/times/:uuid``) support the
-    ``?archived`` flag which will show the full audit trail of an object.
+    ``?revisions`` parameter which will show the full audit trail of an object.
 
 --------------
 
@@ -578,19 +580,18 @@ DELETE Endpoints
 ----------------
 
 A DELETE request sent to any object's endpoint (e.g. */projects/<slug>*) will
-result in the deletion of the object from the records. It is up to the
-implementation to decide whether to use hard or soft deletes. What is important
-is that the object will not be included in requests to retrieve lists of
-objects, and attempts to access the object will fail. Future attempts to POST
-an object with that UUID/slug should succeed, and completely overwrite the
-deleted object, if it still exists in the database. To an end user, it should
-appear as though the object truly does not exist.
+result in the deletion of the object from the records.
 
-If the object exists and the ``?archived=true`` parameter is not passed, the
+If the object exists and the ``?revisions=true`` parameter is not passed, the
 API will return a 200 OK status with an empty response body.
 
-If the object does not exist and the ``?archived=true`` parameter is not
-passed, the API will return an Object Not Found error (see error docs).
+If the object does not exist or has ``deleted_at`` set to a non-null datetime
+and the ``?revisions=true`` parameter is not passed, the API will return an
+Object Not Found error (see error docs) .
+
+If an object is deleted and the ``?revisions=true`` parameter is passed it will
+appear in the response in addition to any other objects matching the desired
+query (e.g,. time entries matching a date range).
 
 In case of any other error, the API will return a Server Error (see error
 docs).
@@ -609,13 +610,13 @@ In addition, each user has a role within each project to which they belong:
 
 * member
 * data viewer
-* project manager.
+* project manager
 
 These roles exist independently, and are defined by their permissions:
 
 * a member has permission to write time entries
 * a data viewer may view time entries
-* a project manager may update the project information.
+* a project manager may update the project information
 
 A user may be a member, viewer, or manager of multiple projects, and a project
 may have multiple members, viewers, and managers.
