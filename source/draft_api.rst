@@ -77,6 +77,26 @@ object in the audit trail (where 1 is the original version from object
 creation, 2 is created after the first update, etc.). This revision number is
 re-used between objects.
 
+----------------
+
+Auditing History
+----------------
+
+There are three variables in all objects that assist in an audit process
+(vewing revisions of an object through it's history).
+
+* ``created_at``: the date at which a given object (specified by a uuid) was
+  created.
+* ``updated_at``: The date at which an object was modified (the created_at date
+  of a new object revision).
+* ``deleted_at``: When the DELETE operation was performed on an object (either
+  the object is deleted or depricated for a new version of the object).
+  Depricated version of an object will include a deleted_at field but will
+  appear in an audit trail (the ``parent`` field of an object)
+
+**To view the audit trail of an object pass the ``?revisions=true`` parameter
+to any endpoint.**
+
 -------------
 
 GET Endpoints
@@ -92,7 +112,7 @@ GET Endpoints
         "name":"Ganeti Web Manager",
         "slugs":["gwm", "ganeti"],
         "owner": "example-user",
-        "uuid": a034806c-00db-4fe1-8de8-514575f31bfb,
+        "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
         "created_at": 2014-04-17,
         "deleted_at": null,
         "updated_at": 2014-04-19,
@@ -111,7 +131,7 @@ GET Endpoints
       "name":"Ganeti Web Manager",
       "slugs":["ganeti", "gwm"],
       "owner": "example-user",
-      "uuid": a034806c-00db-4fe1-8de8-514575f31bfb,
+      "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
       "revision": 4,
       "created_at": 2014-07-17,
       "deleted_at": null,
@@ -126,7 +146,7 @@ GET Endpoints
       {
         "name":"Documentation",
         "slugs":["docs", "doc"],
-        "uuid": adf036f5-3d49-4a84-bef9-062b46380bbf,
+        "uuid": "adf036f5-3d49-4a84-bef9-062b46380bbf",
         "revision": 1,
         "created_at": 2014-04-17,
         "deleted_at": null,
@@ -166,7 +186,7 @@ GET Endpoints
         "created_at":2014-04-17,
         "updated_at":null,
         "deleted_at": null,
-        "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
+        "uuid": "c3706e79-1c9a-4765-8d7f-89b4544cad56",
       },
       {...}
     ]
@@ -186,17 +206,17 @@ GET Endpoints
       "created_at":2014-06-12,
       "updated_at":2014-06-13,
       "deleted_at": null,
-      "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
+      "uuid": "c3706e79-1c9a-4765-8d7f-89b4544cad56",
       "revision": 3,
     }
 
 In addition, the endpoint at ``/times`` also supports several querystring
 parameters:
 
-* user,
-* project,
-* activity, and
-* date range.
+* user
+* project
+* activity
+* date range
 
 These are accessed via
 
@@ -205,10 +225,9 @@ These are accessed via
 * ``/times?activity=:activityslug``: Filters based on activity slug
 * ``/times?start=:date``: Filters to dates after and including the given date.
 * ``/times?end=:date``:  Filters to dates after and including the given date.
-* ``/times/?archived=:bool``: Filters on objects with ``deleted_at`` set to
-  ``null`` or a date. Includes a ``parent`` field in the return object which
-  stores a list of revisions; the 0th element isthe most recent revision of the
-  object.
+* ``/times/?revisions=:bool``: Returns objects and an audit list for that
+  object in the form of a list ``parent``.
+
 
 For example:
 
@@ -221,7 +240,7 @@ For example:
       "name":"Ganeti Web Manager",
       "slugs":["ganeti", "gwm"],
       "owner": "example-user",
-      "uuid": a034806c-00db-4fe1-8de8-514575f31bfb,
+      "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
       "revision": 4,
       "created_at": 2015-04-17,
       "deleted_at": null,
@@ -233,7 +252,7 @@ For example:
           "name":"Ganeti Web Manager",
           "slugs":["ganeti", "gwm"],
           "owner": "example-user",
-          "uuid": a034806c-00db-4fe1-8de8-514575f31bfb,
+          "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
           "revision": 3,
           "created_at": 2015-04-16,
           "deleted_at": 2015-04-17,
@@ -258,7 +277,7 @@ For example:
       "date_worked":2015-04-17,
       "created_at":2014-06-12,
       "updated_at":2015-04-18,
-      "uuid": aa800862-e852-4a40-8882-9b4a79aa3015,
+      "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
       "deleted_at": null,
       "revision":2,
       "parent":
@@ -273,7 +292,7 @@ For example:
             "date_worked":2015-04-17,
             "created_at":2014-06-12,
             "updated_at":null,
-            "uuid": aa800862-e852-4a40-8882-9b4a79aa3015,
+            "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
             "deleted_at": 2014-04-18,
             "revision":1,
           },
@@ -288,7 +307,7 @@ For example:
       "name":"Testing Infra",
       "slugs":["testing", "test"],
       "updated_at": 2015-04-18,
-      "uuid": 3cf78d25-411c-4d1f-80c8-a09e5e12cae3,
+      "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
       "created_at": 2014-04-17,
       "deleted_at": null,
       "updated_at": 2014-04-18,
@@ -301,7 +320,7 @@ For example:
             "created_at": 2015-04-17,
             "deleted_at": 2015-04-18,
             "updated_at": null,
-            "uuid": 3cf78d25-411c-4d1f-80c8-a09e5e12cae3,
+            "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
             "deleted_at": null,
             "revision":1,
           }
@@ -320,7 +339,7 @@ which were either for gwm OR pgd). Date ranges are inclusive on both ends.
 * Any query parameter other than those specified in this document will be
   ignored.
 * For more information about errors, check the
-  :ref:`draft_errors<new-hire-checklist>`_ docs.
+  :ref:`draft_errors<draft_errors>` docs.
 
 If multiple ``start`` or ``end`` parameters are provided, the first one sent is
 used. If a query parameter is not provided, it defaults to 'all values'.
@@ -362,7 +381,7 @@ Response body:
        "name":"TimeSync API",
        "slugs":["timesync", "time"],
        "owner":"example-2",
-       "uuid":b35f9531-517f-47bd-aab4-14298bb19555,
+       "uuid":"b35f9531-517f-47bd-aab4-14298bb19555",
        "created_at":2014-04-17,
        "updated_at":null,
        "deleted_at":null,
@@ -388,7 +407,7 @@ Response body:
     {
        "name":"Quality Assurance/Testing",
        "slugs":["qa", "test"],
-       "uuid": cfa07a4f-d446-4078-8d73-2f77560c35c0,
+       "uuid": "cfa07a4f-d446-4078-8d73-2f77560c35c0",
        "created_at": 2014-04-17,
        "updated_at": 2014-04-18,
        "deleted_at": null,
@@ -406,7 +425,7 @@ Request body:
     {
       "duration":12,
       "user": "example-2",
-      "project": "Ganeti Web Manager",
+      "project": "ganet_web_manager",
       "activities": ["documenting"],
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
@@ -420,7 +439,7 @@ Response body:
     {
       "duration":12,
       "user": "example-2",
-      "project": "Ganeti Web Manager",
+      "project": "ganet_web_manager",
       "activities": ["documenting"],
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
@@ -428,7 +447,7 @@ Response body:
       "created_at":2014-04-17,
       "updated_at": null,
       "deleted_at": null,
-      "uuid": 838853e3-3635-4076-a26f-7efe4e60981f,
+      "uuid": "838853e3-3635-4076-a26f-7efe4e60981f",
       "revision":1,
     },
 
@@ -462,7 +481,7 @@ Response body:
       "created_at": 2014-04-16,
       "updated_at": 2014-04-18,
       "deleted_at": null,
-      "uuid": 309eae69-21dc-4538-9fdc-e6892a9c4dd4,
+      "uuid": "309eae69-21dc-4538-9fdc-e6892a9c4dd4",
       "revision":2,
     }
 
@@ -485,7 +504,7 @@ Response body:
     {
       "name":"Testing Infra",
       "slugs":["testing", "test"],
-      "uuid": 3cf78d25-411c-4d1f-80c8-a09e5e12cae3,
+      "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
       "created_at": 2014-04-16,
       "updated_at": 2014-04-17,
       "deleted_at": null,
@@ -520,7 +539,7 @@ Response body:
       "created_at":2014-06-12,
       "updated_at":2015-04-18,
       "deleted_at": null,
-      "uuid": aa800862-e852-4a40-8882-9b4a79aa3015,
+      "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
       "revision":2,
     }
 
