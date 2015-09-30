@@ -91,12 +91,12 @@ There are three variables in all objects that assist in an audit process
   of a new object revision).
 * ``deleted_at``: When the DELETE operation is performed on an object it's
   ``deleted_at`` field is set to the date it was deleted. Historical
-  (``parent``) copies of an object do not have ``deleted_at`` set unless the
+  (``parents``) copies of an object do not have ``deleted_at`` set unless the
   object was deleted for a given historical copy (and later un-deleted).
 
 
 **To view the audit trail of an object pass the** ``?revisions=true``
-**parameter to any endpoint and insepct the 'parent' variable (a list of
+**parameter to any endpoint and insepct the 'parents' variable (a list of
 object revisions).**
 
 -------------
@@ -227,7 +227,7 @@ These are accessed via
 * ``/times?start=:date``: Filters to dates after and including the given date.
 * ``/times?end=:date``:  Filters to dates after and including the given date.
 * ``/times/?revisions=:bool``: Returns objects and an audit list for that
-  object in the form of a list ``parent``.
+  object in the form of a list ``parents``.
 
 
 For example:
@@ -246,7 +246,7 @@ For example:
       "created_at": 2015-04-17,
       "deleted_at": null,
       "updated_at": null,
-      "parent":
+      "parents":
       [
         {
           "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
@@ -281,7 +281,7 @@ For example:
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
       "deleted_at": null,
       "revision":2,
-      "parent":
+      "parents":
         [
           {
             "duration":20,
@@ -313,7 +313,7 @@ For example:
       "deleted_at": null,
       "updated_at": 2014-04-18,
       "revision":2,
-      "parent":
+      "parents":
         [
           {
             "name":"Testing Infrastructure",
@@ -587,7 +587,7 @@ The following content is checked by the API for validity:
 
 .. note::
 
-   When an object is updated it's ``parent`` is soft-deleted and a copy is
+   When an object is updated it's ``parents`` is soft-deleted and a copy is
    created with the new information. This results in the object having an
    incremented 'revision' field the updated information specifed in the POST
    request.
