@@ -179,7 +179,7 @@ GET Endpoints
       {
         "duration":12,
         "user": "example-user",
-        "project": "ganeti",
+        "project": ["ganeti-webmgr", "gwm"],
         "activities": ["docs", "planning"],
         "notes":"Worked on documentation toward settings configuration.",
         "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
@@ -200,15 +200,14 @@ GET Endpoints
     {
       "duration":12,
       "user": "example-user",
-      "project": "gwm",
+      "project": ["gwm", "ganeti-webmgr"],
       "activities": ["doc", "research"],
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
-      "date_worked":2014-06-12,
-      "created_at":2014-06-12,
-      "updated_at":2014-06-13,
-      "deleted_at": null,
-      "uuid": "c3706e79-1c9a-4765-8d7f-89b4544cad56",
+      "date_worked":"2014-06-12",
+      "created_at":"2014-06-12",
+      "updated_at":"2014-06-13",
+      "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
       "revision": 3,
     }
 
@@ -467,8 +466,10 @@ Request body:
 .. code-block:: javascript
 
     {
-       "name":"Ganeti Webmgr",
-       "slugs":["webmgr", "gwm"],
+       "uri":"https://code.osuosl.org/projects/timesync",
+       "name":"TimeSync API",
+       "slugs":["timesync", "time"],
+       "owner": "example-2"
     }
 
 Response body:
@@ -522,8 +523,13 @@ Request body:
 .. code-block:: javascript
 
     {
-      "duration":20,
-      "date_worked":"2015-04-17"
+      "duration":12,
+      "user": "example-2",
+      "project": "qa",
+      "activities": ["gwm", "ganeti"],
+      "notes":"",
+      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "date_worked":"2015-07-29"
     }
 
 Response body:
@@ -531,20 +537,33 @@ Response body:
 .. code-block:: javascript
 
     {
-      "duration":20,
-      "user": "example-user",
-      "project": "gwm",
-      "activities": ["doc", "research"],
-      "notes":"Worked on documentation toward settings configuration.",
-      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
-      "date_worked":2015-04-17,
+      "duration":18,
+      "notes":"Initial duration was inaccurate. Date worked also updated.",
+      "date_worked":"2015-08-07"
+    }
+
+The response body will be:
+
+.. code-block:: javascript
+
+    {
+      "duration":18,
+      "user": "example-2",
+      "project": "qa",
+      "activities": ["gwm", "ganeti"],
+      "notes":"Initial duration was inaccurate. Date worked also updated.",
+      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "date_worked":"2015-08-07"
       "created_at":2014-06-12,
       "updated_at":2015-04-18,
-      "deleted_at": null,
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
       "revision":2,
     }
 
+If a slugs field is passed to `/project/<slug>`, it is assumed to overwrite the
+existing slugs for the object. Any slugs which already exist on the object but
+are not in the request are dropped, and the slugs field on the request becomes
+canonical, assuming all of the slugs do not already belong to another project.
 
 In the case of a foreign key (such as project on a time) that does not point to
 a valid object or a malformed object sent in the request, an Object Not Found
