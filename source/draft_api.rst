@@ -601,19 +601,25 @@ DELETE Endpoints
 A DELETE request sent to any object's endpoint (e.g. */projects/<slug>*) will
 result in the deletion of the object from the records.
 
-If the object exists and the ``?revisions=true`` parameter is not passed, the
+If the object exists and the ``?deleted=true`` parameter is not passed, the
 API will return a 200 OK status with an empty response body.
 
 If the object does not exist or has ``deleted_at`` set to a non-null datetime
-and the ``?revisions=true`` parameter is not passed, the API will return an
+and the ``?deleted=true`` parameter is not passed, the API will return a 404
 Object Not Found error (see error docs) .
 
-If an object is deleted and the ``?revisions=true`` parameter is passed it will
+If an object is deleted and the ``?deleted=true`` parameter is passed it will
 appear in the response in addition to any other objects matching the desired
 query (e.g,. time entries matching a date range).
 
 In case of any other error, the API will return a Server Error (see error
 docs).
+
+.. note::
+
+    Although objects are not permanently deleted, you will recieve a 404 if
+    you attempt to access a deleted object (and do not pass the 'deleted'
+    parameter in your query).
 
 -----------------------
 
