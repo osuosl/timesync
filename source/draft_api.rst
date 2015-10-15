@@ -488,6 +488,11 @@ Response body:
       "revision":2,
     }
 
+If a project is sent to ``/project/<slug>`` with the ``slugs`` field unset (i.e. equal to
+``undefined``), the slugs remain unchanged (similar to not passing any other field). If
+the ``slugs`` field is set, however, to an empty array, this will clear the slugs field,
+and set it equal to the empty array.
+
 *POST /activities/<slug>*
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
