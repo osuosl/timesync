@@ -96,7 +96,7 @@ There are three variables in all objects that assist in an audit process
 
 
 **To view the audit trail of an object pass the** ``?revisions=true``
-**parameter to any endpoint and insepct the 'parents' variable (a list of
+**parameter to any endpoint and inspect the 'parents' variable (a list of
 object revisions).**
 
 -------------
