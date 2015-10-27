@@ -96,7 +96,7 @@ There are three variables in all objects that assist in an audit process
 
 
 **To view the audit trail of an object pass the** ``?revisions=true``
-**parameter to any endpoint and insepct the 'parents' variable (a list of
+**parameter to any endpoint and inspect the 'parents' variable (a list of
 object revisions).**
 
 -------------
@@ -300,7 +300,7 @@ For example:
         ],
     }
 
-``GET /activities/<slug>?revisions=true``
+``GET /activities/<slug>?revisions=true``:
 
 .. code-block:: javascript
 
@@ -350,6 +350,81 @@ used. If a query parameter is not provided, it defaults to 'all values'.
     All endpoints (``/activites/``, ``/activities/:slug``, ``/projects/``,
     ``/projects/:slug``, ``/times/``, ``/times/:uuid``) support the
     ``?revisions`` parameter which will show the full audit trail of an object.
+
+
+Retrieving Deleted Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Alongside revision history, you can also view objects that have been
+soft-deleted. To view an object that has its ``deleted_at`` field set to a
+non-null datetime, send a GET request with the ``?include_deleted`` parameter
+set to true. Doing so will return all objects matching the query.
+
+``GET /projects?include_deleted=true``:
+
+.. code-block:: javascript
+
+    [
+      {
+        "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
+        "name":"Ganeti Web Manager",
+        "slugs":["ganeti", "gwm"],
+        "owner": "example-user",
+        "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
+        "revision": 4,
+        "created_at": 2015-04-17,
+        "deleted_at": null,
+        "updated_at": null,
+      },
+      {...},
+      {...},
+      {
+        "uri":"https:://github.com/osuosl/timesync",
+        "name":"Timesync",
+        "slugs":["ts", "timesync"],
+        "owner": "example-user",
+        "uuid": "1f8788bd-0909-4397-be2c-79047f90c575",
+        "revision": 1,
+        "created_at": 2015-04-17,
+        "deleted_at": 2015-10-01,
+        "updated_at": null,
+      },
+    ]
+
+``GET /activities?include_deleted=true``:
+
+.. code-block:: javascript
+
+    [
+      {
+        "name":"Documentation",
+        "slugs":["docs", "doc"],
+        "uuid": "adf036f5-3d49-4a84-bef9-062b46380bbf",
+        "revision": 5,
+        "created_at": 2014-04-17,
+        "deleted_at": null,
+        "updated_at": null,
+      },
+      {...},
+      {...},
+      {
+        "name": "Meetings"
+        "slugs": "meeting",
+        "uuid": "6552d14e-12eb-4f1f-83d5-147f8452614c",
+        "revision": 1,
+        "created_at": 2014-04-17,
+        "deleted_at": 2015-05-01,
+        "updated_at": null,     
+      },
+    ]
+
+
+.. note::
+    When passing the ``include_deleted`` parameter to your request, note that
+    you cannot specify a project/activity by their slug. This is because
+    projectslugs are hard-deleted and will no longer be associated with their
+    projects. Likewise, activityslugs (for the deleted activity) is set to
+    NULL, so that the slugs may be reused.
 
 --------------
 
@@ -606,16 +681,16 @@ DELETE Endpoints
 A DELETE request sent to any object's endpoint (e.g. */projects/<slug>*) will
 result in the deletion of the object from the records.
 
-If the object exists and the ``?deleted=true`` parameter is not passed, the
-API will return a 200 OK status with an empty response body.
+If the object exists and the ``?include_deleted=true`` parameter is not passed,
+the API will return a 200 OK status with an empty response body.
 
 If the object does not exist or has ``deleted_at`` set to a non-null datetime
-and the ``?deleted=true`` parameter is not passed, the API will return a 404
-Object Not Found error (see error docs) .
+and the ``?include_deleted=true`` parameter is not passed, the API will return
+a 404 Object Not Found error (see error docs) .
 
-If an object is deleted and the ``?deleted=true`` parameter is passed it will
-appear in the response in addition to any other objects matching the desired
-query (e.g,. time entries matching a date range).
+If an object is deleted and the ``?include_deleted=true`` parameter is passed
+it will appear in the response in addition to any other objects matching the
+desired query (e.g,. time entries matching a date range).
 
 In case of any other error, the API will return a Server Error (see error
 docs).
@@ -623,8 +698,8 @@ docs).
 .. note::
 
     Although objects are not permanently deleted, you will recieve a 404 if
-    you attempt to access a deleted object (and do not pass the 'deleted'
-    parameter in your query).
+    you attempt to access a deleted object (and do not pass the
+    'include_deleted' parameter in your query).
 
 -----------------------
 
