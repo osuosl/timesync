@@ -796,4 +796,78 @@ POST /projects/:slug is accessible to that project's manager(s).
 POST /times is accessible to that project's member(s), given that the 'user'
 field of the posted time is the user authenticating.
 
-See :ref:`the auth docs<draft_auth>` for more information on specific authentication methods.
+Parameters
+----------
+
+TimeSync's response data can be narrowed even further than the /:endpoints
+return statements by adding parameters.
+
+Reference Table
+~~~~~~~~~~~~~~~
+
+=================== ======================= ======================= ===========
+Parameter           Value(s)                Endpoint(s)             Request(s)
+=================== ======================= ======================= ===========
+user                :username               /times                  GET
+project             :projectslug            /times                  GET
+activity            :activityslug           /times                  GET
+start               :date (iso format)      /times                  GET
+end                 :date (iso format)      /times                  GET
+revisions           :bool                   - /times                GET
+                                            - /times/:uuid
+                                            - /activities/
+                                            - /activities/:slug
+                                            - /projects/
+                                            - /projects/:slug
+include_deleted     :bool                   - /times                GET
+                                            - /times/:uuid
+                                            - /activities
+                                            - /activities/:slug
+                                            - /projects
+                                            - /projects/:slug
+=================== ======================= ======================= ===========
+
+?user=:username
+~~~~~~~~~~~~~~~
+
+Returns a set of time entries by a specified user.
+
+?project=:projectslug
+~~~~~~~~~~~~~~~~~~~~~
+
+Returns a set of time entries for a specified project.
+
+?activity=:activityslug
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Returns a set of time entries for a specfied activity.
+
+?start=:date
+~~~~~~~~~~~~
+
+Returns a set of time entries after a specific date.
+
+Can be combined with ?end to create a date range.
+
+?end=:date
+~~~~~~~~~~
+
+Returns a set of time entries before a specific date.
+
+Can be combined with ?start to create a date range.
+
+?revisions=:bool
+~~~~~~~~~~~~~~~~
+
+Adds the 'parents' field to all objects specified.
+    This field shows the revisions of an object in chronological order.
+
+Without this field the object(s) do not include a 'parents' field and so only
+the most recent revision of the object will be seen.
+
+?include_deleted=:bool
+~~~~~~~~~~~~~~~~~~~~~~
+
+Includes deleted entries in the returned results.
+    These are objects which have the 'deleted_at' parameter set to an ISO date
+    (i.e., a non-null value).
