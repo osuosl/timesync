@@ -13,8 +13,8 @@ Below are the API specs for the TimeSync project.
 Connection
 ----------
 
-All requests will be made via HTTPS. Available methods are ``GET`` to request
-an object, ``POST`` to create and/or edit a new object, and ``DELETE`` to
+All requests will be made via HTTPS. Available methods are GET to request
+an object, POST to create and/or edit a new object, and DELETE to
 remove an object.
 
 ------
@@ -64,7 +64,11 @@ Revisions
 ---------
 
 When an object is first created, it is assigned a tracking ID. This is a UUID
-which will refer to all versions of the same object.
+which will refer to all versions of the same object. For example:
+
+.. code-block:: none
+
+     de305d54-75b4-431b-adb2-eb6b9e546014
 
 When an object is updated, a new revision is created. This allows one to easily
 keep track of the changes to an object over time (its *audit trail*). This
@@ -96,7 +100,7 @@ There are three variables in all objects that assist in an audit process
 
 
 **To view the audit trail of an object pass the** ``?revisions=true``
-**parameter to any endpoint and inspect the 'parents' variable (a list of
+**parameter to any endpoint and inspect the** ``parents`` **variable (a list of
 object revisions).**
 
 -------------
@@ -105,6 +109,7 @@ GET Endpoints
 -------------
 
 *GET /projects*
+~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -122,7 +127,8 @@ GET Endpoints
       {...}
     ]
 
-*GET /projects/<slug>*
+*GET /projects/:slug*
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -138,6 +144,7 @@ GET Endpoints
     }
 
 *GET /activities*
+~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -154,7 +161,8 @@ GET Endpoints
       {...}
     ]
 
-*GET /activities/<slug>*
+*GET /activities/:slug*
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -169,6 +177,7 @@ GET Endpoints
     }
 
 *GET /times*
+~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -190,7 +199,8 @@ GET Endpoints
       {...}
     ]
 
-*GET /times/<time entry uuid>*
+*GET /times/:time-entry-uuid*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -267,9 +277,15 @@ property, which is a list of all previous revisions of the object in descending
 order by revision number (i.e. ``time.parents[0]`` will be the previous
 revision, and ``time.parents[n-1]`` will be the first revision).
 
+.. note::
+
+    For more information about Query Parameters, see the `Parameters`_
+    section of this document.
+
 For example:
 
-``GET /projects/<slug>?revisions=true``:
+*GET /projects/:slug?revisions=true*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -299,7 +315,8 @@ For example:
       ]
     }
 
-``GET /times/<uuid>?revisions=true``:
+*GET /times/:uuid?revisions=true*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -335,7 +352,8 @@ For example:
       ]
     }
 
-``GET /activities/<slug>?revisions=true``:
+*GET /activities/:slug?revisions=true*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -453,7 +471,8 @@ objects matching the query, both current and deleted.
       }
     ]
 
-``GET /activities?include_deleted=true``:
+*GET /activities?include_deleted=true*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -485,7 +504,7 @@ objects matching the query, both current and deleted.
 POST Endpoints
 --------------
 
-To add a new object, POST to */<object name>/* with a JSON body. The response
+To add a new object, POST to */:object-name/* with a JSON body. The response
 body will contain the object in the same manner as the GET endpoints above.
 
 *POST /projects/*
@@ -583,14 +602,14 @@ Response body:
       "revision":1
     }
 
-Likewise, if you'd like to edit an existing object, POST to ``/<object
-name>/<slug>`` (or for time objects, ``/times/<uuid>``) with a JSON body.  The
-object only needs to contain the part that is being updated. The response body
-will contain the saved object, as shown above.
+Likewise, if you'd like to edit an existing object, POST to
+``/:object-name/:slug`` (or for time objects, ``/times/:uuid``) with a JSON
+body.  The object only needs to contain the part that is being updated. The
+response body will contain the saved object, as shown above.
 
 
-*POST /projects/<slug>*
-~~~~~~~~~~~~~~~~~~~~~~~
+*POST /projects/:slug*
+~~~~~~~~~~~~~~~~~~~~~~
 
 Request body:
 
@@ -618,15 +637,15 @@ Response body:
     }
 
 If a value of ``""`` (an empty string) or ``[]`` (an empty array) are passed as
-values for a string or array optional field (check the :ref:`model docs<draft_model>`),
-the value will be set to the empty string/array. If a value of null or undefined
-is provided, the current value of the object will be used.
+values for a string or array optional field (check the :ref:`model
+docs<draft_model>`), the value will be set to the empty string/array. If a
+value of null or undefined is provided, the current value of the object will be
+used.
 
-*POST /activities/<slug>*
-~~~~~~~~~~~~~~~~~~~~~~~~~
+*POST /activities/:slug*
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Request body:
-
 
 .. code-block:: javascript
 
@@ -648,7 +667,7 @@ Response body:
       "revision":2
     }
 
-*POST /times/<uuid>*
+*POST /times/:uuid*
 ~~~~~~~~~~~~~~~~~~~~
 
 Original object:
@@ -700,10 +719,11 @@ The response body will be:
       "revision":2
     }
 
-If a slugs field is passed to `/project/<slug>`, it is assumed to overwrite the
-existing slugs for the object. Any slugs which already exist on the object but
-are not in the request are dropped, and the slugs field on the request becomes
-canonical, assuming all of the slugs do not already belong to another project.
+If a slugs field is passed to ``/project/:slug``, it is assumed to overwrite
+the existing slugs for the object. Any slugs which already exist on the object
+but are not in the request are dropped, and the slugs field on the request
+becomes canonical, assuming all of the slugs do not already belong to another
+project.
 
 In the case of a foreign key (such as project on a time) that does not point to
 a valid object or a malformed object sent in the request, an Object Not Found
@@ -822,9 +842,7 @@ revisions           :bool                   - /times                GET
 include_deleted     :bool                   - /times                GET
                                             - /times/:uuid
                                             - /activities
-                                            - /activities/:slug
                                             - /projects
-                                            - /projects/:slug
 =================== ======================= ======================= ===========
 
 ?user=:username
