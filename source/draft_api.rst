@@ -248,11 +248,11 @@ development). When the same parameter is repeated, they expand the result set
 which were either for gwm OR pgd). Date ranges are inclusive on both ends.
 
 * If a query parameter is provided with a bad value (e.g. invalid slug, or date
-not in ISO-8601 format), a Bad Query Value error is returned.
+  not in ISO-8601 format), a Bad Query Value error is returned.
 * Any query parameter other than those specified in this document will be
-ignored.
+  ignored.
 * For more information about errors, check the
-:ref:`draft_errors<draft_errors>` docs.
+  :ref:`draft_errors<draft_errors>` docs.
 
 If multiple ``start`` or ``end`` parameters are provided, the first one sent is
 used. If a query parameter is not provided, it defaults to 'all values'.
@@ -628,11 +628,9 @@ Response body:
     }
 
 If a value of ``""`` (an empty string) or ``[]`` (an empty array) are passed as
-values for a string or array optional field (check the `model documentation`_),
+values for a string or array optional field (check the :ref:`model docs<draft_model>`),
 the value will be set to the empty string/array. If a value of null or undefined
 is provided, the current value of the object will be used.
-
-_model documentation: draft_model.html
 
 *POST /activities/<slug>*
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -792,6 +790,4 @@ POST /projects/:slug is accessible to that project's manager(s).
 POST /times is accessible to that project's member(s), given that the 'user'
 field of the posted time is the user authenticating.
 
-See `the auth docs`_ for more information on specific authentication methods.
-
-_the auth docs: draft_auth.html
+See :ref:`the auth docs<draft_auth>` for more information on specific authentication methods.
