@@ -5,7 +5,7 @@ Authorization
 =============
 
 TimeSync allows for various forms of authentication determined by the
-implementation. The general scheme of an authentication module follows looks
+implementation. The general scheme of an authentication module looks
 like this:
 
 .. code-block:: javascript

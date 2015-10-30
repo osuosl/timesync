@@ -4,9 +4,9 @@
 API Object Model
 ================
 
-Below is a listing of the structure of objects in the timesync API.
+Below is a listing of the structure of objects in the TimeSync API.
 
-Each object is listed, with the fields it consists of. Type represents the type
+Each object is listed with the fields it consists of. Type represents the type
 of data passed; it may represent data types (such as "string" or "array") or
 formats (such as "ISO date"). Required_post represents whether "empty" values
 are accepted: ``true`` means that values must be complete, while ``false`` means

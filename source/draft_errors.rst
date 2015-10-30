@@ -112,7 +112,7 @@ duration field.)
 
 This error would be returned when an identifier field (e.g. time UUID or activity
 slug) is malformed or otherwise not valid for use. This is to be distinguished
-from Object not found: Object not found occurs when a perfectly valid,
+from Object Not Found: Object Not Found occurs when a perfectly valid,
 well-formed identifier is supplied, but no object matching the identifier could
 be found; an identifier is considered invalid if it does not match the expected
 format (e.g. a slug with special characters or a non-numeric ID field).
