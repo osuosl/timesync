@@ -32,6 +32,30 @@ fields as necessary for that kind of connection.
 
 These other fields might be things like ``password``, ``token``, ``key``, etc.
 
+Token-based authentication
+--------------------------
+
+Token-based is the primary and default authentication method for TimeSync. TimeSync
+provides an endpoint at ``/login``, which should be sent a POST request, with the body
+fitting one of the other available authentication schemes (e.g. Password, LDAP). The
+endpoint will then return a JWT token string as its response body. This response body
+will be used to access the other endpoints:
+
+POST endpoints:
+
+.. code-block:: javascript
+
+    {
+      "auth": {
+        "type": "token",
+        "token": ...
+      },
+      ...
+    }
+
+GET and DELETE endpoints: Use the query key ``token``, as in ``GET /times?token=...`` or
+``DELETE /activities/example?token=...``
+
 Password authentication
 -----------------------
 
