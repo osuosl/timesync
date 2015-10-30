@@ -24,16 +24,16 @@ Common
 These fields are shared between all objects. Do not pass any of them in a POST
 request; they are provided automatically.
 
-==========  ===============   =============  ======================================  ===========================================
+==========  ================  =============  ======================================  ===========================================
    Name          Type         POST Required               Description                                    Notes
-==========  ===============   =============  ======================================  ===========================================
+==========  ================  =============  ======================================  ===========================================
 uuid        UUID              false          A tracking ID between object revisions
 revision    positive number   false          A version number of an object
 created_at  ISO date          false          The date the object (UUID) was created
 updated_at  ISO date or null  false          The date this revision was created
 deleted_at  ISO date or null  false          The date this revision was deleted      Always null unless ?include_deleted is used
 parents     array             false          The previous revisions of this object   Only provided if ?revisions=true is used
-==========  ===============   =============  ======================================  ===========================================
+==========  ================  =============  ======================================  ===========================================
 
 -----
 
