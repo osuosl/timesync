@@ -346,7 +346,6 @@ For example:
     {
       "name":"Testing Infra",
       "slugs":["testing", "test"],
-      "updated_at": 2015-04-18,
       "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
       "created_at": "2014-04-17",
       "deleted_at": null,
@@ -361,7 +360,6 @@ For example:
             "deleted_at": null,
             "updated_at": null,
             "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-            "deleted_at": null,
             "revision":1,
           }
         ]
@@ -389,7 +387,6 @@ For example:
               "deleted_at": null,
               "updated_at": null,
               "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-              "deleted_at": null,
               "revision":1,
             }
           ]
@@ -411,7 +408,6 @@ For example:
               "deleted_at": null,
               "updated_at": null,
               "uuid": "e81e45ef-e7a7-4da2-88cd-9ede610c5896",
-              "deleted_at": null,
               "revision":1,
             }
           ]
@@ -755,15 +751,15 @@ managers/viewers of all projects.
 In addition, each user has a role within each project to which they belong:
 
 * member
-* data viewer
+* spectator
 * project manager
 
-These roles exist independently (for example, a user may be only a data viewer,
+These roles exist independently (for example, a user may be only a spectator,
 or may be a member and manager but not viewer), and are defined by their
 permissions:
 
 * a member has permission to write time entries
-* a data viewer may view time entries
+* a spectator may view time entries
 * a project manager may update the project information
 
 A user may be a member, viewer, and/or manager of multiple projects, and a project

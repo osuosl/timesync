@@ -160,7 +160,7 @@ server is running.
 
 ----------------------
 
-7. Slug already exists
+7. Slug Already Exists
 ----------------------
 
 This error is returned when a new object is being created but the slugs provided
@@ -188,7 +188,7 @@ If multiple slugs are duplicated:
 
 ------------------------
 
-8. Authorization failure
+8. Authorization Failure
 ------------------------
 
 This error is returned when the user is successfully authenticated, but lacks
@@ -206,7 +206,7 @@ another user.
 
 -------------------
 
-9. Request failure
+9. Request Failure
 -------------------
 
 This error is returned when a GET, POST, DELETE, etc. request is sent to an
