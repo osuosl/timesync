@@ -746,7 +746,7 @@ Authorization and Roles
 Each timesync user can be of one of two roles: user, and admin. Admins have
 special permissions, including adding, updating, and deleting activities and
 projects, creating and promoting users, as well as acting as automatic
-managers/viewers of all projects.
+managers/spectators of all projects.
 
 In addition, each user has a role within each project to which they belong:
 
@@ -755,15 +755,15 @@ In addition, each user has a role within each project to which they belong:
 * project manager
 
 These roles exist independently (for example, a user may be only a spectator,
-or may be a member and manager but not viewer), and are defined by their
+or may be a member and manager but not spectator), and are defined by their
 permissions:
 
 * a member has permission to write time entries
 * a spectator may view time entries
 * a project manager may update the project information
 
-A user may be a member, viewer, and/or manager of multiple projects, and a project
-may have multiple members, viewers, and managers.
+A user may be a member, spectator, and/or manager of multiple projects, and a project
+may have multiple members, spectators, and managers.
 
 If a user attempts to access an endpoint which they are not authorized for, the
 server will return an Authorization Failure.
