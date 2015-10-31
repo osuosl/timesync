@@ -40,16 +40,17 @@ parents     array             false          The previous revisions of this obje
 Times
 -----
 
-===========  ===============   =============  ======================================  ============================================
-   Name           Type         POST Required               Description                                    Notes
-===========  ===============   =============  ======================================  ============================================
-duration     positive number   true           Length of time user worked, in seconds
-user         username          true           Username of the user who worked         Must be an existing username
-project      mixed             true           The project the user worked on          Array of slugs in GET requests, slug in POST
-activities   array of slugs    true           The activities the user performed
-date_worked  ISO date          true           The date this time began on             May be in the future or the past
-issue_uri    URI               false          The issue the user worked on            May link to any issue tracker
-notes        string            false          Other notes the user wishes to provide
+===========  ===============  =============  ======================================  ============================================
+   Name           Type        POST Required               Description                                    Notes
+===========  ===============  =============  ======================================  ============================================
+duration     positive number  true           Length of time user worked, in seconds
+user         username         true           Username of the user who worked         Must be an existing username
+project      mixed            true           The project the user worked on          Array of slugs in GET requests, slug in POST
+activities   array of slugs   true           The activities the user performed
+date_worked  ISO date         true           The date this time began on             May be in the future or the past
+issue_uri    URI              false          The issue the user worked on            May link to any issue tracker
+notes        string           false          Other notes the user wishes to provide
+===========  ===============  =============  ======================================  ============================================
 
 --------
 
@@ -63,6 +64,7 @@ name   string           true           The name of the project
 slugs  array of slugs   true           Slugs to identify the project  Must be unique to the project
 uri    URI              false          The URI of the project
 owner  username         true           The owner of the project       Automatically granted ``manager`` rights
+=====  ==============   =============  =============================  ========================================
 
 ----------
 
@@ -74,3 +76,4 @@ Name   Type   POST Required               Description                           
 ====  ======  =============  =======================================  ===========================================
 name  string  true           The human-readable name of the activity
 slug  string  true           A slug to identify the activity
+====  ======  =============  =======================================  ===========================================
