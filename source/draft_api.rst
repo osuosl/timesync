@@ -356,7 +356,7 @@ For example:
           {
             "name":"Testing Infrastructure",
             "slugs":["testing", "tests"],
-            "created_at": "2015-04-17",
+            "created_at": "2014-04-17",
             "deleted_at": null,
             "updated_at": null,
             "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
