@@ -44,7 +44,7 @@ Slug) which does not match an object in the database.
 2. Server Error
 ---------------
 
-A generic catch-all for when there is a server error outside of the client"s
+A generic catch-all for when there is a server error outside of the client's
 control.  This may be the result of an uncaught exception, a database error, or
 any other condition which renders the server unable to process a valid request.
 Note that in a production environment, ``text`` may be empty to avoid disclosing
@@ -209,7 +209,7 @@ another user.
 -------------------
 
 This error is returned when a GET, POST, DELETE, etc. request is sent to an
-object and is rejected. It"s used mainly in the instances when a user tries to
+object and is rejected. It's used mainly in the instances when a user tries to
 delete something they are not supposed to. For example, a user may attempt to
 delete a project that has associated times.
 
