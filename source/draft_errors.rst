@@ -101,8 +101,7 @@ duration field.)
     invalid_field_error = {
         "status": 400,
         "error": "Bad object",
-        "text": "Field ${field_name} of ${object_type} should be ${expected_type}
-            but was sent as ${received_type}"
+        "text": "Field ${field_name} of ${object_type} should be ${expected_type} but was sent as ${received_type}"
     }
 
 ---------------------
