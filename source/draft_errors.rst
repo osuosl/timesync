@@ -15,7 +15,7 @@ Errors will consist of:
 #) informational text
 #) a ``values`` array containing variables relevant to the error, if any
 
-The existence of an 'error' key indicates an error.
+The existence of an "error" key indicates an error.
 
 In the docs following, string literals are indicated by double quotes (as in
 JSON standard), but use the ECMAScript 2015 string interpolation specification
@@ -44,7 +44,7 @@ Slug) which does not match an object in the database.
 2. Server Error
 ---------------
 
-A generic catch-all for when there is a server error outside of the client's
+A generic catch-all for when there is a server error outside of the client"s
 control.  This may be the result of an uncaught exception, a database error, or
 any other condition which renders the server unable to process a valid request.
 Note that in a production environment, ``text`` may be empty to avoid disclosing
@@ -169,9 +169,9 @@ contain a slug that already exists.
 .. code-block:: javascript
 
     {
-        status: 409,
-        error: 'Slug already exists',
-        text: 'slug ${slug} already exists on another object',
+        "status": 409,
+        "error": "Slug already exists",
+        "text": "Slug ${slug} already exists on another object",
         "values": [${slug}]
     }
 
@@ -180,9 +180,9 @@ If multiple slugs are duplicated:
 .. code-block:: javascript
 
     {
-        status: 409,
-        error: 'Slugs already exist',
-        text: 'slugs ${slug}, ${slug} already exist on another object',
+        "status": 409,
+        "error": "Slugs already exist",
+        "text": "Slugs ${slug}, ${slug} already exist on another object",
         "values": [${slug}, ${slug}, ...]
     }
 
@@ -199,9 +199,9 @@ another user.
 .. code-block:: javascript
 
     {
-        status: 401,
-        error: 'Authorization failure',
-        text: '${user} is not authorized to ${action}'
+        "status": 401,
+        "error": "Authorization failure",
+        "text": "${user} is not authorized to ${action}"
     }
 
 -------------------
@@ -210,7 +210,7 @@ another user.
 -------------------
 
 This error is returned when a GET, POST, DELETE, etc. request is sent to an
-object and is rejected. It's used mainly in the instances when a user tries to
+object and is rejected. It"s used mainly in the instances when a user tries to
 delete something they are not supposed to. For example, a user may attempt to
 delete a project that has associated times.
 
@@ -220,9 +220,9 @@ in the HTTP Allow header.
 .. code-block:: javascript
 
     {
-        status: 405,
-        error: 'Method Not Allowed',
-        text: 'The method specified is not allowed for the ${objectType} identified'
+        "status": 405,
+        "error": "Method Not Allowed",
+        "text": "The method specified is not allowed for the ${objectType} identified"
     }
 
 -------------------
@@ -239,7 +239,7 @@ an extra query parameter is used (nonexistent keys are ignored).
 .. code-block:: javascript
 
     {
-      status: 400,
-      error: 'Bad Query Value',
-      text: 'Parameter ${key} contained invalid value ${value}'
+      "status": 400,
+      "error": "Bad Query Value",
+      "text": "Parameter ${key} contained invalid value ${value}"
     }
