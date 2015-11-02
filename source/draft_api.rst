@@ -8,6 +8,13 @@ Below are the API specs for the TimeSync project.
 
 .. contents::
 
+.. note::
+
+    Variables are indicated with the ``:variable_name`` syntax
+    ([colon][variable name]). If you see something like ``:time`` or ``:slug``
+    being referenced it is not the literal string ':slug' and ':time' but a
+    variable.
+
 ----------
 
 Connection
