@@ -726,17 +726,27 @@ The following content is checked by the API for validity:
 DELETE Endpoints
 ----------------
 
-A DELETE request sent to any object's endpoint (e.g. */projects/<slug>*) will
-result in the deletion of the object from the records.
+The single object endpoints (e.g. ``/times/:uuid``, ``/projects/:slug``) support
+DELETE requests; these remove an object from the records.
 
-The object will be soft-deleted; that is, the object will still exist in the
-database, but will be unable to be accessed via a normal GET request, returning
-a 404.
+These objects must always be soft-deleted; that is, the object will still exist within the
+database. Nonetheless, requests for lists of objects (e.g. ``GET /projects``) will exclude
+the object from the results, and requests for single objects (e.g.
+``GET /times/:uuid``) will return a 404. The parameter ``?include_deleted``
+circumvents this requirement and allows deleted objects to be returned as well.
 
-Activities and projects cannot be deleted if they are referenced by a current
-(i.e. not deleted or updated) time. This will return a Request Failure.
+An object's deleted status is indicated by setting its ``deleted_at`` to the time of
+deletion; if the value is null, the object is not deleted. Only the most recent revision
+is set. In addition, activities and projects have their ``slugs`` set to null, in order
+to allow these slugs to be reused by future objects.
 
-This method returns a 200 on success with no response body.
+Unfortunately, this means that it is impossible to request or update a project or activity
+after it is deleted. Instead, a new project or activity must be made; because the original
+slugs were deleted, the new object can share any or all of the original project's values.
+
+When attempting to delete a project or activity, it must not be referenced by a current
+time (i.e. one which is neither deleted nor updated). If it is referenced by a current
+time, a Request Failure error is returned.
 
 -----------------------
 
