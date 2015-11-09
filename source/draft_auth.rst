@@ -5,15 +5,14 @@ Authorization
 =============
 
 TimeSync allows for various forms of authentication determined by the
-implementation. The general scheme an authentication module follows looks like
-this:
+implementation. The general scheme of an authentication module looks
+like this:
 
 .. code-block:: javascript
 
     {
         "auth": {
             "type": // type
-            "username": // username
             ...
         },
         "object": {
@@ -49,3 +48,27 @@ and a password field:
         },
         ...
     }
+
+This username/password combination is compared to values stored in the local
+database for authentication.
+
+LDAP Authentication
+-------------------
+
+This form is nearly identical to password-based authentication, using a username
+and password:
+
+.. code-block:: javascript
+
+    {
+        "auth": {
+            "type": "ldap",
+            "username": "tschuy",
+            "password": "password"
+        },
+        ...
+    }
+
+Instead of comparing the username/password combination to values in a local
+database, however, it provides it to a configured LDAP provider for
+authentication.
