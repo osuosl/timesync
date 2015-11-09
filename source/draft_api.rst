@@ -737,7 +737,7 @@ circumvents this requirement and allows deleted objects to be returned as well.
 
 An object's deleted status is indicated by setting its ``deleted_at`` to the time of
 deletion; if the value is null, the object is not deleted. Only the most recent revision
-is set. In addition, activities and projects have their ``slugs`` set to null, in order
+is set. In addition, activities and projects have their ``slugs`` removed, in order
 to allow these slugs to be reused by future objects.
 
 Unfortunately, this means that it is impossible to request or update a project or activity
