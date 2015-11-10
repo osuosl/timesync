@@ -135,6 +135,9 @@ Response:
       "deleted_at": null
     }
 
+API tokens have a life of 30 minutes, and must be used on the same timesync instance
+as they are created.
+
 Password authentication
 -----------------------
 
