@@ -835,12 +835,12 @@ Reference Table
 =================== ======================= ======================= ===========
 Parameter           Value(s)                Endpoint(s)             Request(s)
 =================== ======================= ======================= ===========
-user                :username               /times                  GET
-project             :projectslug            /times                  GET
-activity            :activityslug           /times                  GET
-start               :date (iso format)      /times                  GET
-end                 :date (iso format)      /times                  GET
-revisions           :bool                   - /times                GET
+?user=              :username               /times                  GET
+?project=           :projectslug            /times                  GET
+?activity=          :activityslug           /times                  GET
+?start=             :date (iso format)      /times                  GET
+?end=               :date (iso format)      /times                  GET
+?revisions=         :bool                   - /times                GET
                                             - /times/:uuid
                                             - /activities/
                                             - /activities/:slug
