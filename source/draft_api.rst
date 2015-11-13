@@ -115,8 +115,8 @@ object revisions).**
 GET Endpoints
 -------------
 
-*GET /projects*
-~~~~~~~~~~~~~~~
+GET /projects
+~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -134,8 +134,8 @@ GET Endpoints
       {...}
     ]
 
-*GET /projects/:slug*
-~~~~~~~~~~~~~~~~~~~~~
+GET /projects/:slug
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -150,8 +150,8 @@ GET Endpoints
       "updated_at": "2014-07-20"
     }
 
-*GET /activities*
-~~~~~~~~~~~~~~~~~
+GET /activities
+~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -168,8 +168,8 @@ GET Endpoints
       {...}
     ]
 
-*GET /activities/:slug*
-~~~~~~~~~~~~~~~~~~~~~~~
+GET /activities/:slug
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -183,8 +183,8 @@ GET Endpoints
       "updated_at": null
     }
 
-*GET /times*
-~~~~~~~~~~~~
+GET /times
+~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -206,8 +206,8 @@ GET Endpoints
       {...}
     ]
 
-*GET /times/:time-entry-uuid*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /times/:time-entry-uuid
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -231,68 +231,135 @@ GET Endpoints
 GET Request Query Parameters
 ----------------------------
 
+TimeSync's response data can be narrowed even further than the /:endpoints
+return statements by adding parameters.
+
+==== ======= ======== ========== ================ ===============
+user project activity date range object revisions deleted objects
+==== ======= ======== ========== ================ ===============
+
+Reference Table
+~~~~~~~~~~~~~~~
+
+=================== ======================= =======================
+Parameter           Value(s)                Endpoint(s)
+=================== ======================= =======================
+?user=              :username               /times
+?project=           :projectslug            /times
+?activity=          :activityslug           /times
+?start=             :date (iso format)      /times
+?end=               :date (iso format)      /times
+?revisions=         :bool                   - /times
+                                            - /times/:uuid
+                                            - /activities/
+                                            - /activities/:slug
+                                            - /projects/
+                                            - /projects/:slug
+include_deleted     :bool                   - /times
+                                            - /times/:uuid
+                                            - /activities
+                                            - /projects
+=================== ======================= =======================
+
+?user=:username
+~~~~~~~~~~~~~~~
+
+``/times?user=:username``
+    Fitlers results to a set of time submitted entries by a specified user.
+
+?project=:projectslug
+~~~~~~~~~~~~~~~~~~~~~
+
+``/times?project=:projectslug``
+    Filters results to a set of time entries of a specified project slug.
+
+?activity=:activityslug
+~~~~~~~~~~~~~~~~~~~~~~~
+
+``/times?activity=:activityslug``
+    Filters results to a set of time entries with a specfied activity slug.
+
+?start=:date
+~~~~~~~~~~~~
+
+``/times?start=:date``
+    Filters results to a set of time entries after a specified date.
+
+``/times?end=:date&start=:date``
+    Can be combined with ?end to create a date range.
+
+?end=:date
+~~~~~~~~~~
+
+``/times?end=:date``
+    Filters results to a set of time entries before a specified date.
+
+``/times?start=:date&end=:date``
+    Can be combined with ?start to create a date range.
+
+?include_revisions=:bool
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+``/times?include_revisions=:bool``
+    * Adds the 'parents' field to the specified object.
+    * This field is a list of all previous revisions of the object in
+      descending order by revision number (i.e. ``time.parents[0]`` will be the
+      previous revision, and ``time.parents[n-1]`` will be the first revision).
+    * Without this field the object(s) do not include a 'parents' field and so
+      only the most recent revision of the object will be seen.
+
+?include_deleted=:bool
+~~~~~~~~~~~~~~~~~~~~~~
+
+Includes deleted entries in the returned results.
+    These are objects which have the 'deleted_at' parameter set to an ISO date
+    (i.e., a non-null value).
+
 In addition to the path parameters to request a single object instead of a list,
 the endpoints support several query parameters (i.e. those following a query,
 "?", at the end of the URI). Where multiple parameters are allowed on the same
 object, they may be used in conjunction or separately.
 
-Filtering Parameters
-~~~~~~~~~~~~~~~~~~~~
+Multiple Parameters Per Request
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The endpoint at ``/times`` supports several filtering parameters, used to limit
-the objects returned to only those passing certain criteria:
+When multiple parameters are used, they narrow down the result set
 
-* user
-* project
-* activity
-* date range
+.. code-block:: none
 
-These are accessed via
+    $ GET /times?user=example-user&activity=dev&token=...
+    # This will return all time entries which were entered by example-user AND
+    # which were spent doing development.
 
-* ``/times?user=:username``: Filters based on username
-* ``/times?project=:projectslug``: Filters based on project slugs
-* ``/times?activity=:activityslug``: Filters based on activity slug
-* ``/times?start=:date``: Filters to dates after and including the given date.
-* ``/times?end=:date``:  Filters to dates after and including the given date.
+When the same parameter is repeated, they expand the result set
 
-When multiple different parameters are used, they narrow down the result set
-(for example, ``/times?user=example-user&activity=dev`` will return all time
-entries which were entered by example-user AND which were spent doing
-development). When the same parameter is repeated, they expand the result set
-(for example, ``/times?activity=gwm&activity=pgd`` will return all time entries
-which were either for gwm OR pgd). Date ranges are inclusive on both ends.
+.. code-block:: none
 
-* If a query parameter is provided with a bad value (e.g. invalid slug, or date
-  not in ISO-8601 format), a Bad Query Value error is returned.
-* Any query parameter other than those specified in this document will be
-  ignored.
-* For more information about errors, check the
-  :ref:`draft_errors<draft_errors>` docs.
+    $ GET /times?activity=gwm&activity=pgd&token=...
+    # This will return all time entries which were either for gwm OR pgd.
+
+Date ranges are inclusive on both ends.
+
+Malformed or Exceptional Parameter Usage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If a query parameter is provided with a bad value (e.g. invalid slug, or date
+not in ISO-8601 format), a Bad Query Value error is returned.
+
+Any query parameter other than those specified in this document will be
+ignored.
+
+For more information about errors, check the :ref:`draft_errors<draft_errors>`
+docs.
 
 If multiple ``start`` or ``end`` parameters are provided, the first one sent is
 used. If a query parameter is not provided, it defaults to 'all values'.
 
-Retrieving All Versions of an Object (include_revisions)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Including Revisions of Objects (include_revisions)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To retrieve all versions of an object or objects, use the ``include_revisions``
-parameter. This parameter is supported on all object types, on both the list
-and singular endpoints (i.e. both ``/times`` and ``/times/:uuid``). This will
-return the most recent version described by the slug/UUID (or the set of most
-recent versions of all UUIDs), containing (or each containing) a ``parents``
-property, which is a list of all previous revisions of the object in descending
-order by revision number (i.e. ``time.parents[0]`` will be the previous
-revision, and ``time.parents[n-1]`` will be the first revision).
-
-.. note::
-
-    For more information about Query Parameters, see the `Parameters`_
-    section of this document.
-
-For example:
-
-*GET /projects/:slug?revisions=true*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /projects/:slug?include_revisions=true
+++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -322,8 +389,8 @@ For example:
       ]
     }
 
-*GET /times/:uuid?revisions=true*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /times/:uuid?include_revisions=true
++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -359,8 +426,8 @@ For example:
       ]
     }
 
-*GET /activities/:slug?revisions=true*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /activities/:slug?include_revisions=true
+++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -386,7 +453,8 @@ For example:
       ]
     }
 
-``GET /activities?revisions=true``:
+GET /activities?include_revisions=true
+++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -444,12 +512,14 @@ with the ``?include_deleted`` parameter set to true. Doing so will return all
 objects matching the query, both current and deleted.
 
 .. note::
+
     When passing the ``include_deleted`` parameter to your request, note that
     you cannot specify a project/activity by their slug. This is because slugs
     are permanently deleted from activities and projects when they are deleted,
     in order to allow slug re-use.
 
-``GET /projects?include_deleted=true``:
+GET /projects?include_deleted=true
+++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -478,8 +548,8 @@ objects matching the query, both current and deleted.
       }
     ]
 
-*GET /activities?include_deleted=true*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /activities?include_deleted=true
+++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -514,8 +584,8 @@ POST Endpoints
 To add a new object, POST to */:object-name/* with a JSON body. The response
 body will contain the object in the same manner as the GET endpoints above.
 
-*POST /projects/*
-~~~~~~~~~~~~~~~~~
+POST /projects/
+~~~~~~~~~~~~~~~
 
 Request body:
 
@@ -542,12 +612,13 @@ Response body:
        "revision":1
     }
 
-Note that this endpoint, when called, will automatically set the currently authenticated
-user as a member, spectator, and manager of the project, allowing them to update and
-delete the project, add members to it, and promote/demote user roles on the project.
+Note that this endpoint, when called, will automatically set the currently
+authenticated user as a member, spectator, and manager of the project, allowing
+them to update and delete the project, add members to it, and promote/demote
+user roles on the project.
 
-*POST /activities/*
-~~~~~~~~~~~~~~~~~~~
+POST /activities/
+~~~~~~~~~~~~~~~~~
 
 Request body:
 
@@ -573,8 +644,8 @@ Response body:
     }
 
 
-*POST /times/*
-~~~~~~~~~~~~~~
+POST /times/
+~~~~~~~~~~~~
 
 Request body:
 
@@ -615,8 +686,8 @@ body.  The object only needs to contain the part that is being updated. The
 response body will contain the saved object, as shown above.
 
 
-*POST /projects/:slug*
-~~~~~~~~~~~~~~~~~~~~~~
+POST /projects/:slug
+~~~~~~~~~~~~~~~~~~~~
 
 Request body:
 
@@ -649,8 +720,8 @@ docs<draft_model>`), the value will be set to the empty string/array. If a
 value of null or undefined is provided, the current value of the object will be
 used.
 
-*POST /activities/:slug*
-~~~~~~~~~~~~~~~~~~~~~~~~
+POST /activities/:slug
+~~~~~~~~~~~~~~~~~~~~~~
 
 Request body:
 
@@ -674,8 +745,8 @@ Response body:
       "revision":2
     }
 
-*POST /times/:uuid*
-~~~~~~~~~~~~~~~~~~~~
+POST /times/:uuid
+~~~~~~~~~~~~~~~~~
 
 Original object:
 
@@ -805,14 +876,14 @@ may have multiple members, spectators, and managers.
 If a user attempts to access an endpoint which they are not authorized for, the
 server will return an Authorization Failure.
 
-*GET Endpoints*
-~~~~~~~~~~~~~~~
+GET Endpoints
+~~~~~~~~~~~~~
 
 GET endpoints do not have authorization at this time, and so any user can
 request data from a GET endpoint.
 
-*POST and DELETE Endpoints*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+POST and DELETE Endpoints
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 POST /activities, POST /activities/:slug, and DELETE /activities/:slug are all
 only accessible to admin users.
@@ -822,77 +893,3 @@ POST /projects/:slug is accessible to that project's manager(s).
 
 POST /times is accessible to that project's member(s), given that the 'user'
 field of the posted time is the user authenticating.
-
-Parameters
-----------
-
-TimeSync's response data can be narrowed even further than the /:endpoints
-return statements by adding parameters.
-
-Reference Table
-~~~~~~~~~~~~~~~
-
-=================== ======================= ======================= ===========
-Parameter           Value(s)                Endpoint(s)             Request(s)
-=================== ======================= ======================= ===========
-?user=              :username               /times                  GET
-?project=           :projectslug            /times                  GET
-?activity=          :activityslug           /times                  GET
-?start=             :date (iso format)      /times                  GET
-?end=               :date (iso format)      /times                  GET
-?revisions=         :bool                   - /times                GET
-                                            - /times/:uuid
-                                            - /activities/
-                                            - /activities/:slug
-                                            - /projects/
-                                            - /projects/:slug
-include_deleted     :bool                   - /times                GET
-                                            - /times/:uuid
-                                            - /activities
-                                            - /projects
-=================== ======================= ======================= ===========
-
-?user=:username
-~~~~~~~~~~~~~~~
-
-Returns a set of time entries by a specified user.
-
-?project=:projectslug
-~~~~~~~~~~~~~~~~~~~~~
-
-Returns a set of time entries for a specified project.
-
-?activity=:activityslug
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Returns a set of time entries for a specfied activity.
-
-?start=:date
-~~~~~~~~~~~~
-
-Returns a set of time entries after a specific date.
-
-Can be combined with ?end to create a date range.
-
-?end=:date
-~~~~~~~~~~
-
-Returns a set of time entries before a specific date.
-
-Can be combined with ?start to create a date range.
-
-?revisions=:bool
-~~~~~~~~~~~~~~~~
-
-Adds the 'parents' field to all objects specified.
-    This field shows the revisions of an object in chronological order.
-
-Without this field the object(s) do not include a 'parents' field and so only
-the most recent revision of the object will be seen.
-
-?include_deleted=:bool
-~~~~~~~~~~~~~~~~~~~~~~
-
-Includes deleted entries in the returned results.
-    These are objects which have the 'deleted_at' parameter set to an ISO date
-    (i.e., a non-null value).
