@@ -58,7 +58,7 @@ Slugs
 -----
 
 Slugs appear in many places in TimeSync. They are used to get objects from the
-backend, reference objects from within other objects, etc. A valid slug follows
+back-end, reference objects from within other objects, etc. A valid slug follows
 a very specific format:
 
 #) May only contain lowercase letters and numbers
@@ -96,7 +96,7 @@ Auditing History
 There are three variables in all objects that assist in an audit process
 (viewing revisions of an object through its history).
 
-* ``created_at``: the date at which a given object (specified by a uuid) was
+* ``created_at``: the date at which a given object (specified by a UUID) was
   created.
 * ``updated_at``: The date at which an object was modified (the created_at date
   of a new object revision).
@@ -265,7 +265,7 @@ include_deleted     :bool                   - /times
 ~~~~~~~~~~~~~~~
 
 ``/times?user=:username``
-    Fitlers results to a set of time submitted entries by a specified user.
+    Filters results to a set of time submitted entries by a specified user.
 
 ?project=:projectslug
 ~~~~~~~~~~~~~~~~~~~~~
@@ -277,7 +277,7 @@ include_deleted     :bool                   - /times
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 ``/times?activity=:activityslug``
-    Filters results to a set of time entries with a specfied activity slug.
+    Filters results to a set of time entries with a specified activity slug.
 
 ?start=:date
 ~~~~~~~~~~~~
@@ -851,7 +851,7 @@ time, a Request Failure error is returned.
 Authorization and Roles
 -----------------------
 
-Each timesync user can be of one of two roles: user, and admin. Admins have
+Each TimeSync user can be of one of two roles: user, and admin. Admins have
 special permissions, including adding, updating, and deleting activities and
 projects, creating and promoting users, as well as acting as automatic
 managers/spectators of all projects.
