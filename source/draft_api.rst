@@ -692,7 +692,7 @@ The response body will be:
       "activities": ["gwm", "ganeti"],
       "notes":"Initial duration was inaccurate. Date worked also updated.",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
-      "date_worked":"2015-08-07"
+      "date_worked":"2015-08-07",
       "created_at":"2014-06-12",
       "updated_at":"2015-04-18",
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
