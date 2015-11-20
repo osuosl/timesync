@@ -118,10 +118,9 @@ GET Endpoints
         "created_at": "2014-04-17",
         "deleted_at": null,
         "updated_at": "2014-04-19",
-        "revision": 2,
+        "revision": 2
       },
-      {...},
-      ...
+      {...}
     ]
 
 *GET /projects/<slug>*
@@ -137,7 +136,7 @@ GET Endpoints
       "revision": 4,
       "created_at": "2014-07-17",
       "deleted_at": null,
-      "updated_at": "2014-07-20",
+      "updated_at": "2014-07-20"
     }
 
 *GET /activities*
@@ -152,7 +151,7 @@ GET Endpoints
         "revision": 1,
         "created_at": "2014-04-17",
         "deleted_at": null,
-        "updated_at": null,
+        "updated_at": null
       },
       {...}
     ]
@@ -168,7 +167,7 @@ GET Endpoints
       "revision": 5,
       "created_at": "2014-04-17",
       "deleted_at": null,
-      "updated_at": null,
+      "updated_at": null
     }
 
 *GET /times*
@@ -188,7 +187,7 @@ GET Endpoints
         "created_at":"2014-04-17",
         "updated_at":null,
         "deleted_at": null,
-        "uuid": "c3706e79-1c9a-4765-8d7f-89b4544cad56",
+        "uuid": "c3706e79-1c9a-4765-8d7f-89b4544cad56"
       },
       {...}
     ]
@@ -208,7 +207,7 @@ GET Endpoints
       "created_at":"2014-06-12",
       "updated_at":"2014-06-13",
       "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
-      "revision": 3,
+      "revision": 3
     }
 
 ----------------------------
@@ -296,11 +295,11 @@ For example:
           "revision": 3,
           "created_at": "2015-04-16",
           "deleted_at": null,
-          "updated_at": null,
+          "updated_at": null
         },
         {...},
-        {...},
-      ],
+        {...}
+      ]
     }
 
 ``GET /times/<uuid>?revisions=true``:
@@ -321,22 +320,22 @@ For example:
       "deleted_at": null,
       "revision":2,
       "parents":
-        [
-          {
-            "duration":20,
-            "user": "example-user",
-            "project": "gwm",
-            "activities": ["doc", "research"],
-            "notes":"Worked on documentation toward settings configuration.",
-            "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
-            "date_worked":"2015-04-17",
-            "created_at":"2014-06-12",
-            "updated_at":null,
-            "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
-            "deleted_at": null,
-            "revision":1,
-          },
-        ],
+      [
+        {
+          "duration":20,
+          "user": "example-user",
+          "project": "gwm",
+          "activities": ["doc", "research"],
+          "notes":"Worked on documentation toward settings configuration.",
+          "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
+          "date_worked":"2015-04-17",
+          "created_at":"2014-06-12",
+          "updated_at":null,
+          "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+          "deleted_at": null,
+          "revision":1
+        }
+      ]
     }
 
 ``GET /activities/<slug>?revisions=true``:
@@ -352,17 +351,17 @@ For example:
       "updated_at": "2014-04-18",
       "revision":2,
       "parents":
-        [
-          {
-            "name":"Testing Infrastructure",
-            "slugs":["testing", "tests"],
-            "created_at": "2014-04-17",
-            "deleted_at": null,
-            "updated_at": null,
-            "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-            "revision":1,
-          }
-        ]
+      [
+        {
+          "name":"Testing Infrastructure",
+          "slugs":["testing", "tests"],
+          "created_at": "2014-04-17",
+          "deleted_at": null,
+          "updated_at": null,
+          "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
+          "revision":1
+        }
+      ]
     }
 
 ``GET /activities?revisions=true``:
@@ -379,17 +378,17 @@ For example:
         "updated_at": "2014-04-18",
         "revision":2,
         "parents":
-          [
-            {
-              "name":"Testing Infrastructure",
-              "slugs":["testing", "tests"],
-              "created_at": "2014-04-17",
-              "deleted_at": null,
-              "updated_at": null,
-              "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-              "revision":1,
-            }
-          ]
+        [
+          {
+            "name":"Testing Infrastructure",
+            "slugs":["testing", "tests"],
+            "created_at": "2014-04-17",
+            "deleted_at": null,
+            "updated_at": null,
+            "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
+            "revision":1
+          }
+        ]
       },
       {
         "name":"Build Infra",
@@ -400,18 +399,18 @@ For example:
         "updated_at": "2014-04-23",
         "revision":2,
         "parents":
-          [
-            {
-              "name":"Testing Infrastructure",
-              "slugs":["testing", "tests"],
-              "created_at": "2014-04-17",
-              "deleted_at": null,
-              "updated_at": null,
-              "uuid": "e81e45ef-e7a7-4da2-88cd-9ede610c5896",
-              "revision":1,
-            }
-          ]
-      },
+        [
+          {
+            "name":"Testing Infrastructure",
+            "slugs":["testing", "tests"],
+            "created_at": "2014-04-17",
+            "deleted_at": null,
+            "updated_at": null,
+            "uuid": "e81e45ef-e7a7-4da2-88cd-9ede610c5896",
+            "revision":1
+          }
+        ]
+      }
     ]
 
 Retrieving Deleted Objects (include_deleted)
@@ -442,7 +441,7 @@ objects matching the query, both current and deleted.
         "revision": 4,
         "created_at": "2014-04-17",
         "deleted_at": null,
-        "updated_at": null,
+        "updated_at": null
       },
       {...},
       {...},
@@ -455,8 +454,8 @@ objects matching the query, both current and deleted.
         "revision": 1,
         "created_at": "2014-04-17",
         "deleted_at": "2015-10-01",
-        "updated_at": null,
-      },
+        "updated_at": null
+      }
     ]
 
 ``GET /activities?include_deleted=true``:
@@ -471,7 +470,7 @@ objects matching the query, both current and deleted.
         "revision": 5,
         "created_at": "2014-04-17",
         "deleted_at": null,
-        "updated_at": null,
+        "updated_at": null
       },
       {...},
       {...},
@@ -482,8 +481,8 @@ objects matching the query, both current and deleted.
         "revision": 1,
         "created_at": "2014-04-17",
         "deleted_at": "2015-05-01",
-        "updated_at": null,
-      },
+        "updated_at": null
+      }
     ]
 
 --------------
@@ -521,7 +520,7 @@ Response body:
        "created_at":"2014-04-17",
        "updated_at":null,
        "deleted_at":null,
-       "revision":1,
+       "revision":1
     }
 
 *POST /activities/*
@@ -547,7 +546,7 @@ Response body:
        "created_at": "2014-04-17",
        "updated_at": null,
        "deleted_at": null,
-       "revision":2,
+       "revision":2
     }
 
 
@@ -565,7 +564,7 @@ Request body:
       "activities": ["documenting"],
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
-      "date_worked":"2014-04-17",
+      "date_worked":"2014-04-17"
     }
 
 Response body:
@@ -584,8 +583,8 @@ Response body:
       "updated_at": null,
       "deleted_at": null,
       "uuid": "838853e3-3635-4076-a26f-7efe4e60981f",
-      "revision":1,
-    },
+      "revision":1
+    }
 
 Likewise, if you'd like to edit an existing object, POST to ``/<object
 name>/<slug>`` (or for time objects, ``/times/<uuid>``) with a JSON body.  The
@@ -620,7 +619,7 @@ Response body:
       "updated_at": "2014-04-18",
       "deleted_at": null,
       "uuid": "309eae69-21dc-4538-9fdc-e6892a9c4dd4",
-      "revision":2,
+      "revision":2
     }
 
 If a value of ``""`` (an empty string) or ``[]`` (an empty array) are passed as
@@ -651,7 +650,7 @@ Response body:
       "created_at": "2014-04-16",
       "updated_at": "2014-04-17",
       "deleted_at": null,
-      "revision":2,
+      "revision":2
     }
 
 *POST /times/<uuid>*
@@ -697,7 +696,7 @@ The response body will be:
       "created_at":2014-06-12,
       "updated_at":2015-04-18,
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
-      "revision":2,
+      "revision":2
     }
 
 If a slugs field is passed to `/project/<slug>`, it is assumed to overwrite the
