@@ -559,7 +559,7 @@ Request body:
       "project": "ganeti_web_manager",
       "activities": ["docs"],
       "notes":"Worked on documentation toward settings configuration.",
-      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/56",
       "date_worked":"2014-04-17"
     }
 
@@ -606,7 +606,7 @@ Response body:
 .. code-block:: javascript
 
     {
-      "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
+      "uri":"https://code.osuosl.org/projects/timesync",
       "name":"Ganeti Webmgr",
       "slugs":["webmgr", "gwm"],
       "created_at": "2014-04-16",
@@ -661,7 +661,7 @@ Original object:
       "activities": ["qa"],
       "project": ["gwm", "ganeti"],
       "notes":"",
-      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
       "date_worked":"2015-07-29"
     }
 
@@ -685,7 +685,7 @@ The response body will be:
       "activities": ["qa"],
       "project": ["gwm", "ganeti"],
       "notes":"Initial duration was inaccurate. Date worked also updated.",
-      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
       "date_worked":"2015-08-07",
       "created_at":"2014-06-12",
       "updated_at":"2015-04-18",
