@@ -556,7 +556,7 @@ Request body:
     {
       "duration":12,
       "user": "example-2",
-      "project": "ganet_web_manager",
+      "project": "ganeti_web_manager",
       "activities": ["docs"],
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
@@ -570,7 +570,7 @@ Response body:
     {
       "duration":12,
       "user": "example-2",
-      "project": "ganet_web_manager",
+      "project": "ganeti_web_manager",
       "activities": ["docs"],
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
