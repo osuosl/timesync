@@ -607,8 +607,8 @@ Response body:
 
     {
       "uri":"https://code.osuosl.org/projects/timesync",
-      "name":"Ganeti Webmgr",
-      "slugs":["webmgr", "gwm"],
+      "name":"TimeSync API",
+      "slugs":["timesync", "time"],
       "created_at": "2014-04-16",
       "updated_at": "2014-04-18",
       "deleted_at": null,
