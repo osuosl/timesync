@@ -113,7 +113,6 @@ GET Endpoints
         "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
         "name":"Ganeti Web Manager",
         "slugs":["gwm", "ganeti"],
-        "owner": "example-user",
         "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
         "created_at": "2014-04-17",
         "deleted_at": null,
@@ -131,7 +130,6 @@ GET Endpoints
       "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
       "name":"Ganeti Web Manager",
       "slugs":["ganeti", "gwm"],
-      "owner": "example-user",
       "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
       "revision": 4,
       "created_at": "2014-07-17",
@@ -278,7 +276,6 @@ For example:
       "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
       "name":"Ganeti Web Manager",
       "slugs":["ganeti", "gwm"],
-      "owner": "example-user",
       "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
       "revision": 4,
       "created_at": "2015-04-16",
@@ -290,7 +287,6 @@ For example:
           "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
           "name":"Ganeti Web Manager",
           "slugs":["ganeti", "gwm"],
-          "owner": "example-user",
           "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
           "revision": 3,
           "created_at": "2015-04-16",
@@ -436,7 +432,6 @@ objects matching the query, both current and deleted.
         "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
         "name":"Ganeti Web Manager",
         "slugs":["ganeti", "gwm"],
-        "owner": "example-user",
         "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
         "revision": 4,
         "created_at": "2014-04-17",
@@ -449,7 +444,6 @@ objects matching the query, both current and deleted.
         "uri":"https:://github.com/osuosl/timesync",
         "name":"Timesync",
         "slugs":["ts", "timesync"],
-        "owner": "example-user",
         "uuid": "1f8788bd-0909-4397-be2c-79047f90c575",
         "revision": 1,
         "created_at": "2014-04-17",
@@ -503,8 +497,7 @@ Request body:
     {
        "uri":"https://code.osuosl.org/projects/timesync",
        "name":"TimeSync API",
-       "slugs":["timesync", "time"],
-       "owner": "example-2"
+       "slugs":["timesync", "time"]
     }
 
 Response body:
@@ -515,13 +508,16 @@ Response body:
        "uri":"https://code.osuosl.org/projects/timesync",
        "name":"TimeSync API",
        "slugs":["timesync", "time"],
-       "owner":"example-2",
        "uuid":"b35f9531-517f-47bd-aab4-14298bb19555",
        "created_at":"2014-04-17",
        "updated_at":null,
        "deleted_at":null,
        "revision":1
     }
+
+Note that this endpoint, when called, will automatically set the currently authenticated
+user as a member, spectator, and manager of the project, allowing them to update and
+delete the project, add members to it, and promote/demote user roles on the project.
 
 *POST /activities/*
 ~~~~~~~~~~~~~~~~~~~
@@ -602,8 +598,7 @@ Request body:
     {
        "uri":"https://code.osuosl.org/projects/timesync",
        "name":"TimeSync API",
-       "slugs":["timesync", "time"],
-       "owner": "example-2"
+       "slugs":["timesync", "time"]
     }
 
 Response body:
@@ -614,7 +609,6 @@ Response body:
       "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
       "name":"Ganeti Webmgr",
       "slugs":["webmgr", "gwm"],
-      "owner": "example-user",
       "created_at": "2014-04-16",
       "updated_at": "2014-04-18",
       "deleted_at": null,

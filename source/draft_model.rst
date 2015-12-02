@@ -57,14 +57,13 @@ notes        string           false          Other notes the user wishes to prov
 Projects
 --------
 
-=====  ==============   =============  =============================  ========================================
-Name        Type        POST Required           Description                             Notes
-=====  ==============   =============  =============================  ========================================
+=====  ==============   =============  =============================  =============================
+Name        Type        POST Required           Description                       Notes
+=====  ==============   =============  =============================  =============================
 name   string           true           The name of the project
 slugs  array of slugs   true           Slugs to identify the project  Must be unique to the project
 uri    URI              false          The URI of the project
-owner  username         true           The owner of the project       Automatically granted ``manager`` rights
-=====  ==============   =============  =============================  ========================================
+=====  ==============   =============  =============================  =============================
 
 ----------
 
