@@ -204,6 +204,7 @@ GET Endpoints
       "date_worked":"2014-06-12",
       "created_at":"2014-06-12",
       "updated_at":"2014-06-13",
+      "deleted_at":null,
       "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
       "revision": 3
     }
@@ -662,7 +663,12 @@ Original object:
       "project": ["gwm", "ganeti"],
       "notes":"",
       "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
-      "date_worked":"2015-07-29"
+      "date_worked":"2015-07-29",
+      "created_at":"2014-06-12",
+      "updated_at":null,
+      "deleted_at":null,
+      "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+      "revision":1
     }
 
 Request body:
@@ -688,7 +694,8 @@ The response body will be:
       "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
       "date_worked":"2015-08-07",
       "created_at":"2014-06-12",
-      "updated_at":"2015-04-18",
+      "updated_at":"2015-10-18",
+      "deleted_at":null,
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
       "revision":2
     }
