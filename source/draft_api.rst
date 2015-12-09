@@ -204,6 +204,7 @@ GET Endpoints
       "date_worked":"2014-06-12",
       "created_at":"2014-06-12",
       "updated_at":"2014-06-13",
+      "deleted_at":null,
       "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
       "revision": 3
     }
@@ -340,7 +341,7 @@ For example:
 
     {
       "name":"Testing Infra",
-      "slugs":["testing", "test"],
+      "slug":"test",
       "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
       "created_at": "2014-04-17",
       "deleted_at": null,
@@ -377,7 +378,7 @@ For example:
         [
           {
             "name":"Testing Infrastructure",
-            "slugs":["testing", "tests"],
+            "slug":"tests",
             "created_at": "2014-04-17",
             "deleted_at": null,
             "updated_at": null,
@@ -398,7 +399,7 @@ For example:
         [
           {
             "name":"Testing Infrastructure",
-            "slugs":["testing", "tests"],
+            "slug":"tests",
             "created_at": "2014-04-17",
             "deleted_at": null,
             "updated_at": null,
@@ -459,7 +460,7 @@ objects matching the query, both current and deleted.
     [
       {
         "name":"Documentation",
-        "slugs":["docs", "doc"],
+        "slug":"doc",
         "uuid": "adf036f5-3d49-4a84-bef9-062b46380bbf",
         "revision": 5,
         "created_at": "2014-04-17",
@@ -528,7 +529,7 @@ Request body:
 
     {
        "name":"Quality Assurance/Testing",
-       "slugs":["qa", "test"]
+       "slug":"qa"
     }
 
 Response body:
@@ -537,7 +538,7 @@ Response body:
 
     {
        "name":"Quality Assurance/Testing",
-       "slugs":["qa", "test"],
+       "slug":"qa",
        "uuid": "cfa07a4f-d446-4078-8d73-2f77560c35c0",
        "created_at": "2014-04-17",
        "updated_at": null,
@@ -556,10 +557,10 @@ Request body:
     {
       "duration":12,
       "user": "example-2",
-      "project": "ganet_web_manager",
-      "activities": ["documenting"],
+      "project": "ganeti_web_manager",
+      "activities": ["docs"],
       "notes":"Worked on documentation toward settings configuration.",
-      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/56",
       "date_worked":"2014-04-17"
     }
 
@@ -570,8 +571,8 @@ Response body:
     {
       "duration":12,
       "user": "example-2",
-      "project": "ganet_web_manager",
-      "activities": ["documenting"],
+      "project": "ganeti_web_manager",
+      "activities": ["docs"],
       "notes":"Worked on documentation toward settings configuration.",
       "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
       "date_worked":"2014-04-17",
@@ -606,9 +607,9 @@ Response body:
 .. code-block:: javascript
 
     {
-      "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
-      "name":"Ganeti Webmgr",
-      "slugs":["webmgr", "gwm"],
+      "uri":"https://code.osuosl.org/projects/timesync",
+      "name":"TimeSync API",
+      "slugs":["timesync", "time"],
       "created_at": "2014-04-16",
       "updated_at": "2014-04-18",
       "deleted_at": null,
@@ -630,7 +631,7 @@ Request body:
 .. code-block:: javascript
 
     {
-      "slugs":["testing", "test"]
+      "slug":"testing"
     }
 
 Response body:
@@ -639,7 +640,7 @@ Response body:
 
     {
       "name":"Testing Infra",
-      "slugs":["testing", "test"],
+      "slug":"testing",
       "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
       "created_at": "2014-04-16",
       "updated_at": "2014-04-17",
@@ -658,11 +659,16 @@ Original object:
     {
       "duration":12,
       "user": "example-2",
-      "project": "qa",
-      "activities": ["gwm", "ganeti"],
+      "activities": ["qa"],
+      "project": ["gwm", "ganeti"],
       "notes":"",
-      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
-      "date_worked":"2015-07-29"
+      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
+      "date_worked":"2015-07-29",
+      "created_at":"2014-06-12",
+      "updated_at":null,
+      "deleted_at":null,
+      "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+      "revision":1
     }
 
 Request body:
@@ -682,13 +688,14 @@ The response body will be:
     {
       "duration":18,
       "user": "example-2",
-      "project": "qa",
-      "activities": ["gwm", "ganeti"],
+      "activities": ["qa"],
+      "project": ["gwm", "ganeti"],
       "notes":"Initial duration was inaccurate. Date worked also updated.",
-      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
       "date_worked":"2015-08-07",
       "created_at":"2014-06-12",
-      "updated_at":"2015-04-18",
+      "updated_at":"2015-10-18",
+      "deleted_at":null,
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
       "revision":2
     }
