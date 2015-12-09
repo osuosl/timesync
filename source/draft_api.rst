@@ -106,7 +106,7 @@ There are three variables in all objects that assist in an audit process
   object was deleted for a given historical copy (and later un-deleted).
 
 
-**To view the audit trail of an object pass the** ``?revisions=true``
+**To view the audit trail of an object pass the** ``?include_revisions=true``
 **parameter to any endpoint and inspect the** ``parents`` **variable (a list of
 object revisions).**
 
@@ -249,13 +249,13 @@ Parameter           Value(s)                Endpoint(s)
 ?activity=          :activityslug           /times
 ?start=             :date (iso format)      /times
 ?end=               :date (iso format)      /times
-?revisions=         :bool                   - /times
+?include_revisions= :bool                   - /times
                                             - /times/:uuid
                                             - /activities/
                                             - /activities/:slug
                                             - /projects/
                                             - /projects/:slug
-include_deleted     :bool                   - /times
+?include_deleted=   :bool                   - /times
                                             - /times/:uuid
                                             - /activities
                                             - /projects
@@ -315,11 +315,6 @@ Includes deleted entries in the returned results.
     These are objects which have the 'deleted_at' parameter set to an ISO date
     (i.e., a non-null value).
 
-In addition to the path parameters to request a single object instead of a list,
-the endpoints support several query parameters (i.e. those following a query,
-"?", at the end of the URI). Where multiple parameters are allowed on the same
-object, they may be used in conjunction or separately.
-
 Multiple Parameters Per Request
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -335,7 +330,7 @@ When the same parameter is repeated, they expand the result set
 
 .. code-block:: none
 
-    $ GET /times?activity=gwm&activity=pgd&token=...
+    $ GET /times?project=gwm&project=pgd&token=...
     # This will return all time entries which were either for gwm OR pgd.
 
 Date ranges are inclusive on both ends.
@@ -377,7 +372,6 @@ GET /projects/:slug?include_revisions=true
         {
           "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
           "name":"Ganeti Web Manager",
-          "slugs":["ganeti", "gwm"],
           "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
           "revision": 3,
           "created_at": "2015-04-16",
@@ -440,17 +434,16 @@ GET /activities/:slug?include_revisions=true
       "updated_at": "2014-04-18",
       "revision":2,
       "parents":
-      [
-        {
-          "name":"Testing Infrastructure",
-          "slugs":["testing", "tests"],
-          "created_at": "2014-04-17",
-          "deleted_at": null,
-          "updated_at": null,
-          "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-          "revision":1
-        }
-      ]
+        [
+          {
+            "name":"Testing Infrastructure",
+            "created_at": "2014-04-17",
+            "deleted_at": null,
+            "updated_at": null,
+            "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
+            "revision":1,
+          }
+        ]
     }
 
 GET /activities?include_revisions=true
@@ -468,17 +461,16 @@ GET /activities?include_revisions=true
         "updated_at": "2014-04-18",
         "revision":2,
         "parents":
-        [
-          {
-            "name":"Testing Infrastructure",
-            "slug":"tests",
-            "created_at": "2014-04-17",
-            "deleted_at": null,
-            "updated_at": null,
-            "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-            "revision":1
-          }
-        ]
+          [
+            {
+              "name":"Testing Infrastructure",
+              "created_at": "2014-04-17",
+              "deleted_at": null,
+              "updated_at": null,
+              "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
+              "revision":1,
+            }
+          ]
       },
       {
         "name":"Build Infra",
@@ -489,18 +481,17 @@ GET /activities?include_revisions=true
         "updated_at": "2014-04-23",
         "revision":2,
         "parents":
-        [
-          {
-            "name":"Testing Infrastructure",
-            "slug":"tests",
-            "created_at": "2014-04-17",
-            "deleted_at": null,
-            "updated_at": null,
-            "uuid": "e81e45ef-e7a7-4da2-88cd-9ede610c5896",
-            "revision":1
-          }
-        ]
-      }
+          [
+            {
+              "name":"Testing Infrastructure",
+              "created_at": "2014-04-17",
+              "deleted_at": null,
+              "updated_at": null,
+              "uuid": "e81e45ef-e7a7-4da2-88cd-9ede610c5896",
+              "revision":1,
+            }
+          ]
+      },
     ]
 
 Retrieving Deleted Objects (include_deleted)
@@ -815,9 +806,6 @@ The following content is checked by the API for validity:
 * Activities must exist in the database.
 * The Project must exist in the database.
 * Project slugs must not already belong to another project.
-* The owner of the request must be the user in the time submission.
-    * This is authorization not authentication.
-
 
 ----------------
 
