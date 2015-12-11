@@ -8,13 +8,20 @@ Below are the API specs for the TimeSync project.
 
 .. contents::
 
+.. note::
+
+    Variables are indicated with the ``:variable_name`` syntax
+    ([colon][variable name]). If you see something like ``:time`` or ``:slug``
+    being referenced it is not the literal string ':slug' and ':time' but a
+    variable.
+
 ----------
 
 Connection
 ----------
 
-All requests will be made via HTTPS. Available methods are ``GET`` to request
-an object, ``POST`` to create and/or edit a new object, and ``DELETE`` to
+All requests will be made via HTTPS. Available methods are GET to request
+an object, POST to create and/or edit a new object, and DELETE to
 remove an object.
 
 ------
@@ -51,7 +58,7 @@ Slugs
 -----
 
 Slugs appear in many places in TimeSync. They are used to get objects from the
-backend, reference objects from within other objects, etc. A valid slug follows
+back-end, reference objects from within other objects, etc. A valid slug follows
 a very specific format:
 
 #) May only contain lowercase letters and numbers
@@ -64,7 +71,11 @@ Revisions
 ---------
 
 When an object is first created, it is assigned a tracking ID. This is a UUID
-which will refer to all versions of the same object.
+which will refer to all versions of the same object. For example:
+
+.. code-block:: none
+
+     de305d54-75b4-431b-adb2-eb6b9e546014
 
 When an object is updated, a new revision is created. This allows one to easily
 keep track of the changes to an object over time (its *audit trail*). This
@@ -85,7 +96,7 @@ Auditing History
 There are three variables in all objects that assist in an audit process
 (viewing revisions of an object through its history).
 
-* ``created_at``: the date at which a given object (specified by a uuid) was
+* ``created_at``: the date at which a given object (specified by a UUID) was
   created.
 * ``updated_at``: The date at which an object was modified (the created_at date
   of a new object revision).
@@ -95,8 +106,8 @@ There are three variables in all objects that assist in an audit process
   object was deleted for a given historical copy (and later un-deleted).
 
 
-**To view the audit trail of an object pass the** ``?revisions=true``
-**parameter to any endpoint and inspect the 'parents' variable (a list of
+**To view the audit trail of an object pass the** ``?include_revisions=true``
+**parameter to any endpoint and inspect the** ``parents`` **variable (a list of
 object revisions).**
 
 -------------
@@ -104,7 +115,8 @@ object revisions).**
 GET Endpoints
 -------------
 
-*GET /projects*
+GET /projects
+~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -122,7 +134,8 @@ GET Endpoints
       {...}
     ]
 
-*GET /projects/<slug>*
+GET /projects/:slug
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -137,7 +150,8 @@ GET Endpoints
       "updated_at": "2014-07-20"
     }
 
-*GET /activities*
+GET /activities
+~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -154,7 +168,8 @@ GET Endpoints
       {...}
     ]
 
-*GET /activities/<slug>*
+GET /activities/:slug
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -168,7 +183,8 @@ GET Endpoints
       "updated_at": null
     }
 
-*GET /times*
+GET /times
+~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -190,7 +206,8 @@ GET Endpoints
       {...}
     ]
 
-*GET /times/<time entry uuid>*
+GET /times/:time-entry-uuid
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
@@ -214,62 +231,130 @@ GET Endpoints
 GET Request Query Parameters
 ----------------------------
 
-In addition to the path parameters to request a single object instead of a list,
-the endpoints support several query parameters (i.e. those following a query,
-"?", at the end of the URI). Where multiple parameters are allowed on the same
-object, they may be used in conjunction or separately.
+TimeSync's response data can be narrowed even further than the /:endpoints
+return statements by adding parameters.
 
-Filtering Parameters
-~~~~~~~~~~~~~~~~~~~~
+==== ======= ======== ========== ================ ===============
+user project activity date range object revisions deleted objects
+==== ======= ======== ========== ================ ===============
 
-The endpoint at ``/times`` supports several filtering parameters, used to limit
-the objects returned to only those passing certain criteria:
+Reference Table
+~~~~~~~~~~~~~~~
 
-* user
-* project
-* activity
-* date range
+=================== ======================= =======================
+Parameter           Value(s)                Endpoint(s)
+=================== ======================= =======================
+?user=              :username               /times
+?project=           :projectslug            /times
+?activity=          :activityslug           /times
+?start=             :date (iso format)      /times
+?end=               :date (iso format)      /times
+?include_revisions= :bool                   - /times
+                                            - /times/:uuid
+                                            - /activities/
+                                            - /activities/:slug
+                                            - /projects/
+                                            - /projects/:slug
+?include_deleted=   :bool                   - /times
+                                            - /times/:uuid
+                                            - /activities
+                                            - /projects
+=================== ======================= =======================
 
-These are accessed via
+?user=:username
+~~~~~~~~~~~~~~~
 
-* ``/times?user=:username``: Filters based on username
-* ``/times?project=:projectslug``: Filters based on project slugs
-* ``/times?activity=:activityslug``: Filters based on activity slug
-* ``/times?start=:date``: Filters to dates after and including the given date.
-* ``/times?end=:date``:  Filters to dates after and including the given date.
+``/times?user=:username``
+    Filters results to a set of time submitted entries by a specified user.
 
-When multiple different parameters are used, they narrow down the result set
-(for example, ``/times?user=example-user&activity=dev`` will return all time
-entries which were entered by example-user AND which were spent doing
-development). When the same parameter is repeated, they expand the result set
-(for example, ``/times?activity=gwm&activity=pgd`` will return all time entries
-which were either for gwm OR pgd). Date ranges are inclusive on both ends.
+?project=:projectslug
+~~~~~~~~~~~~~~~~~~~~~
 
-* If a query parameter is provided with a bad value (e.g. invalid slug, or date
-  not in ISO-8601 format), a Bad Query Value error is returned.
-* Any query parameter other than those specified in this document will be
-  ignored.
-* For more information about errors, check the
-  :ref:`draft_errors<draft_errors>` docs.
+``/times?project=:projectslug``
+    Filters results to a set of time entries of a specified project slug.
+
+?activity=:activityslug
+~~~~~~~~~~~~~~~~~~~~~~~
+
+``/times?activity=:activityslug``
+    Filters results to a set of time entries with a specified activity slug.
+
+?start=:date
+~~~~~~~~~~~~
+
+``/times?start=:date``
+    Filters results to a set of time entries after a specified date.
+
+``/times?end=:date&start=:date``
+    Can be combined with ?end to create a date range.
+
+?end=:date
+~~~~~~~~~~
+
+``/times?end=:date``
+    Filters results to a set of time entries before a specified date.
+
+``/times?start=:date&end=:date``
+    Can be combined with ?start to create a date range.
+
+?include_revisions=:bool
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+``/times?include_revisions=:bool``
+    * Adds the 'parents' field to the specified object.
+    * This field is a list of all previous revisions of the object in
+      descending order by revision number (i.e. ``time.parents[0]`` will be the
+      previous revision, and ``time.parents[n-1]`` will be the first revision).
+    * Without this field the object(s) do not include a 'parents' field and so
+      only the most recent revision of the object will be seen.
+
+?include_deleted=:bool
+~~~~~~~~~~~~~~~~~~~~~~
+
+Includes deleted entries in the returned results.
+    These are objects which have the 'deleted_at' parameter set to an ISO date
+    (i.e., a non-null value).
+
+Multiple Parameters Per Request
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When multiple parameters are used, they narrow down the result set
+
+.. code-block:: none
+
+    $ GET /times?user=example-user&activity=dev&token=...
+    # This will return all time entries which were entered by example-user AND
+    # which were spent doing development.
+
+When the same parameter is repeated, they expand the result set
+
+.. code-block:: none
+
+    $ GET /times?project=gwm&project=pgd&token=...
+    # This will return all time entries which were either for gwm OR pgd.
+
+Date ranges are inclusive on both ends.
+
+Malformed or Exceptional Parameter Usage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If a query parameter is provided with a bad value (e.g. invalid slug, or date
+not in ISO-8601 format), a Bad Query Value error is returned.
+
+Any query parameter other than those specified in this document will be
+ignored.
+
+For more information about errors, check the :ref:`draft_errors<draft_errors>`
+docs.
 
 If multiple ``start`` or ``end`` parameters are provided, the first one sent is
 used. If a query parameter is not provided, it defaults to 'all values'.
 
-Retrieving All Versions of an Object (include_revisions)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Including Revisions of Objects (include_revisions)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To retrieve all versions of an object or objects, use the ``include_revisions``
-parameter. This parameter is supported on all object types, on both the list
-and singular endpoints (i.e. both ``/times`` and ``/times/:uuid``). This will
-return the most recent version described by the slug/UUID (or the set of most
-recent versions of all UUIDs), containing (or each containing) a ``parents``
-property, which is a list of all previous revisions of the object in descending
-order by revision number (i.e. ``time.parents[0]`` will be the previous
-revision, and ``time.parents[n-1]`` will be the first revision).
-
-For example:
-
-``GET /projects/<slug>?revisions=true``:
+GET /projects/:slug?include_revisions=true
+++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -287,7 +372,6 @@ For example:
         {
           "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
           "name":"Ganeti Web Manager",
-          "slugs":["ganeti", "gwm"],
           "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
           "revision": 3,
           "created_at": "2015-04-16",
@@ -299,7 +383,8 @@ For example:
       ]
     }
 
-``GET /times/<uuid>?revisions=true``:
+GET /times/:uuid?include_revisions=true
++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -335,7 +420,8 @@ For example:
       ]
     }
 
-``GET /activities/<slug>?revisions=true``:
+GET /activities/:slug?include_revisions=true
+++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -348,20 +434,20 @@ For example:
       "updated_at": "2014-04-18",
       "revision":2,
       "parents":
-      [
-        {
-          "name":"Testing Infrastructure",
-          "slugs":["testing", "tests"],
-          "created_at": "2014-04-17",
-          "deleted_at": null,
-          "updated_at": null,
-          "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-          "revision":1
-        }
-      ]
+        [
+          {
+            "name":"Testing Infrastructure",
+            "created_at": "2014-04-17",
+            "deleted_at": null,
+            "updated_at": null,
+            "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
+            "revision":1,
+          }
+        ]
     }
 
-``GET /activities?revisions=true``:
+GET /activities?include_revisions=true
+++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -375,17 +461,16 @@ For example:
         "updated_at": "2014-04-18",
         "revision":2,
         "parents":
-        [
-          {
-            "name":"Testing Infrastructure",
-            "slug":"tests",
-            "created_at": "2014-04-17",
-            "deleted_at": null,
-            "updated_at": null,
-            "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-            "revision":1
-          }
-        ]
+          [
+            {
+              "name":"Testing Infrastructure",
+              "created_at": "2014-04-17",
+              "deleted_at": null,
+              "updated_at": null,
+              "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
+              "revision":1,
+            }
+          ]
       },
       {
         "name":"Build Infra",
@@ -396,18 +481,17 @@ For example:
         "updated_at": "2014-04-23",
         "revision":2,
         "parents":
-        [
-          {
-            "name":"Testing Infrastructure",
-            "slug":"tests",
-            "created_at": "2014-04-17",
-            "deleted_at": null,
-            "updated_at": null,
-            "uuid": "e81e45ef-e7a7-4da2-88cd-9ede610c5896",
-            "revision":1
-          }
-        ]
-      }
+          [
+            {
+              "name":"Testing Infrastructure",
+              "created_at": "2014-04-17",
+              "deleted_at": null,
+              "updated_at": null,
+              "uuid": "e81e45ef-e7a7-4da2-88cd-9ede610c5896",
+              "revision":1,
+            }
+          ]
+      },
     ]
 
 Retrieving Deleted Objects (include_deleted)
@@ -419,12 +503,14 @@ with the ``?include_deleted`` parameter set to true. Doing so will return all
 objects matching the query, both current and deleted.
 
 .. note::
+
     When passing the ``include_deleted`` parameter to your request, note that
     you cannot specify a project/activity by their slug. This is because slugs
     are permanently deleted from activities and projects when they are deleted,
     in order to allow slug re-use.
 
-``GET /projects?include_deleted=true``:
+GET /projects?include_deleted=true
+++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -453,7 +539,8 @@ objects matching the query, both current and deleted.
       }
     ]
 
-``GET /activities?include_deleted=true``:
+GET /activities?include_deleted=true
+++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
@@ -485,11 +572,11 @@ objects matching the query, both current and deleted.
 POST Endpoints
 --------------
 
-To add a new object, POST to */<object name>/* with a JSON body. The response
+To add a new object, POST to */:object-name/* with a JSON body. The response
 body will contain the object in the same manner as the GET endpoints above.
 
-*POST /projects/*
-~~~~~~~~~~~~~~~~~
+POST /projects/
+~~~~~~~~~~~~~~~
 
 Request body:
 
@@ -516,12 +603,13 @@ Response body:
        "revision":1
     }
 
-Note that this endpoint, when called, will automatically set the currently authenticated
-user as a member, spectator, and manager of the project, allowing them to update and
-delete the project, add members to it, and promote/demote user roles on the project.
+Note that this endpoint, when called, will automatically set the currently
+authenticated user as a member, spectator, and manager of the project, allowing
+them to update and delete the project, add members to it, and promote/demote
+user roles on the project.
 
-*POST /activities/*
-~~~~~~~~~~~~~~~~~~~
+POST /activities/
+~~~~~~~~~~~~~~~~~
 
 Request body:
 
@@ -547,8 +635,8 @@ Response body:
     }
 
 
-*POST /times/*
-~~~~~~~~~~~~~~
+POST /times/
+~~~~~~~~~~~~
 
 Request body:
 
@@ -583,14 +671,14 @@ Response body:
       "revision":1
     }
 
-Likewise, if you'd like to edit an existing object, POST to ``/<object
-name>/<slug>`` (or for time objects, ``/times/<uuid>``) with a JSON body.  The
-object only needs to contain the part that is being updated. The response body
-will contain the saved object, as shown above.
+Likewise, if you'd like to edit an existing object, POST to
+``/:object-name/:slug`` (or for time objects, ``/times/:uuid``) with a JSON
+body.  The object only needs to contain the part that is being updated. The
+response body will contain the saved object, as shown above.
 
 
-*POST /projects/<slug>*
-~~~~~~~~~~~~~~~~~~~~~~~
+POST /projects/:slug
+~~~~~~~~~~~~~~~~~~~~
 
 Request body:
 
@@ -618,15 +706,15 @@ Response body:
     }
 
 If a value of ``""`` (an empty string) or ``[]`` (an empty array) are passed as
-values for a string or array optional field (check the :ref:`model docs<draft_model>`),
-the value will be set to the empty string/array. If a value of null or undefined
-is provided, the current value of the object will be used.
+values for a string or array optional field (check the :ref:`model
+docs<draft_model>`), the value will be set to the empty string/array. If a
+value of null or undefined is provided, the current value of the object will be
+used.
 
-*POST /activities/<slug>*
-~~~~~~~~~~~~~~~~~~~~~~~~~
+POST /activities/:slug
+~~~~~~~~~~~~~~~~~~~~~~
 
 Request body:
-
 
 .. code-block:: javascript
 
@@ -648,8 +736,8 @@ Response body:
       "revision":2
     }
 
-*POST /times/<uuid>*
-~~~~~~~~~~~~~~~~~~~~
+POST /times/:uuid
+~~~~~~~~~~~~~~~~~
 
 Original object:
 
@@ -700,10 +788,11 @@ The response body will be:
       "revision":2
     }
 
-If a slugs field is passed to `/project/<slug>`, it is assumed to overwrite the
-existing slugs for the object. Any slugs which already exist on the object but
-are not in the request are dropped, and the slugs field on the request becomes
-canonical, assuming all of the slugs do not already belong to another project.
+If a slugs field is passed to ``/project/:slug``, it is assumed to overwrite
+the existing slugs for the object. Any slugs which already exist on the object
+but are not in the request are dropped, and the slugs field on the request
+becomes canonical, assuming all of the slugs do not already belong to another
+project.
 
 In the case of a foreign key (such as project on a time) that does not point to
 a valid object or a malformed object sent in the request, an Object Not Found
@@ -717,9 +806,6 @@ The following content is checked by the API for validity:
 * Activities must exist in the database.
 * The Project must exist in the database.
 * Project slugs must not already belong to another project.
-* The owner of the request must be the user in the time submission.
-    * This is authorization not authentication.
-
 
 ----------------
 
@@ -753,7 +839,7 @@ time, a Request Failure error is returned.
 Authorization and Roles
 -----------------------
 
-Each timesync user can be of one of two roles: user, and admin. Admins have
+Each TimeSync user can be of one of two roles: user, and admin. Admins have
 special permissions, including adding, updating, and deleting activities and
 projects, creating and promoting users, as well as acting as automatic
 managers/spectators of all projects.
@@ -778,14 +864,14 @@ may have multiple members, spectators, and managers.
 If a user attempts to access an endpoint which they are not authorized for, the
 server will return an Authorization Failure.
 
-*GET Endpoints*
-~~~~~~~~~~~~~~~
+GET Endpoints
+~~~~~~~~~~~~~
 
 GET endpoints do not have authorization at this time, and so any user can
 request data from a GET endpoint.
 
-*POST and DELETE Endpoints*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+POST and DELETE Endpoints
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 POST /activities, POST /activities/:slug, and DELETE /activities/:slug are all
 only accessible to admin users.
@@ -795,5 +881,3 @@ POST /projects/:slug is accessible to that project's manager(s).
 
 POST /times is accessible to that project's member(s), given that the 'user'
 field of the posted time is the user authenticating.
-
-See :ref:`the auth docs<draft_auth>` for more information on specific authentication methods.
