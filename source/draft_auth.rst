@@ -38,8 +38,8 @@ Token-based authentication
 Token-based is the primary and default authentication method for TimeSync. TimeSync
 provides an endpoint at ``/login``, which should be sent a POST request, with the body
 fitting one of the other available authentication schemes (e.g. Password, LDAP). The
-endpoint will then return a `JWT token <http://jwt.io/>`_ string as its response body. This response body
-will be used to access the other endpoints:
+endpoint will then return a `JWT token <http://jwt.io/>`_ string as its response body.
+This response body will be used to access the other endpoints:
 
 POST endpoints:
 
@@ -74,9 +74,11 @@ Response:
 
 .. code-block:: none
 
-    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0aW1lc3luYyIsInN1YiI6ImV4YW1wbGUtdXNlc
-    iIsImV4cCI6MTQ0NjQ5NzQyNzEzMywiaWF0IjoxNDQ2NDk1NTc5OTY3fQ.k8ij2cXBRs5tUe_cq2RDePCYMpFj
-    VkKqnpU11Q1XEnk
+    {
+      "auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0aW1lc3luYyIsInN1YiI6ImV4YW
+      1wbGUtdXNlciIsImV4cCI6MTQ0NjQ5NzQyNzEzMywiaWF0IjoxNDQ2NDk1NTc5OTY3fQ.k8ij2cXBRs5tUe_
+      cq2RDePCYMpFjVkKqnpU11Q1XEnk"
+    }
 
 ``POST /projects``
 
