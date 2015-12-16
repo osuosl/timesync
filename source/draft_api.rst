@@ -129,7 +129,17 @@ GET /projects
         "created_at": "2014-04-17",
         "deleted_at": null,
         "updated_at": "2014-04-19",
-        "revision": 2
+        "revision": 2,
+        "users": {
+          "members": [
+            "patcht"
+          ],
+          "spectators": [
+          ],
+          "managers": [
+            "tschuy"
+          ]
+        }
       },
       {...}
     ]
@@ -147,7 +157,17 @@ GET /projects/:slug
       "revision": 4,
       "created_at": "2014-07-17",
       "deleted_at": null,
-      "updated_at": "2014-07-20"
+      "updated_at": "2014-07-20",
+      "users": {
+        "members": [
+          "patcht"
+        ],
+        "spectators": [
+        ],
+        "managers": [
+          "tschuy"
+        ]
+      }
     }
 
 GET /activities
@@ -367,6 +387,16 @@ GET /projects/:slug?include_revisions=true
       "created_at": "2015-04-16",
       "deleted_at": null,
       "updated_at": "2015-04-17",
+      "users": {
+        "members": [
+          "patcht"
+        ],
+        "spectators": [
+        ],
+        "managers": [
+          "tschuy"
+        ]
+      },
       "parents":
       [
         {
@@ -376,7 +406,16 @@ GET /projects/:slug?include_revisions=true
           "revision": 3,
           "created_at": "2015-04-16",
           "deleted_at": null,
-          "updated_at": null
+          "updated_at": null,
+          "users": {
+            "members": [
+            ],
+            "spectators": [
+            ],
+            "managers": [
+              "tschuy"
+            ]
+          }
         },
         {...},
         {...}
@@ -402,22 +441,22 @@ GET /times/:uuid?include_revisions=true
       "deleted_at": null,
       "revision":2,
       "parents":
-      [
-        {
-          "duration":20,
-          "user": "example-user",
-          "project": "gwm",
-          "activities": ["doc", "research"],
-          "notes":"Worked on documentation toward settings configuration.",
-          "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
-          "date_worked":"2015-04-17",
-          "created_at":"2014-06-12",
-          "updated_at":null,
-          "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
-          "deleted_at": null,
-          "revision":1
-        }
-      ]
+        [
+          {
+            "duration":20,
+            "user": "example-user",
+            "project": "gwm",
+            "activities": ["doc", "research"],
+            "notes":"Worked on documentation toward settings configuration.",
+            "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
+            "date_worked":"2015-04-17",
+            "created_at":"2014-06-12",
+            "updated_at":null,
+            "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+            "deleted_at": null,
+            "revision":1
+          }
+        ]
     }
 
 GET /activities/:slug?include_revisions=true
@@ -441,7 +480,7 @@ GET /activities/:slug?include_revisions=true
             "deleted_at": null,
             "updated_at": null,
             "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-            "revision":1,
+            "revision":1
           }
         ]
     }
@@ -468,7 +507,7 @@ GET /activities?include_revisions=true
               "deleted_at": null,
               "updated_at": null,
               "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-              "revision":1,
+              "revision":1
             }
           ]
       },
@@ -488,10 +527,10 @@ GET /activities?include_revisions=true
               "deleted_at": null,
               "updated_at": null,
               "uuid": "e81e45ef-e7a7-4da2-88cd-9ede610c5896",
-              "revision":1,
+              "revision":1
             }
           ]
-      },
+      }
     ]
 
 Retrieving Deleted Objects (include_deleted)
@@ -585,7 +624,18 @@ Request body:
     {
        "uri":"https://code.osuosl.org/projects/timesync",
        "name":"TimeSync API",
-       "slugs":["timesync", "time"]
+       "slugs":["timesync", "time"],
+       "owner": "example-2",
+       "users": {
+         "members": [
+           "patcht"
+         ],
+         "spectators": [
+         ],
+         "managers": [
+           "tschuy"
+         ]
+       }
     }
 
 Response body:
@@ -600,7 +650,17 @@ Response body:
        "created_at":"2014-04-17",
        "updated_at":null,
        "deleted_at":null,
-       "revision":1
+       "revision":1,
+       "users": {
+         "members": [
+           "patcht"
+         ],
+         "spectators": [
+         ],
+         "managers": [
+           "tschuy"
+         ]
+       }
     }
 
 Note that this endpoint, when called, will automatically set the currently
@@ -648,7 +708,7 @@ Request body:
       "project": "ganeti_web_manager",
       "activities": ["docs"],
       "notes":"Worked on documentation toward settings configuration.",
-      "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/56",
+      "issue_uri":"https://github.com/osu-cass/whats-fresh-api/issues/56",
       "date_worked":"2014-04-17"
     }
 
@@ -702,14 +762,23 @@ Response body:
       "updated_at": "2014-04-18",
       "deleted_at": null,
       "uuid": "309eae69-21dc-4538-9fdc-e6892a9c4dd4",
-      "revision":2
+      "revision":2,
+      "users": {
+        "members": [
+          "patcht"
+        ],
+        "spectators": [
+        ],
+        "managers": [
+          "tschuy"
+        ]
+      }
     }
 
 If a value of ``""`` (an empty string) or ``[]`` (an empty array) are passed as
-values for a string or array optional field (check the :ref:`model
-docs<draft_model>`), the value will be set to the empty string/array. If a
-value of null or undefined is provided, the current value of the object will be
-used.
+values for a string or array optional field (check the :ref:`model docs<draft_model>`),
+the value will be set to the empty string/array. If a value of undefined is provided (i.e.
+the value is not provided), the current value of the object will be used.
 
 POST /activities/:slug
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -815,6 +884,9 @@ DELETE Endpoints
 The single object endpoints (e.g. ``/times/:uuid``, ``/projects/:slug``) support
 DELETE requests; these remove an object from the records.
 
+If the object is successfully deleted, an empty response body is sent, with a 200 OK
+status. If the deletion fails for any reason, an error object is returned.
+
 These objects must always be soft-deleted; that is, the object will still exist within the
 database. Nonetheless, requests for lists of objects (e.g. ``GET /projects``) will exclude
 the object from the results, and requests for single objects (e.g.
@@ -827,8 +899,9 @@ is set. In addition, activities and projects have their ``slugs`` removed, in or
 to allow these slugs to be reused by future objects.
 
 Unfortunately, this means that it is impossible to request or update a project or activity
-after it is deleted. Instead, a new project or activity must be made; because the original
-slugs were deleted, the new object can share any or all of the original project's values.
+after it is deleted, even using the ``?include_deleted`` parameter. Instead, a new project
+or activity must be made; because the original slugs were deleted, the new object can
+share any or all of the original project's values.
 
 When attempting to delete a project or activity, it must not be referenced by a current
 time (i.e. one which is neither deleted nor updated). If it is referenced by a current
