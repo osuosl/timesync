@@ -75,9 +75,9 @@ Response:
 .. code-block:: none
 
     {
-      "auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0aW1lc3luYyIsInN1YiI6ImV4YW
-      1wbGUtdXNlciIsImV4cCI6MTQ0NjQ5NzQyNzEzMywiaWF0IjoxNDQ2NDk1NTc5OTY3fQ.k8ij2cXBRs5tUe_
-      cq2RDePCYMpFjVkKqnpU11Q1XEnk"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0aW1lc3luYyIsInN1YiI6ImV4Y
+      W1wbGUtdXNlciIsImV4cCI6MTQ0NjQ5NzQyNzEzMywiaWF0IjoxNDQ2NDk1NTc5OTY3fQ.k8ij2cXBRs5tUe
+      _cq2RDePCYMpFjVkKqnpU11Q1XEnk"
     }
 
 ``POST /projects``
