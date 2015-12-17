@@ -15,18 +15,18 @@ Users Model
 
 For reference of the structure of this table, see the :ref:`draft_model<draft_model>` docs.
 
-===========  ========  =============  ==============================  =============================================
-   Name        Type    POST Required           Description                                Notes
-===========  ========  =============  ==============================  =============================================
-username     string        true       Username the user logs in with  Used for display if displayname is null
-password     string        true       Password for user login         Stored as bcrypt hash; not returned on get
-displayname  string        false      Name used for public display
-active       boolean       false      Whether user is can log in      Used by admins to invalidate users
-admin        boolean       false      Whether user has admin rights   Can only be set by another admin
-email        string        false      Email address of user
-created_at   ISO date      false      The date the user was created   Automatically set by the server, unchangeable
-deleted_at   ISO date      false      The date the user was deleted   Automatically set by the server upon delete
-===========  ========  =============  ==============================  =============================================
+============  ========  =============  ==============================  =============================================
+    Name        Type    POST Required           Description                                Notes
+============  ========  =============  ==============================  =============================================
+username      string        true       Username the user logs in with  Used for display if displayname is null
+password      string        true       Password for user login         Stored as bcrypt hash; not returned on get
+display_name  string        false      Name used for public display
+active        boolean       false      Whether user is can log in      Used by admins to invalidate users
+admin         boolean       false      Whether user has admin rights   Can only be set by another admin
+email         string        false      Email address of user
+created_at    ISO date      false      The date the user was created   Automatically set by the server, unchangeable
+deleted_at    ISO date      false      The date the user was deleted   Automatically set by the server upon delete
+============  ========  =============  ==============================  =============================================
 
 It is worth noting that, because users are updated "in-place" (i.e. without an audit trail
 or revision system), there are no ``uuid``, ``revision``, or ``updated_at`` fields.
