@@ -122,14 +122,26 @@ GET /projects
 
     [
       {
-        "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
-        "name":"Ganeti Web Manager",
-        "slugs":["gwm", "ganeti"],
+        "uri": "https://code.osuosl.org/projects/ganeti-webmgr",
+        "name": "Ganeti Web Manager",
+        "slugs": ["gwm", "ganeti"],
         "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
         "created_at": "2014-04-17",
         "deleted_at": null,
         "updated_at": "2014-04-19",
-        "revision": 2
+        "revision": 2,
+        "users": {
+          "members": [
+            "patcht",
+            "tschuy"
+          ],
+          "spectators": [
+            "tschuy"
+          ],
+          "managers": [
+            "tschuy"
+          ]
+        }
       },
       {...}
     ]
@@ -140,14 +152,26 @@ GET /projects/:slug
 .. code-block:: javascript
 
     {
-      "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
-      "name":"Ganeti Web Manager",
-      "slugs":["ganeti", "gwm"],
+      "uri": "https://code.osuosl.org/projects/ganeti-webmgr",
+      "name": "Ganeti Web Manager",
+      "slugs": ["ganeti", "gwm"],
       "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
       "revision": 4,
       "created_at": "2014-07-17",
       "deleted_at": null,
-      "updated_at": "2014-07-20"
+      "updated_at": "2014-07-20",
+      "users": {
+        "members": [
+          "patcht",
+          "tschuy"
+        ],
+        "spectators": [
+          "tschuy"
+        ],
+        "managers": [
+          "tschuy"
+        ]
+      }
     }
 
 GET /activities
@@ -157,8 +181,8 @@ GET /activities
 
     [
       {
-        "name":"Documentation",
-        "slugs":["docs", "doc"],
+        "name": "Documentation",
+        "slugs": ["docs", "doc"],
         "uuid": "adf036f5-3d49-4a84-bef9-062b46380bbf",
         "revision": 1,
         "created_at": "2014-04-17",
@@ -174,8 +198,8 @@ GET /activities/:slug
 .. code-block:: javascript
 
     {
-      "name":"Documentation",
-      "slugs":["doc", "docs"],
+      "name": "Documentation",
+      "slugs": ["doc", "docs"],
       "uuid": adf036f5-3d49-4a84-bef9-062b46380bbf,
       "revision": 5,
       "created_at": "2014-04-17",
@@ -190,16 +214,16 @@ GET /times
 
     [
       {
-        "duration":12,
+        "duration": 12,
         "user": "example-user",
         "project": ["ganeti-webmgr", "gwm"],
         "activities": ["docs", "planning"],
-        "notes":"Worked on documentation toward settings configuration.",
-        "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
-        "date_worked":"2014-04-17",
+        "notes": "Worked on documentation toward settings configuration.",
+        "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
+        "date_worked": "2014-04-17",
         "revision": 1,
-        "created_at":"2014-04-17",
-        "updated_at":null,
+        "created_at": "2014-04-17",
+        "updated_at": null,
         "deleted_at": null,
         "uuid": "c3706e79-1c9a-4765-8d7f-89b4544cad56"
       },
@@ -212,16 +236,16 @@ GET /times/:time-entry-uuid
 .. code-block:: javascript
 
     {
-      "duration":12,
+      "duration": 12,
       "user": "example-user",
       "project": ["gwm", "ganeti-webmgr"],
       "activities": ["doc", "research"],
-      "notes":"Worked on documentation toward settings configuration.",
-      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
-      "date_worked":"2014-06-12",
-      "created_at":"2014-06-12",
-      "updated_at":"2014-06-13",
-      "deleted_at":null,
+      "notes": "Worked on documentation toward settings configuration.",
+      "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
+      "date_worked": "2014-06-12",
+      "created_at": "2014-06-12",
+      "updated_at": "2014-06-13",
+      "deleted_at": null,
       "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
       "revision": 3
     }
@@ -359,24 +383,48 @@ GET /projects/:slug?include_revisions=true
 .. code-block:: javascript
 
     {
-      "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
-      "name":"Ganeti Web Manager",
-      "slugs":["ganeti", "gwm"],
+      "uri": "https://code.osuosl.org/projects/ganeti-webmgr",
+      "name": "Ganeti Web Manager",
+      "slugs": ["ganeti", "gwm"],
       "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
       "revision": 4,
       "created_at": "2015-04-16",
       "deleted_at": null,
       "updated_at": "2015-04-17",
+      "users": {
+        "members": [
+          "patcht",
+          "tschuy"
+        ],
+        "spectators": [
+          "tschuy"
+        ],
+        "managers": [
+          "tschuy"
+        ]
+      },
       "parents":
       [
         {
-          "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
-          "name":"Ganeti Web Manager",
+          "uri": "https://code.osuosl.org/projects/ganeti-webmgr",
+          "name": "Ganeti Web Manager",
           "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
           "revision": 3,
           "created_at": "2015-04-16",
           "deleted_at": null,
-          "updated_at": null
+          "updated_at": null,
+          "users": {
+            "members": [
+              "patcht",
+              "tschuy"
+            ],
+            "spectators": [
+              "tschuy"
+            ],
+            "managers": [
+              "tschuy"
+            ]
+          }
         },
         {...},
         {...}
@@ -389,35 +437,35 @@ GET /times/:uuid?include_revisions=true
 .. code-block:: javascript
 
     {
-      "duration":20,
+      "duration": 20,
       "user": "example-user",
       "project": "gwm",
       "activities": ["doc", "research"],
-      "notes":"Worked on documentation toward settings configuration.",
-      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
-      "date_worked":"2015-04-18",
-      "created_at":"2014-06-12",
-      "updated_at":"2015-04-18",
+      "notes": "Worked on documentation toward settings configuration.",
+      "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
+      "date_worked": "2015-04-18",
+      "created_at": "2014-06-12",
+      "updated_at": "2015-04-18",
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
       "deleted_at": null,
-      "revision":2,
+      "revision": 2,
       "parents":
-      [
-        {
-          "duration":20,
-          "user": "example-user",
-          "project": "gwm",
-          "activities": ["doc", "research"],
-          "notes":"Worked on documentation toward settings configuration.",
-          "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/40",
-          "date_worked":"2015-04-17",
-          "created_at":"2014-06-12",
-          "updated_at":null,
-          "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
-          "deleted_at": null,
-          "revision":1
-        }
-      ]
+        [
+          {
+            "duration": 20,
+            "user": "example-user",
+            "project": "gwm",
+            "activities": ["doc", "research"],
+            "notes": "Worked on documentation toward settings configuration.",
+            "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
+            "date_worked": "2015-04-17",
+            "created_at": "2014-06-12",
+            "updated_at": null,
+            "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+            "deleted_at": null,
+            "revision": 1
+          }
+        ]
     }
 
 GET /activities/:slug?include_revisions=true
@@ -426,22 +474,22 @@ GET /activities/:slug?include_revisions=true
 .. code-block:: javascript
 
     {
-      "name":"Testing Infra",
-      "slug":"test",
+      "name": "Testing Infra",
+      "slug": "test",
       "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
       "created_at": "2014-04-17",
       "deleted_at": null,
       "updated_at": "2014-04-18",
-      "revision":2,
+      "revision": 2,
       "parents":
         [
           {
-            "name":"Testing Infrastructure",
+            "name": "Testing Infrastructure",
             "created_at": "2014-04-17",
             "deleted_at": null,
             "updated_at": null,
             "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-            "revision":1,
+            "revision": 1
           }
         ]
     }
@@ -453,45 +501,45 @@ GET /activities?include_revisions=true
 
     [
       {
-        "name":"Testing Infra",
-        "slug":"test",
+        "name": "Testing Infra",
+        "slug": "test",
         "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
         "created_at": "2014-04-17",
         "deleted_at": null,
         "updated_at": "2014-04-18",
-        "revision":2,
+        "revision": 2,
         "parents":
           [
             {
-              "name":"Testing Infrastructure",
+              "name": "Testing Infrastructure",
               "created_at": "2014-04-17",
               "deleted_at": null,
               "updated_at": null,
               "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
-              "revision":1,
+              "revision": 1
             }
           ]
       },
       {
-        "name":"Build Infra",
-        "slug":"build",
+        "name": "Build Infra",
+        "slug": "build",
         "uuid": "e81e45ef-e7a7-4da2-88cd-9ede610c5896",
         "created_at": "2014-04-17",
         "deleted_at": null,
         "updated_at": "2014-04-23",
-        "revision":2,
+        "revision": 2,
         "parents":
           [
             {
-              "name":"Testing Infrastructure",
+              "name": "Testing Infrastructure",
               "created_at": "2014-04-17",
               "deleted_at": null,
               "updated_at": null,
               "uuid": "e81e45ef-e7a7-4da2-88cd-9ede610c5896",
-              "revision":1,
+              "revision": 1
             }
           ]
-      },
+      }
     ]
 
 Retrieving Deleted Objects (include_deleted)
@@ -516,9 +564,9 @@ GET /projects?include_deleted=true
 
     [
       {
-        "uri":"https://code.osuosl.org/projects/ganeti-webmgr",
-        "name":"Ganeti Web Manager",
-        "slugs":["ganeti", "gwm"],
+        "uri": "https://code.osuosl.org/projects/ganeti-webmgr",
+        "name": "Ganeti Web Manager",
+        "slugs": ["ganeti", "gwm"],
         "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
         "revision": 4,
         "created_at": "2014-04-17",
@@ -528,9 +576,9 @@ GET /projects?include_deleted=true
       {...},
       {...},
       {
-        "uri":"https:://github.com/osuosl/timesync",
-        "name":"Timesync",
-        "slugs":["ts", "timesync"],
+        "uri": "https:://github.com/osuosl/timesync",
+        "name": "Timesync",
+        "slugs": ["ts", "timesync"],
         "uuid": "1f8788bd-0909-4397-be2c-79047f90c575",
         "revision": 1,
         "created_at": "2014-04-17",
@@ -546,8 +594,8 @@ GET /activities?include_deleted=true
 
     [
       {
-        "name":"Documentation",
-        "slug":"doc",
+        "name": "Documentation",
+        "slug": "doc",
         "uuid": "adf036f5-3d49-4a84-bef9-062b46380bbf",
         "revision": 5,
         "created_at": "2014-04-17",
@@ -583,9 +631,22 @@ Request body:
 .. code-block:: javascript
 
     {
-       "uri":"https://code.osuosl.org/projects/timesync",
-       "name":"TimeSync API",
-       "slugs":["timesync", "time"]
+       "uri": "https://code.osuosl.org/projects/timesync",
+       "name": "TimeSync API",
+       "slugs": ["timesync", "time"],
+       "owner": "example-2",
+       "users": {
+         "members": [
+           "patcht",
+           "tschuy"
+         ],
+         "spectators": [
+           "tschuy"
+         ],
+         "managers": [
+           "tschuy"
+         ]
+       }
     }
 
 Response body:
@@ -593,14 +654,26 @@ Response body:
 .. code-block:: javascript
 
     {
-       "uri":"https://code.osuosl.org/projects/timesync",
-       "name":"TimeSync API",
-       "slugs":["timesync", "time"],
-       "uuid":"b35f9531-517f-47bd-aab4-14298bb19555",
-       "created_at":"2014-04-17",
-       "updated_at":null,
-       "deleted_at":null,
-       "revision":1
+       "uri": "https://code.osuosl.org/projects/timesync",
+       "name": "TimeSync API",
+       "slugs": ["timesync", "time"],
+       "uuid": "b35f9531-517f-47bd-aab4-14298bb19555",
+       "created_at": "2014-04-17",
+       "updated_at": null,
+       "deleted_at": null,
+       "revision": 1,
+       "users": {
+         "members": [
+           "patcht",
+           "tschuy"
+         ],
+         "spectators": [
+           "tschuy"
+         ],
+         "managers": [
+           "tschuy"
+         ]
+       }
     }
 
 Note that this endpoint, when called, will automatically set the currently
@@ -616,8 +689,8 @@ Request body:
 .. code-block:: javascript
 
     {
-       "name":"Quality Assurance/Testing",
-       "slug":"qa"
+       "name": "Quality Assurance/Testing",
+       "slug": "qa"
     }
 
 Response body:
@@ -625,13 +698,13 @@ Response body:
 .. code-block:: javascript
 
     {
-       "name":"Quality Assurance/Testing",
-       "slug":"qa",
+       "name": "Quality Assurance/Testing",
+       "slug": "qa",
        "uuid": "cfa07a4f-d446-4078-8d73-2f77560c35c0",
        "created_at": "2014-04-17",
        "updated_at": null,
        "deleted_at": null,
-       "revision":2
+       "revision": 2
     }
 
 
@@ -643,13 +716,13 @@ Request body:
 .. code-block:: javascript
 
     {
-      "duration":12,
+      "duration": 12,
       "user": "example-2",
       "project": "ganeti_web_manager",
       "activities": ["docs"],
-      "notes":"Worked on documentation toward settings configuration.",
-      "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/56",
-      "date_worked":"2014-04-17"
+      "notes": "Worked on documentation toward settings configuration.",
+      "issue_uri": "https://github.com/osu-cass/whats-fresh-api/issues/56",
+      "date_worked": "2014-04-17"
     }
 
 Response body:
@@ -657,18 +730,18 @@ Response body:
 .. code-block:: javascript
 
     {
-      "duration":12,
+      "duration": 12,
       "user": "example-2",
       "project": "ganeti_web_manager",
       "activities": ["docs"],
-      "notes":"Worked on documentation toward settings configuration.",
-      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
-      "date_worked":"2014-04-17",
-      "created_at":"2014-04-17",
+      "notes": "Worked on documentation toward settings configuration.",
+      "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/56",
+      "date_worked": "2014-04-17",
+      "created_at": "2014-04-17",
       "updated_at": null,
       "deleted_at": null,
       "uuid": "838853e3-3635-4076-a26f-7efe4e60981f",
-      "revision":1
+      "revision": 1
     }
 
 Likewise, if you'd like to edit an existing object, POST to
@@ -685,9 +758,9 @@ Request body:
 .. code-block:: javascript
 
     {
-       "uri":"https://code.osuosl.org/projects/timesync",
-       "name":"TimeSync API",
-       "slugs":["timesync", "time"]
+       "uri": "https://code.osuosl.org/projects/timesync",
+       "name": "TimeSync API",
+       "slugs": ["timesync", "time"]
     }
 
 Response body:
@@ -695,21 +768,32 @@ Response body:
 .. code-block:: javascript
 
     {
-      "uri":"https://code.osuosl.org/projects/timesync",
-      "name":"TimeSync API",
-      "slugs":["timesync", "time"],
+      "uri": "https://code.osuosl.org/projects/timesync",
+      "name": "TimeSync API",
+      "slugs": ["timesync", "time"],
       "created_at": "2014-04-16",
       "updated_at": "2014-04-18",
       "deleted_at": null,
       "uuid": "309eae69-21dc-4538-9fdc-e6892a9c4dd4",
-      "revision":2
+      "revision": 2,
+      "users": {
+        "members": [
+          "patcht",
+          "tschuy"
+        ],
+        "spectators": [
+          "tschuy"
+        ],
+        "managers": [
+          "tschuy"
+        ]
+      }
     }
 
 If a value of ``""`` (an empty string) or ``[]`` (an empty array) are passed as
-values for a string or array optional field (check the :ref:`model
-docs<draft_model>`), the value will be set to the empty string/array. If a
-value of null or undefined is provided, the current value of the object will be
-used.
+values for a string or array optional field (check the :ref:`model docs<draft_model>`),
+the value will be set to the empty string/array. If a value of undefined is provided (i.e.
+the value is not provided), the current value of the object will be used.
 
 POST /activities/:slug
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -719,7 +803,7 @@ Request body:
 .. code-block:: javascript
 
     {
-      "slug":"testing"
+      "slug": "testing"
     }
 
 Response body:
@@ -727,13 +811,13 @@ Response body:
 .. code-block:: javascript
 
     {
-      "name":"Testing Infra",
-      "slug":"testing",
+      "name": "Testing Infra",
+      "slug": "testing",
       "uuid": "3cf78d25-411c-4d1f-80c8-a09e5e12cae3",
       "created_at": "2014-04-16",
       "updated_at": "2014-04-17",
       "deleted_at": null,
-      "revision":2
+      "revision": 2
     }
 
 POST /times/:uuid
@@ -745,18 +829,18 @@ Original object:
 .. code-block:: javascript
 
     {
-      "duration":12,
+      "duration": 12,
       "user": "example-2",
       "activities": ["qa"],
       "project": ["gwm", "ganeti"],
-      "notes":"",
-      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
-      "date_worked":"2015-07-29",
-      "created_at":"2014-06-12",
-      "updated_at":null,
-      "deleted_at":null,
+      "notes": "",
+      "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/56",
+      "date_worked": "2015-07-29",
+      "created_at": "2014-06-12",
+      "updated_at": null,
+      "deleted_at": null,
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
-      "revision":1
+      "revision": 1
     }
 
 Request body:
@@ -764,9 +848,9 @@ Request body:
 .. code-block:: javascript
 
     {
-      "duration":18,
-      "notes":"Initial duration was inaccurate. Date worked also updated.",
-      "date_worked":"2015-08-07"
+      "duration": 18,
+      "notes": "Initial duration was inaccurate. Date worked also updated.",
+      "date_worked": "2015-08-07"
     }
 
 The response body will be:
@@ -774,18 +858,18 @@ The response body will be:
 .. code-block:: javascript
 
     {
-      "duration":18,
+      "duration": 18,
       "user": "example-2",
       "activities": ["qa"],
       "project": ["gwm", "ganeti"],
-      "notes":"Initial duration was inaccurate. Date worked also updated.",
-      "issue_uri":"https://github.com/osuosl/ganeti_webmgr/issues/56",
-      "date_worked":"2015-08-07",
-      "created_at":"2014-06-12",
-      "updated_at":"2015-10-18",
-      "deleted_at":null,
+      "notes": "Initial duration was inaccurate. Date worked also updated.",
+      "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/56",
+      "date_worked": "2015-08-07",
+      "created_at": "2014-06-12",
+      "updated_at": "2015-10-18",
+      "deleted_at": null,
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
-      "revision":2
+      "revision": 2
     }
 
 If a slugs field is passed to ``/project/:slug``, it is assumed to overwrite
@@ -815,6 +899,9 @@ DELETE Endpoints
 The single object endpoints (e.g. ``/times/:uuid``, ``/projects/:slug``) support
 DELETE requests; these remove an object from the records.
 
+If the object is successfully deleted, an empty response body is sent, with a 200 OK
+status. If the deletion fails for any reason, an error object is returned.
+
 These objects must always be soft-deleted; that is, the object will still exist within the
 database. Nonetheless, requests for lists of objects (e.g. ``GET /projects``) will exclude
 the object from the results, and requests for single objects (e.g.
@@ -827,8 +914,9 @@ is set. In addition, activities and projects have their ``slugs`` removed, in or
 to allow these slugs to be reused by future objects.
 
 Unfortunately, this means that it is impossible to request or update a project or activity
-after it is deleted. Instead, a new project or activity must be made; because the original
-slugs were deleted, the new object can share any or all of the original project's values.
+after it is deleted, even using the ``?include_deleted`` parameter. Instead, a new project
+or activity must be made; because the original slugs were deleted, the new object can
+share any or all of the original project's values.
 
 When attempting to delete a project or activity, it must not be referenced by a current
 time (i.e. one which is neither deleted nor updated). If it is referenced by a current
