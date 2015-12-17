@@ -174,4 +174,6 @@ Role Management
 Role management is handled through the ``projects`` endpoints. The projects model contains
 a ``users`` object, which contains three lists: ``members``, ``spectators``, and
 ``managers``, each lists of usernames. An admin or project manager may set these at any
-time, adding to or removing from any of the lists.
+time, adding to or removing from any of the lists. A project must always have at least
+one manager, however. Attempting to remove all managers from a project will return an
+error.
