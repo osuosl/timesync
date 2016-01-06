@@ -615,6 +615,62 @@ GET /activities?include_deleted=true
       }
     ]
 
+GET /times?include_deleted=true
++++++++++++++++++++++++++++++++
+
+.. code-block:: javascript
+
+    [
+      {
+        "duration": 20,
+        "user": "example-user",
+        "project": "gwm",
+        "activities": ["doc", "research"],
+        "notes": "Worked on documentation toward settings configuration.",
+        "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
+        "date_worked": "2015-04-18",
+        "created_at": "2014-06-12",
+        "updated_at": "2015-04-18",
+        "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+        "deleted_at": null,
+        "revision": 2
+      },
+      {
+        "duration": 30,
+        "user": "example-user",
+        "project": "timesync",
+        "activities": ["doc"],
+        "notes": "Worked on documentation toward include_deleted parameter.",
+        "issue_uri": "https://github.com/osuosl/timesync/issues/52",
+        "date_worked": "2015-08-18",
+        "created_at": "2015-08-18",
+        "updated_at": null,
+        "deleted_at": "2015-10-12",
+        "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+        "revision": 2
+      }
+    ]
+
+GET /times/:uuid?include_deleted=true
++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: javascript
+
+    {
+      "duration": 30,
+      "user": "example-user",
+      "project": "timesync",
+      "activities": ["doc"],
+      "notes": "Worked on documentation toward include_deleted parameter.",
+      "issue_uri": "https://github.com/osuosl/timesync/issues/52",
+      "date_worked": "2015-08-18",
+      "created_at": "2015-08-18",
+      "updated_at": null,
+      "deleted_at": "2015-10-12",
+      "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+      "revision": 2
+    }
+
 --------------
 
 POST Endpoints
