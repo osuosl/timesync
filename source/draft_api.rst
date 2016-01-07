@@ -646,7 +646,7 @@ GET /times?include_deleted=true
         "created_at": "2015-08-18",
         "updated_at": null,
         "deleted_at": "2015-10-12",
-        "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+        "uuid": "e283a2cd-39c6-4133-95ec-5bc10dd9a9ef",
         "revision": 2
       }
     ]
@@ -667,7 +667,7 @@ GET /times/:uuid?include_deleted=true
       "created_at": "2015-08-18",
       "updated_at": null,
       "deleted_at": "2015-10-12",
-      "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+      "uuid": "e283a2cd-39c6-4133-95ec-5bc10dd9a9ef",
       "revision": 2
     }
 
