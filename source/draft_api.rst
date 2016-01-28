@@ -587,7 +587,8 @@ GET /projects?include_deleted=true
       }
     ]
 
-Note that this now includes the Timesync project, which had previously been deleted.
+.. note::
+  Note that this now includes the Timesync project, which had previously been deleted.
 
 GET /activities?include_deleted=true
 ++++++++++++++++++++++++++++++++++++
@@ -617,7 +618,8 @@ GET /activities?include_deleted=true
       }
     ]
 
-Note that this now includes the Meetings activity, which had previously been deleted.
+.. note::
+  Note that this now includes the Meetings activity, which had previously been deleted.
 
 GET /times?include_deleted=true
 +++++++++++++++++++++++++++++++
@@ -655,7 +657,8 @@ GET /times?include_deleted=true
       }
     ]
 
-Note that this now includes the second time, which had previously been deleted.
+.. note::
+  Note that this now includes the second time, which had previously been deleted.
 
 GET /times/:uuid?include_deleted=true
 +++++++++++++++++++++++++++++++++++++
@@ -677,8 +680,9 @@ GET /times/:uuid?include_deleted=true
       "revision": 2
     }
 
-As above, this time is deleted (note the deleted_at field), but instead of a 404, it
-returns the object.
+.. note::
+  As above, this time is deleted (note the deleted_at field), but instead of a 404, it
+  returns the object.
 
 --------------
 
