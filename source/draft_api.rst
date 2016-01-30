@@ -1049,7 +1049,11 @@ POST /activites and POST /activities/:slug can be accessed by sitewide managers
 
 POST /project is accessible to sitewide managers
 
-POST /project/:slug is accessible to the project's manager(s) and sitewide managers
+POST /project/:slug is accessible to the project's manager(s) and sitewide managers.
+In addition, note that project managers cannot promote another user to manager, nor demote
+other managers; only sitewide managers may. As well, note that while a project manager
+may in this way demote themselves or remove themselves from the project, a project is not
+allowed to have no managers.
 
 POST /times is accessible to members of the project for which they intend to create a time
 
