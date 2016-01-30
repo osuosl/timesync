@@ -230,6 +230,10 @@ GET /times
       {...}
     ]
 
+.. caution::
+  Be aware that this endpoint will return different values depending on the permissions
+  of the caller. For more information, see `Authorization and Permissions`_, below.
+
 GET /times/:time-entry-uuid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -813,8 +817,10 @@ Response body:
       "revision": 1
     }
 
+~~~~~~~~~~~~~~~~~~~~
+
 Likewise, if you'd like to edit an existing object, POST to
-``/:object-name/:slug`` (or for time objects, ``/times/:uuid``) with a JSON
+``/projects/:slug``, ``/activities/:slug``, or ``/times/:uuid`` with a JSON
 body.  The object only needs to contain the part that is being updated. The
 response body will contain the saved object, as shown above.
 
@@ -991,29 +997,25 @@ When attempting to delete a project or activity, it must not be referenced by a 
 time (i.e. one which is neither deleted nor updated). If it is referenced by a current
 time, a Request Failure error is returned.
 
------------------------
+-----------------------------
 
-Authorization and Roles
------------------------
+Authorization and Permissions
+-----------------------------
 
-Each TimeSync user can be of one of two roles: user, and admin. Admins have
-special permissions, including adding, updating, and deleting activities and
-projects, creating and promoting users, as well as acting as automatic
-managers/spectators of all projects.
+There are two types of permission in TimeSync: project roles and site roles. Each user may
+be a spectator, a manager, or an admin. In addition, each user may be a member, spectator,
+or manager on an individual project.
 
-In addition, each user has a role within each project to which they belong:
+These permissions exist independently: for example, a user may be only a spectator,
+or may be a member and manager but not spectator, but sitewide permissions override
+those of projects. Permissions are defined as follows:
 
-* member
-* spectator
-* project manager
-
-These roles exist independently (for example, a user may be only a spectator,
-or may be a member and manager but not spectator), and are defined by their
-permissions:
-
-* a member has permission to write time entries
-* a spectator may view time entries
-* a project manager may update the project information
+* A project member has permission to write time entries for that project
+* A project spectator may view time entries for that project (e.g. ``GET /times?project=foo``)
+* A project manager may update the project information and delete a project, as well as add and remove members
+* A sitewide spectator may view all times
+* A sitewide manager may create projects, promote project managers, create, update, and delete activities, and create and delete users
+* An admin may perform any action across the site (including promoting sitewide managers)
 
 A user may be a member, spectator, and/or manager of multiple projects, and a project
 may have multiple members, spectators, and managers.
@@ -1021,20 +1023,43 @@ may have multiple members, spectators, and managers.
 If a user attempts to access an endpoint which they are not authorized for, the
 server will return an Authorization Failure.
 
+.. note::
+  It is recommended that the site have one admin user which belongs to no one in
+  particular, similarly to the Linux ``root`` user.
+
 GET Endpoints
 ~~~~~~~~~~~~~
 
-GET endpoints do not have authorization at this time, and so any user can
-request data from a GET endpoint.
+GET /activities, GET /activities/:slug, GET /projects, and GET /projects/:slug are
+accessible to anyone who has successfully authenticated.
 
-POST and DELETE Endpoints
-~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /times will return:
 
-POST /activities, POST /activities/:slug, and DELETE /activities/:slug are all
-only accessible to admin users.
+* The authenticated user's times
+* All times in projects for which a user is a spectator or manager
+* All times if the user is a sitewide spectator or manager
 
-POST /projects and DELETE /projects/:slug are only accessible to admin users.
-POST /projects/:slug is accessible to that project's manager(s).
+GET /times/:uuid follows the same rules (i.e. it will return the time if that time would
+be in the results of /times, or Authentication Failure otherwise).
 
-POST /times is accessible to that project's member(s), given that the 'user'
-field of the posted time is the user authenticating.
+POST Endpoints
+~~~~~~~~~~~~~~
+
+POST /activites and POST /activities/:slug can be accessed by sitewide managers
+
+POST /project is accessible to sitewide managers
+
+POST /project/:slug is accessible to the project's manager(s) and sitewide managers
+
+POST /times is accessible to members of the project for which they intend to create a time
+
+POST /times/:slug is accessible to the user who created the time originally
+
+DELETE Endpoints
+~~~~~~~~~~~~~~~~
+
+DELETE /activities/:slug is accessible to sitewide managers
+
+DELETE /projects/:slug is accessible to the project's manager(s) and sitewide managers
+
+DELETE /times/:uuid is accessible to the user who created the time and sitewide managers
