@@ -1050,11 +1050,11 @@ be in the results of /times, or Authentication Failure otherwise).
 POST Endpoints
 ~~~~~~~~~~~~~~
 
-POST /activites and POST /activities/:slug can be accessed by sitewide managers
+POST /activities and POST /activities/:slug can be accessed by sitewide managers
 
-POST /project is accessible to sitewide managers
+POST /projects is accessible to sitewide managers
 
-POST /project/:slug is accessible to the project's manager(s) and sitewide managers.
+POST /projects/:slug is accessible to the project's manager(s) and sitewide managers.
 In addition, note that project managers cannot promote another user to manager, nor demote
 other managers; only sitewide managers may. As well, note that while a project manager
 may in this way demote themselves or remove themselves from the project, a project is not
