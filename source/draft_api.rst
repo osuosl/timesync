@@ -1010,12 +1010,17 @@ These permissions exist independently: for example, a user may be only a spectat
 or may be a member and manager but not spectator, but sitewide permissions override
 those of projects. Permissions are defined as follows:
 
-* A project member has permission to write time entries for that project
-* A project spectator may view time entries for that project (e.g. ``GET /times?project=foo``)
-* A project manager may update the project information and delete a project, as well as add and remove members
-* A sitewide spectator may view all times
-* A sitewide manager may create projects, promote users to project manager, create, update, and delete activities, and create and delete users
-* An admin may perform any action across the site (including promoting sitewide managers)
+==================  ============================================
+    Permission                       Allowed to
+==================  ============================================
+Project member      Create time entries
+Project spectator   View time entries (see `GET /times`_, above)
+Project manager     Update projects and members
+------------------  --------------------------------------------
+Sitewide spectator  View all time entries
+Sitewide manager    Create projects and activities, create users
+Sitewide admin      Any action; promote users to managers
+==================  ============================================
 
 A user may be a member, spectator, and/or manager of multiple projects, and a project
 may have multiple members, spectators, and managers.
