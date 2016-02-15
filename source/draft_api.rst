@@ -131,16 +131,17 @@ GET /projects
         "updated_at": "2014-04-19",
         "revision": 2,
         "users": {
-          "members": [
-            "patcht",
-            "tschuy"
-          ],
-          "spectators": [
-            "tschuy"
-          ],
-          "managers": [
-            "tschuy"
-          ]
+          "user1": {
+            "member": true,
+            "spectator": false,
+            "manager": false
+          },
+          "user2": {
+            "member": true,
+            "spectator": true,
+            "manager": true
+          },
+          ...
         }
       },
       {...}
@@ -160,18 +161,19 @@ GET /projects/:slug
       "created_at": "2014-07-17",
       "deleted_at": null,
       "updated_at": "2014-07-20",
-      "users": {
-        "members": [
-          "patcht",
-          "tschuy"
-        ],
-        "spectators": [
-          "tschuy"
-        ],
-        "managers": [
-          "tschuy"
-        ]
-      }
+       "users": {
+         "user1": {
+           "member": true,
+           "spectator": false,
+           "manager": false
+         },
+         "user2": {
+           "member": true,
+           "spectator": true,
+           "manager": true
+         },
+         ...
+       }
     }
 
 GET /activities
@@ -287,6 +289,8 @@ Parameter           Value(s)                Endpoint(s)
                                             - /times/:uuid
                                             - /activities
                                             - /projects
+                                            - /users
+                                            - /users/:username
 =================== ======================= =======================
 
 ?user=:username
@@ -396,43 +400,18 @@ GET /projects/:slug?include_revisions=true
       "deleted_at": null,
       "updated_at": "2015-04-17",
       "users": {
-        "members": [
-          "patcht",
-          "tschuy"
-        ],
-        "spectators": [
-          "tschuy"
-        ],
-        "managers": [
-          "tschuy"
-        ]
-      },
-      "parents":
-      [
-        {
-          "uri": "https://code.osuosl.org/projects/ganeti-webmgr",
-          "name": "Ganeti Web Manager",
-          "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
-          "revision": 3,
-          "created_at": "2015-04-16",
-          "deleted_at": null,
-          "updated_at": null,
-          "users": {
-            "members": [
-              "patcht",
-              "tschuy"
-            ],
-            "spectators": [
-              "tschuy"
-            ],
-            "managers": [
-              "tschuy"
-            ]
-          }
+        "user1": {
+          "member": true,
+          "spectator": false,
+          "manager": false
         },
-        {...},
-        {...}
-      ]
+        "user2": {
+          "member": true,
+          "spectator": true,
+          "manager": true
+        },
+        ...
+      }
     }
 
 GET /times/:uuid?include_revisions=true
@@ -709,16 +688,17 @@ Request body:
        "slugs": ["timesync", "time"],
        "owner": "example-2",
        "users": {
-         "members": [
-           "patcht",
-           "tschuy"
-         ],
-         "spectators": [
-           "tschuy"
-         ],
-         "managers": [
-           "tschuy"
-         ]
+         "user1": {
+           "member": true,
+           "spectator": false,
+           "manager": false
+         },
+         "user2": {
+           "member": true,
+           "spectator": true,
+           "manager": true
+         },
+         ...
        }
     }
 
@@ -736,16 +716,17 @@ Response body:
        "deleted_at": null,
        "revision": 1,
        "users": {
-         "members": [
-           "patcht",
-           "tschuy"
-         ],
-         "spectators": [
-           "tschuy"
-         ],
-         "managers": [
-           "tschuy"
-         ]
+         "user1": {
+           "member": true,
+           "spectator": false,
+           "manager": false
+         },
+         "user2": {
+           "member": true,
+           "spectator": true,
+           "manager": true
+         },
+         ...
        }
     }
 
@@ -852,23 +833,32 @@ Response body:
       "uuid": "309eae69-21dc-4538-9fdc-e6892a9c4dd4",
       "revision": 2,
       "users": {
-        "members": [
-          "patcht",
-          "tschuy"
-        ],
-        "spectators": [
-          "tschuy"
-        ],
-        "managers": [
-          "tschuy"
-        ]
+        "user1": {
+          "member": true,
+          "spectator": false,
+          "manager": false
+        },
+        "user2": {
+          "member": true,
+          "spectator": true,
+          "manager": true
+        },
+        ...
       }
     }
 
 If a value of ``""`` (an empty string) or ``[]`` (an empty array) are passed as
-values for a string or array optional field (check the :ref:`model docs<draft_model>`),
-the value will be set to the empty string/array. If a value of undefined is provided (i.e.
-the value is not provided), the current value of the object will be used.
+values for a string or array optional field (check the :ref:`model
+docs<draft_model>`), the value will be set to the empty string/array. If a
+value of undefined is provided (i.e.  the value is not provided), the current
+value of the object will be used.
+
+If a slugs field is passed to ``/projects/:slug``, it is assumed to overwrite
+the existing slugs for the object. Any slugs which already exist on the object
+but are not in the request are dropped, and the slugs field on the request
+becomes canonical, assuming all of the slugs do not already belong to another
+project.
+
 
 POST /activities/:slug
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -899,7 +889,6 @@ POST /times/:uuid
 ~~~~~~~~~~~~~~~~~
 
 Original object:
-
 
 .. code-block:: javascript
 
@@ -947,16 +936,14 @@ The response body will be:
       "revision": 2
     }
 
-If a slugs field is passed to ``/project/:slug``, it is assumed to overwrite
-the existing slugs for the object. Any slugs which already exist on the object
-but are not in the request are dropped, and the slugs field on the request
-becomes canonical, assuming all of the slugs do not already belong to another
-project.
+----
 
 In the case of a foreign key (such as project on a time) that does not point to
 a valid object or a malformed object sent in the request, an Object Not Found
 or Malformed Object error (respectively) will be returned, validation will
 return immediately, and the object will not be saved.
+
+----
 
 The following content is checked by the API for validity:
 
