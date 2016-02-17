@@ -40,39 +40,40 @@ parents     array             false          The previous revisions of this obje
 Times
 -----
 
-===========  ===============  =============  ======================================  ============================================
-   Name           Type        POST Required               Description                                    Notes
-===========  ===============  =============  ======================================  ============================================
+===========  ===============  =============  ======================================  ===================================================================================
+   Name           Type        POST Required               Description                                                        Notes
+===========  ===============  =============  ======================================  ===================================================================================
 duration     positive number  true           Length of time user worked, in seconds
 user         username         true           Username of the user who worked         Must be an existing username
 project      mixed            true           The project the user worked on          Array of slugs in GET requests, slug in POST
-activities   array of slugs   true           The activities the user performed
+activities   array of slugs   sometimes      The activities the user performed       Required on creation if the project has no default activity; not nullable on update
 date_worked  ISO date         true           The date this time began on             May be in the future or the past
 issue_uri    URI              false          The issue the user worked on            May link to any issue tracker
 notes        string           false          Other notes the user wishes to provide
-===========  ===============  =============  ======================================  ============================================
+===========  ===============  =============  ======================================  ===================================================================================
 
 --------
 
 Projects
 --------
 
-=====  ==============   =============  =============================  =============================
-Name        Type        POST Required           Description                       Notes
-=====  ==============   =============  =============================  =============================
-name   string           true           The name of the project
-slugs  array of slugs   true           Slugs to identify the project  Must be unique to the project
-uri    URI              false          The URI of the project
-=====  ==============   =============  =============================  =============================
+================  ==============   =============  ==================================  =============================
+      Name             Type        POST Required              Description                         Notes
+================  ==============   =============  ==================================  =============================
+name              string           true           The name of the project
+slugs             array of slugs   true           Slugs to identify the project       Must be unique to the project
+uri               URI              false          The URI of the project
+default_activity  slug             false          The activity times will default to
+================  ==============   =============  ==================================  =============================
 
 ----------
 
 Activities
 ----------
 
-====  ======  =============  =======================================  ===========================================
-Name   Type   POST Required               Description                                    Notes
-====  ======  =============  =======================================  ===========================================
+====  ======  =============  =======================================  =====
+Name   Type   POST Required               Description                 Notes
+====  ======  =============  =======================================  =====
 name  string  true           The human-readable name of the activity
 slug  string  true           A slug to identify the activity
-====  ======  =============  =======================================  ===========================================
+====  ======  =============  =======================================  =====
