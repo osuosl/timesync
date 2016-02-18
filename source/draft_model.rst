@@ -76,10 +76,7 @@ Name   Type   POST Required               Description                 Notes
 ====  ======  =============  =======================================  =====
 name  string  true           The human-readable name of the activity
 slug  string  true           A slug to identify the activity
-<<<<<<< HEAD
 ====  ======  =============  =======================================  =====
-=======
-====  ======  =============  =======================================  ===========================================
 
 -----
 

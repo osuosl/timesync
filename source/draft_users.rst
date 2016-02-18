@@ -18,6 +18,22 @@ For reference of the structure of this table, see the
 
 Here is an example user object:
 
+.. code-block:: javascript
+
+      {
+        "display_name": "User One",
+        "username": "user1",
+        "email": "user1@example.org",
+        "site_spectator": true,
+        "site_manager": false,
+        "site_admin": false,
+        "created_at": "2016-02-15",
+        "updated_at": "2016-02-15",
+        "deleted_at": null,
+        "active": true,
+        "meta": "extra metadata about user"
+      }
+
 -----------
 
 Admin Users
@@ -25,7 +41,7 @@ Admin Users
 
 A site-wide admin user is defined by the boolean ``admin`` field. Admins
 are able to access any endpoint, and manage all users (including being the only
-users who can add users or promote them to admin).
+users which can promote others to admin status).
 
 ---------------
 
@@ -47,11 +63,9 @@ Returns a list of all user objects, sorted alphabetically by username.
         "display_name": "User One",
         "username": "user1",
         "email": "user1@example.org",
-        "site_wide_permissions": {
-          "spectator": true,
-          "manager": false,
-          "admin": false
-        },
+        "site_spectator": true,
+        "site_manager": false,
+        "site_admin": false,
         "created_at": "2016-02-15",
         "updated_at": "2016-02-15",
         "deleted_at": null,
@@ -67,7 +81,7 @@ Returns a list of all user objects, sorted alphabetically by username.
     The /users endpoint also includes the ability to ?include_deleted
     objects.
 
-    Usernames are perminent.
+    Usernames are permanent.
 
 GET /users/:username
 ~~~~~~~~~~~~~~~~~~~~
@@ -80,11 +94,9 @@ Returns a single user object.
       "display_name": "User One",
       "username": "user1",
       "email": "user1@example.org",
-      "site_wide_permissions": {
-        "spectator": true,
-        "manager": false,
-        "admin": false
-      },
+      "site_spectator": true,
+      "site_manager": false,
+      "site_admin": false,
       "created_at": "2016-02-15",
       "updated_at": "2016-02-15",
       "deleted_at": null,
@@ -102,11 +114,9 @@ GET /users?include_deleted=true
         "display_name": "User One",
         "username": user1,
         "email": "user1@example.org",
-        "site_wide_permissions": {
-          "spectator": true,
-          "manager": false,
-          "admin": false
-        },
+        "site_spectator": true,
+        "site_manager": false,
+        "site_admin": false,
         "created_at": "2016-02-15",
         "updated_at": "2016-02-15",
         "deleted_at": "2017-06-21",
@@ -126,11 +136,9 @@ GET /users/:username?include_deleted=true
       "display_name": "User One",
       "username": "user1",
       "email": "user1@example.org",
-      "site_wide_permissions": {
-        "spectator": true,
-        "manager": false,
-        "admin": false
-      },
+      "site_spectator": true,
+      "site_manager": false,
+      "site_admin": false,
       "created_at": "2016-02-15",
       "updated_at": "2016-02-15",
       "deleted_at": "2017-06-21",
@@ -152,11 +160,9 @@ Request:
       "username": "example",
       "password": "password",
       "email": "example@example.com"
-      "site_wide_permissions": {
-        "spectator": true,
-        "manager": true,
-        "admin": false
-      },
+      "site_spectator": true,
+      "site_manager": false,
+      "site_admin": false,
       "active": true,
       "meta": "Some metadata about the user"
     }
@@ -169,11 +175,10 @@ Response:
       "displayname": "X. Ample User",
       "username": "example",
       "email": "example@example.com"
-      "site_wide_permissions": {
-        "spectator": true,
-        "manager": true,
-        "admin": false
-      },
+      "site_spectator": true,
+      "site_manager": false,
+      "site_admin": false,
+      "active": true,
       "created_at": "2016-02-15",
       "updated_at": "2016-02-15",
       "deleted_at": null,
@@ -201,11 +206,10 @@ Original object:
       "display_name": "User One",
       "username": "user1",
       "email": "user1@example.org",
-      "site_wide_permissions": {
-        "spectator": true,
-        "manager": false,
-        "admin": false
-      },
+      "site_spectator": true,
+      "site_manager": false,
+      "site_admin": false,
+      "active": true,
       "created_at": "2016-02-15",
       "updated_at": "2016-02-15",
       "deleted_at": null,
@@ -213,7 +217,7 @@ Original object:
       "meta": "extra metadata about user"
     }
 
-Request body:
+Request body (made by a ``site_admin`` user):
 
 .. code-block:: javascript
 
@@ -222,11 +226,9 @@ Request body:
       "password": "Battery Staple",
       "email": "user1+new@example.org",
       "meta": "Different metadata about user1",
-      "site_wide_permissions": {
-        "spectator": true,
-        "manager": true,
-        "admin": false
-      },
+      "site_spectator": true,
+      "site_manager": true,
+      "site_admin": false,
     }
 
 The response will be:
@@ -237,10 +239,9 @@ The response will be:
       "display_name": "New Displayname",
       "username": "user1",
       "email": "user1+new@example.org",
-      "site_wide_permissions": {
-        "spectator": true,
-        "manager": true,
-        "admin": false
+      "site_spectator": true,
+      "site_manager": true,
+      "site_admin": false,
       },
       "created_at": "2016-02-15",
       "updated_at": "2016-02-15",

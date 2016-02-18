@@ -130,19 +130,22 @@ GET /projects
         "deleted_at": null,
         "updated_at": "2014-04-19",
         "revision": 2,
-        "users": {
-          "user1": {
-            "member": true,
-            "spectator": false,
-            "manager": false
-          },
-          "user2": {
-            "member": true,
-            "spectator": true,
-            "manager": true
-          },
-          ...
-        }
+        "users":
+          {
+            "user1":
+              {
+                "member": true,
+                "spectator": false,
+                "manager": false
+              },
+            "user2":
+              {
+                "member": true,
+                "spectator": true,
+                "manager": true
+              },
+              ...
+          }
       },
       {...}
     ]
@@ -161,19 +164,21 @@ GET /projects/:slug
       "created_at": "2014-07-17",
       "deleted_at": null,
       "updated_at": "2014-07-20",
-       "users": {
-         "user1": {
-           "member": true,
-           "spectator": false,
-           "manager": false
-         },
-         "user2": {
-           "member": true,
-           "spectator": true,
-           "manager": true
-         },
-         ...
-       }
+      "users":
+      {
+        "user1":
+        {
+          "member": true,
+          "spectator": false,
+          "manager": false
+        },
+        "user2": {
+          "member": true,
+          "spectator": true,
+          "manager": true
+        },
+        ...
+      }
     }
 
 GET /activities
@@ -399,8 +404,27 @@ GET /projects/:slug?include_revisions=true
       "created_at": "2015-04-16",
       "deleted_at": null,
       "updated_at": "2015-04-17",
-      "users": {
-        "user1": {
+      "parents":
+      [
+        {
+          "duration": 20,
+          "user": "example-user",
+          "project": "gwm",
+          "activities": ["doc", "research"],
+          "notes": "Worked on documentation toward settings configuration.",
+          "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
+          "date_worked": "2015-04-17",
+          "created_at": "2014-06-12",
+          "updated_at": null,
+          "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+          "deleted_at": null,
+          "revision": 1
+        }
+      ],
+      "users":
+      {
+        "user1":
+        {
           "member": true,
           "spectator": false,
           "manager": false
@@ -683,23 +707,26 @@ Request body:
 .. code-block:: javascript
 
     {
-       "uri": "https://code.osuosl.org/projects/timesync",
-       "name": "TimeSync API",
-       "slugs": ["timesync", "time"],
-       "owner": "example-2",
-       "users": {
-         "user1": {
-           "member": true,
-           "spectator": false,
-           "manager": false
-         },
-         "user2": {
-           "member": true,
-           "spectator": true,
-           "manager": true
-         },
-         ...
-       }
+      "uri": "https://code.osuosl.org/projects/timesync",
+      "name": "TimeSync API",
+      "slugs": ["timesync", "time"],
+      "owner": "example-2",
+      "users":
+      {
+        "user1":
+        {
+          "member": true,
+          "spectator": false,
+          "manager": false
+        },
+        "user2":
+        {
+          "member": true,
+          "spectator": true,
+          "manager": true
+        },
+        ...
+      }
     }
 
 Response body:
@@ -707,27 +734,30 @@ Response body:
 .. code-block:: javascript
 
     {
-       "uri": "https://code.osuosl.org/projects/timesync",
-       "name": "TimeSync API",
-       "slugs": ["timesync", "time"],
-       "uuid": "b35f9531-517f-47bd-aab4-14298bb19555",
-       "created_at": "2014-04-17",
-       "updated_at": null,
-       "deleted_at": null,
-       "revision": 1,
-       "users": {
-         "user1": {
-           "member": true,
-           "spectator": false,
-           "manager": false
-         },
-         "user2": {
-           "member": true,
-           "spectator": true,
-           "manager": true
-         },
-         ...
-       }
+      "uri": "https://code.osuosl.org/projects/timesync",
+      "name": "TimeSync API",
+      "slugs": ["timesync", "time"],
+      "uuid": "b35f9531-517f-47bd-aab4-14298bb19555",
+      "created_at": "2014-04-17",
+      "updated_at": null,
+      "deleted_at": null,
+      "revision": 1,
+      "users":
+      {
+        "user1":
+        {
+          "member": true,
+          "spectator": false,
+          "manager": false
+        },
+        "user2":
+        {
+          "member": true,
+          "spectator": true,
+          "manager": true
+        },
+        ...
+      }
     }
 
 Note that this endpoint, when called, will automatically set the currently
@@ -832,13 +862,16 @@ Response body:
       "deleted_at": null,
       "uuid": "309eae69-21dc-4538-9fdc-e6892a9c4dd4",
       "revision": 2,
-      "users": {
-        "user1": {
+      "users":
+      {
+        "user1":
+        {
           "member": true,
           "spectator": false,
           "manager": false
         },
-        "user2": {
+        "user2":
+        {
           "member": true,
           "spectator": true,
           "manager": true
