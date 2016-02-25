@@ -188,7 +188,7 @@ Response:
 
 .. note::
 
-    This endpoint may only be accessed by admins.
+    This endpoint may only be accessed by admins and sitewide managers.
 
     It is recommended that admins provide the user with a temporary password
     and have the user change the password when they log in.

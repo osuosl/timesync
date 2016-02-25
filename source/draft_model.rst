@@ -109,4 +109,3 @@ meta                  string  Miscellaneous user meta-data.
 
     User objects do not include the 'Common' fields listed at the top of this
     document.
->>>>>>> 83dd8a7... Added /users* endpoint, updated users in projects
