@@ -34,6 +34,15 @@ Here is an example user object:
         "meta": "extra metadata about user"
       }
 
+.. note::
+
+  Usernames may consist of uppercase and lowercase letters, decimal digits, hyphen,
+  period, underscore, and tilde characters. Usernames are considered case-insensitive:
+  they will be displayed using the case they were created with, but both the
+  ``/users/:username`` endpoints and the ``/login`` endpoint will match on any
+  capitalization, i.e. if I have a user named 'User1', ``GET /users/User1``, ``GET
+  /users/user1``, and ``GET /users/uSeR1`` will all return that user.
+
 -----------
 
 Admin Users
