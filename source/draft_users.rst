@@ -280,13 +280,13 @@ Role Management
 
 Role management is handled through the ``projects`` and ``users`` endpoints.
 
-The users model contains the ``site_spectator``, ``site_manager``, and ``site_admin``
+The user object contains the ``site_spectator``, ``site_manager``, and ``site_admin``
 fields, which are booleans designating those permissions. As stated above, a sitewide
 manager may promote a user to sitewide spectator or demote sitewide spectators; a sitewide
 admin may also promote a user to sitewide manager or to admin, or demote sitewide managers
 or other admins.
 
-The projects model contains a ``users`` object, which map users (by username) to their
+The project object contains a ``users`` object, which map users (by username) to their
 permissions on the project. An admin, sitewide manager, or project manager may set these
 at any time, adding to or removing from any of the lists. A project may have zero or more
 of members, spectators, and managers; if a project has no managers, sitewide managers and
