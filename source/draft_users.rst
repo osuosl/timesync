@@ -278,9 +278,16 @@ Delete a user. Returns a 200 OK with empty response body on success, or an
 Role Management
 ---------------
 
-Role management is handled through the ``projects`` endpoints. The projects
-model contains a ``users`` object, which contains three lists: ``members``,
-``spectators``, and ``managers``, each lists of usernames. An admin or project
-manager may set these at any time, adding to or removing from any of the lists.
-A project must always have at least one manager, however. Attempting to remove
-all managers from a project will return an error.
+Role management is handled through the ``projects`` and ``users`` endpoints.
+
+The user object contains the ``site_spectator``, ``site_manager``, and ``site_admin``
+fields, which are booleans designating those permissions. As stated above, a sitewide
+manager may promote a user to sitewide spectator or demote sitewide spectators; a sitewide
+admin may also promote a user to sitewide manager or to admin, or demote sitewide managers
+or other admins.
+
+The project object contains a ``users`` object, which map users (by username) to their
+permissions on the project. An admin, sitewide manager, or project manager may set these
+at any time, adding to or removing from any of the lists. A project may have zero or more
+of members, spectators, and managers; if a project has no managers, sitewide managers and
+admins may still manage the project.
