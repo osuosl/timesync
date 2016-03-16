@@ -1,8 +1,8 @@
-.. _draft_users:
+.. _users:
 
-=====================
-Draft User Management
-=====================
+===============
+User Management
+===============
 
 Users are managed primarily through the API, by admin users.
 
@@ -13,31 +13,34 @@ Users are managed primarily through the API, by admin users.
 Users Model
 -----------
 
-For reference of the structure of this table, see the
-:ref:`draft_model<draft_model>` docs.
+For reference of the user fields, see the :ref:`model<model>` docs.
 
 Here is an example user object:
 
 .. code-block:: javascript
 
-      {
-        "display_name": "User One",
-        "username": "user1",
-        "email": "user1@example.org",
-        "site_spectator": true,
-        "site_manager": false,
-        "site_admin": false,
-        "created_at": "2016-02-15",
-        "updated_at": "2016-02-15",
-        "deleted_at": null,
-        "active": true,
-        "meta": "extra metadata about user"
-      }
+  {
+    "display_name": "User One",
+    "username": "user1",
+    "email": "user1@example.org",
+    "site_spectator": true,
+    "site_manager": false,
+    "site_admin": false,
+    "created_at": "2016-02-15",
+    "updated_at": "2016-02-15",
+    "deleted_at": null,
+    "active": true,
+    "meta": "extra metadata about user"
+  }
 
 .. note::
 
   Usernames may consist of uppercase and lowercase letters, decimal digits, hyphen,
-  period, underscore, and tilde characters. Usernames are considered case-insensitive:
+  period, underscore, and tilde characters.
+
+.. note::
+
+  Usernames are considered case-insensitive:
   they will be displayed using the case they were created with, but both the
   ``/users/:username`` endpoints and the ``/login`` endpoint will match on any
   capitalization, i.e. if I have a user named 'User1', ``GET /users/User1``, ``GET
@@ -67,38 +70,7 @@ Returns a list of all user objects, sorted alphabetically by username.
 
 .. code-block:: javascript
 
-    [
-      {
-        "display_name": "User One",
-        "username": "user1",
-        "email": "user1@example.org",
-        "site_spectator": true,
-        "site_manager": false,
-        "site_admin": false,
-        "created_at": "2016-02-15",
-        "updated_at": "2016-02-15",
-        "deleted_at": null,
-        "active": true,
-        "meta": "extra metadata about user"
-      },
-      {...},
-      ...
-    ]
-
-.. note::
-
-    The /users endpoint also includes the ability to ?include_deleted
-    objects.
-
-    Usernames are permanent.
-
-GET /users/:username
-~~~~~~~~~~~~~~~~~~~~
-
-Returns a single user object.
-
-.. code-block:: javascript
-
+  [
     {
       "display_name": "User One",
       "username": "user1",
@@ -111,39 +83,51 @@ Returns a single user object.
       "deleted_at": null,
       "active": true,
       "meta": "extra metadata about user"
-    }
+    },
+    {
+      // ...
+    },
+    // ...
+  ]
+
+.. note::
+
+  The /users endpoint also includes the ability to ?include_deleted objects.
+
+.. note::
+
+  Usernames are permanent.
+
+GET /users/:username
+~~~~~~~~~~~~~~~~~~~~
+
+Returns a single user object.
+
+.. code-block:: javascript
+
+  {
+    "display_name": "User One",
+    "username": "user1",
+    "email": "user1@example.org",
+    "site_spectator": true,
+    "site_manager": false,
+    "site_admin": false,
+    "created_at": "2016-02-15",
+    "updated_at": "2016-02-15",
+    "deleted_at": null,
+    "active": true,
+    "meta": "extra metadata about user"
+  }
 
 GET /users?include_deleted=true
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: javascript
 
-    [
-      {
-        "display_name": "User One",
-        "username": user1,
-        "email": "user1@example.org",
-        "site_spectator": true,
-        "site_manager": false,
-        "site_admin": false,
-        "created_at": "2016-02-15",
-        "updated_at": "2016-02-15",
-        "deleted_at": "2017-06-21",
-        "active": false,
-        "meta": "extra metadata about user"
-      },
-      {...},
-      ...
-    ]
-
-GET /users/:username?include_deleted=true
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: javascript
-
+  [
     {
       "display_name": "User One",
-      "username": "user1",
+      "username": user1,
       "email": "user1@example.org",
       "site_spectator": true,
       "site_manager": false,
@@ -153,7 +137,31 @@ GET /users/:username?include_deleted=true
       "deleted_at": "2017-06-21",
       "active": false,
       "meta": "extra metadata about user"
-    }
+    },
+    {
+      // ...
+    },
+    // ...
+  ]
+
+GET /users/:username?include_deleted=true
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: javascript
+
+  {
+    "display_name": "User One",
+    "username": "user1",
+    "email": "user1@example.org",
+    "site_spectator": true,
+    "site_manager": false,
+    "site_admin": false,
+    "created_at": "2016-02-15",
+    "updated_at": "2016-02-15",
+    "deleted_at": "2017-06-21",
+    "active": false,
+    "meta": "extra metadata about user"
+  }
 
 POST /users
 ~~~~~~~~~~~
@@ -164,43 +172,45 @@ Request:
 
 .. code-block:: javascript
 
-    {
-      "displayname": "X. Ample User",
-      "username": "example",
-      "password": "password",
-      "email": "example@example.com"
-      "site_spectator": true,
-      "site_manager": false,
-      "site_admin": false,
-      "active": true,
-      "meta": "Some metadata about the user"
-    }
+  {
+    "displayname": "X. Ample User",
+    "username": "example",
+    "password": "password",
+    "email": "example@example.com"
+    "site_spectator": true,
+    "site_manager": false,
+    "site_admin": false,
+    "active": true,
+    "meta": "Some metadata about the user"
+  }
 
 Response:
 
 .. code-block:: javascript
 
-    {
-      "displayname": "X. Ample User",
-      "username": "example",
-      "email": "example@example.com"
-      "site_spectator": true,
-      "site_manager": false,
-      "site_admin": false,
-      "active": true,
-      "created_at": "2016-02-15",
-      "updated_at": "2016-02-15",
-      "deleted_at": null,
-      "active": true,
-      "meta": "Some metadata about the user"
-    }
+  {
+    "displayname": "X. Ample User",
+    "username": "example",
+    "email": "example@example.com"
+    "site_spectator": true,
+    "site_manager": false,
+    "site_admin": false,
+    "active": true,
+    "created_at": "2016-02-15",
+    "updated_at": "2016-02-15",
+    "deleted_at": null,
+    "active": true,
+    "meta": "Some metadata about the user"
+  }
 
 .. note::
 
-    This endpoint may only be accessed by admins and sitewide managers.
+  This endpoint may only be accessed by admins and sitewide managers.
 
-    It is recommended that admins provide the user with a temporary password
-    and have the user change the password when they log in.
+.. note::
+
+  It is recommended that admins provide the user with a temporary password
+  and have the user change the password when they log in.
 
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -211,58 +221,58 @@ Original object:
 
 .. code-block:: javascript
 
-    {
-      "display_name": "User One",
-      "username": "user1",
-      "email": "user1@example.org",
-      "site_spectator": true,
-      "site_manager": false,
-      "site_admin": false,
-      "active": true,
-      "created_at": "2016-02-15",
-      "updated_at": "2016-02-15",
-      "deleted_at": null,
-      "active": false,
-      "meta": "extra metadata about user"
-    }
+  {
+    "display_name": "User One",
+    "username": "user1",
+    "email": "user1@example.org",
+    "site_spectator": true,
+    "site_manager": false,
+    "site_admin": false,
+    "active": true,
+    "created_at": "2016-02-15",
+    "updated_at": "2016-02-15",
+    "deleted_at": null,
+    "active": false,
+    "meta": "extra metadata about user"
+  }
 
 Request body (made by a ``site_admin`` user):
 
 .. code-block:: javascript
 
-    {
-      "display_name": "New Displayname",
-      "password": "Battery Staple",
-      "email": "user1+new@example.org",
-      "meta": "Different metadata about user1",
-      "site_spectator": true,
-      "site_manager": true,
-      "site_admin": false,
-    }
+  {
+    "display_name": "New Displayname",
+    "password": "Battery Staple",
+    "email": "user1+new@example.org",
+    "meta": "Different metadata about user1",
+    "site_spectator": true,
+    "site_manager": true,
+    "site_admin": false,
+  }
 
 The response will be:
 
 .. code-block:: javascript
 
-    {
-      "display_name": "New Displayname",
-      "username": "user1",
-      "email": "user1+new@example.org",
-      "site_spectator": true,
-      "site_manager": true,
-      "site_admin": false,
-      },
-      "created_at": "2016-02-15",
-      "updated_at": "2016-02-15",
-      "deleted_at": null,
-      "meta": "Different metadata about user1"
-    }
+  {
+    "display_name": "New Displayname",
+    "username": "user1",
+    "email": "user1+new@example.org",
+    "site_spectator": true,
+    "site_manager": true,
+    "site_admin": false,
+    "created_at": "2016-02-15",
+    "updated_at": "2016-02-15",
+    "deleted_at": null,
+    "meta": "Different metadata about user1"
+  }
 
 .. note::
 
-    Site-wide admins can modify other user's manager field.
+  Site-wide admins can modify other users' site_spectator, site_manager, and site_admin
+  fields.
 
-    Site-wide managers can modify other user's spectator field.
+  Site-wide managers can modify other users' site_spectator fields.
 
 This endpoint may be accessed by admins or the user who is being updated.
 However, the ``admin`` field may only be set by an admin.
@@ -270,8 +280,10 @@ However, the ``admin`` field may only be set by an admin.
 DELETE /users/:username
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Delete a user. Returns a 200 OK with empty response body on success, or an
-:ref:`error<draft_errors>` on failure. Only accessible to admins.
+Soft-delete a user. Returns a 200 OK with empty response body on success, or an
+:ref:`error<errors>` on failure. Only accessible to admins.
+
+For more information on deletion, see the DELETE section of the :ref:`API<api>` docs.
 
 ---------------
 
