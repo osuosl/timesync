@@ -14,16 +14,16 @@ like this:
 
 .. code-block:: javascript
 
-    {
-        "auth": {
-            "type": // type
-            // ...
-        },
-        "object": {
-           "name": "Ganeti Web Manager",
-           // ...
-        }
+  {
+    "auth": {
+      "type": // type
+      // ...
+    },
+    "object": {
+      "name": "Ganeti Web Manager",
+      // ...
     }
+  }
 
 In essence, there are two top-level blocks to an authenticated POST request:
 
@@ -49,13 +49,13 @@ POST endpoints:
 
 .. code-block:: javascript
 
-    {
-      "auth": {
-        "type": "token",
-        "token": // ...
-      },
-      // ...
-    }
+  {
+    "auth": {
+      "type": "token",
+      "token": // ...
+    },
+    // ...
+  }
 
 GET and DELETE endpoints: Use the query key ``token``, as in ``GET /times?token=<token>``
 or ``DELETE /activities/example?token=<token>``
@@ -66,58 +66,58 @@ For example, the workflow may occur as follows:
 
 .. code-block:: javascript
 
-    {
-      "auth": {
-        "type": "password",
-        "username": "example-user",
-        "password": "pass"
-      }
+  {
+    "auth": {
+      "type": "password",
+      "username": "example-user",
+      "password": "pass"
     }
+  }
 
 Response:
 
 .. code-block:: none
 
-    {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0aW1lc3luYyIsInN1YiI6ImV4Y
-      W1wbGUtdXNlciIsImV4cCI6MTQ0NjQ5NzQyNzEzMywiaWF0IjoxNDQ2NDk1NTc5OTY3fQ.k8ij2cXBRs5tUe
-      _cq2RDePCYMpFjVkKqnpU11Q1XEnk"
-    }
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0aW1lc3luYyIsInN1YiI6ImV4Y
+    W1wbGUtdXNlciIsImV4cCI6MTQ0NjQ5NzQyNzEzMywiaWF0IjoxNDQ2NDk1NTc5OTY3fQ.k8ij2cXBRs5tUe
+    _cq2RDePCYMpFjVkKqnpU11Q1XEnk"
+  }
 
 ``POST /projects``
 
 .. code-block:: javascript
 
-    {
-      "auth": {
-        "type": "token",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0aW1lc3luYyIsInN1YiI6ImV
-            4YW1wbGUtdXNlciIsImV4cCI6MTQ0NjQ5NzQyNzEzMywiaWF0IjoxNDQ2NDk1NTc5OTY3fQ.k8ij2c
-            XBRs5tUe_cq2RDePCYMpFjVkKqnpU11Q1XEnk"
-      },
-      "object": {
-        "name": "Example Project",
-        "owner": "example-user",
-        "uri": "http://example.com/",
-        "slugs": ["example", "example-project"]
-      }
+  {
+    "auth": {
+      "type": "token",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0aW1lc3luYyIsInN1YiI6ImV
+          4YW1wbGUtdXNlciIsImV4cCI6MTQ0NjQ5NzQyNzEzMywiaWF0IjoxNDQ2NDk1NTc5OTY3fQ.k8ij2c
+          XBRs5tUe_cq2RDePCYMpFjVkKqnpU11Q1XEnk"
+    },
+    "object": {
+      "name": "Example Project",
+      "owner": "example-user",
+      "uri": "http://example.com/",
+      "slugs": ["example", "example-project"]
     }
+  }
 
 Response:
 
 .. code-block:: javascript
 
-    {
-      "name": "Example Project",
-      "slugs": ["example", "example-project"],
-      "uri": "http://example.com/",
-      "owner": "example-user",
-      "uuid": "9ac95604-28dd-44e0-9ba5-ff9c5e2b2212",
-      "revision": 1,
-      "created_at": 1446495579967,
-      "updated_at": null,
-      "deleted_at": null
-    }
+  {
+    "name": "Example Project",
+    "slugs": ["example", "example-project"],
+    "uri": "http://example.com/",
+    "owner": "example-user",
+    "uuid": "9ac95604-28dd-44e0-9ba5-ff9c5e2b2212",
+    "revision": 1,
+    "created_at": 1446495579967,
+    "updated_at": null,
+    "deleted_at": null
+  }
 
 To later get this object back:
 
@@ -129,17 +129,17 @@ Response:
 
 .. code-block:: javascript
 
-    {
-      "name": "Example Project",
-      "slugs": ["example", "example-project"],
-      "uri": "http://example.com/",
-      "owner": "example-user",
-      "uuid": "9ac95604-28dd-44e0-9ba5-ff9c5e2b2212",
-      "revision": 1,
-      "created_at": 1446495579967,
-      "updated_at": null,
-      "deleted_at": null
-    }
+  {
+    "name": "Example Project",
+    "slugs": ["example", "example-project"],
+    "uri": "http://example.com/",
+    "owner": "example-user",
+    "uuid": "9ac95604-28dd-44e0-9ba5-ff9c5e2b2212",
+    "revision": 1,
+    "created_at": 1446495579967,
+    "updated_at": null,
+    "deleted_at": null
+  }
 
 API tokens have a life of 30 minutes, and must be used on the same timesync instance
 as they are created.
@@ -152,13 +152,13 @@ and a password field:
 
 .. code-block:: javascript
 
-    {
-      "auth": {
-          "type": "password",
-          "username": "tschuy",
-          "password": "password"
-      }
+  {
+    "auth": {
+      "type": "password",
+      "username": "tschuy",
+      "password": "password"
     }
+  }
 
 This username/password combination is compared to values stored in the local
 database for authentication.
@@ -171,13 +171,13 @@ and password:
 
 .. code-block:: javascript
 
-    {
-      "auth": {
-          "type": "ldap",
-          "username": "tschuy",
-          "password": "password"
-      }
+  {
+    "auth": {
+      "type": "ldap",
+      "username": "tschuy",
+      "password": "password"
     }
+  }
 
 Instead of comparing the username/password combination to values in a local
 database, however, it provides it to a configured LDAP provider for
