@@ -4,14 +4,14 @@
 Time Entries
 ============
 
-TimeSync entries have a few main fields:
+TimeSync time entries have a few main fields:
 
 * ``duration``: the amount of time worked, in seconds
 * ``project``: the project you worked on during the time entry
 * ``activities``: the activities you worked on. This can be things like ``dev``,
   ``docs``, etc.
 * ``user``: your username. Right now, only the account authenticated can only
-  make time entries for itself.
+  make time entries for itself, unless it is an admin.
 * ``date worked``: the date you did the work on. Many TimeSync clients will
   default to the day you're sending the entry in.
 

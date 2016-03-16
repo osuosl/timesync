@@ -5,8 +5,8 @@ Administration
 ==============
 
 A TimeSync administrator is a user whose responsibilities include creating
-projects, creating activities, and reporting. In general, TimeSync is designed
-to be as straightforward as possible; however, there are still a few things to
+projects, creating activities, managing users, and reporting. In general, TimeSync is
+designed to be as straightforward as possible; however, there are still a few things to
 keep in mind as a TimeSync admin.
 
 Creating new projects and activities
@@ -19,7 +19,7 @@ A project is something that a TimeSync user works on -- a website, product, etc.
 In TimeSync, a project contains a few pieces of information to make user's lives
 easier:
 
-* a ``uri``: a uri linking to the project's homepage.
+* a ``uri``: a uri linking to the project's homepage or repo.
 * a ``name``: this is the full name of the project that should be displayed
   to the user.
 * a list of ``slugs``: these are generally short things that people can refer
