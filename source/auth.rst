@@ -1,8 +1,8 @@
-.. _draft_auth:
+.. _auth:
 
-=============
-Authorization
-=============
+================================
+Authentication and Authorization
+================================
 
 TimeSync allows for various forms of authentication determined by the
 implementation.
@@ -17,21 +17,21 @@ like this:
     {
         "auth": {
             "type": // type
-            ...
+            // ...
         },
         "object": {
            "name": "Ganeti Web Manager",
-           ...
+           // ...
         }
     }
 
 In essence, there are two top-level blocks to an authenticated POST request:
 
 * ``auth``, containing any authentication information necessary
-* ``object``, containing the data of the POST request
+* ``object``, containing the data of the POST request (see the :ref:`API docs<api>`)
 
 An auth block typically looks like the above example, with a ``type`` field
-specifying what kind of authentication the client is connecting with, an other
+specifying what kind of authentication the client is connecting with, and other
 fields as necessary for that kind of connection.
 
 These other fields might be things like ``password``, ``token``, ``key``, etc.
@@ -52,13 +52,13 @@ POST endpoints:
     {
       "auth": {
         "type": "token",
-        "token": ...
+        "token": // ...
       },
-      ...
+      // ...
     }
 
-GET and DELETE endpoints: Use the query key ``token``, as in ``GET /times?token=...`` or
-``DELETE /activities/example?token=...``
+GET and DELETE endpoints: Use the query key ``token``, as in ``GET /times?token=<token>``
+or ``DELETE /activities/example?token=<token>``
 
 For example, the workflow may occur as follows:
 
@@ -153,12 +153,11 @@ and a password field:
 .. code-block:: javascript
 
     {
-        "auth": {
-            "type": "password",
-            "username": "tschuy",
-            "password": "password"
-        },
-        ...
+      "auth": {
+          "type": "password",
+          "username": "tschuy",
+          "password": "password"
+      }
     }
 
 This username/password combination is compared to values stored in the local
@@ -173,12 +172,11 @@ and password:
 .. code-block:: javascript
 
     {
-        "auth": {
-            "type": "ldap",
-            "username": "tschuy",
-            "password": "password"
-        },
-        ...
+      "auth": {
+          "type": "ldap",
+          "username": "tschuy",
+          "password": "password"
+      }
     }
 
 Instead of comparing the username/password combination to values in a local
