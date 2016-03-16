@@ -1,8 +1,8 @@
-.. _draft_api:
+.. _api:
 
-=========
-Draft API
-=========
+=================
+API Specification
+=================
 
 Below are the API specs for the TimeSync project.
 
@@ -20,9 +20,10 @@ Below are the API specs for the TimeSync project.
 Connection
 ----------
 
-All requests will be made via HTTPS. Available methods are GET to request
-an object, POST to create and/or edit a new object, and DELETE to
-remove an object.
+All requests will be made via HTTP. SSL/TLS security should be done through a reverse
+proxy and TLS terminator (e.g. HAproxy, Apache, etc.). Available methods are GET to
+request an object, POST to create and/or edit a new object, and DELETE to remove an
+object.
 
 ------
 
@@ -39,6 +40,8 @@ results will be returned as a single JSON object.
     Throughout this API, any form of dates will use a simplified ISO-8601
     format, as `defined by ECMA International.
     <http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15>`_
+    This format appears as "YYYY-MM-DD", where Y is the year, M is the month (01-12), and
+    DD is the day (01-31).
 
 --------
 
@@ -98,8 +101,8 @@ There are three variables in all objects that assist in an audit process
 
 * ``created_at``: the date at which a given object (specified by a UUID) was
   created.
-* ``updated_at``: The date at which an object was modified (the created_at date
-  of a new object revision).
+* ``updated_at``: The date at which an object was modified (the day this revision of the
+  object was created).
 * ``deleted_at``: When the DELETE operation is performed on an object it's
   ``deleted_at`` field is set to the date it was deleted. Historical
   (``parents``) copies of an object do not have ``deleted_at`` set unless the
@@ -238,8 +241,9 @@ GET /times
     ]
 
 .. caution::
-  Be aware that this endpoint will return different values depending on the permissions
-  of the caller. For more information, see `Authorization and Permissions`_, below.
+
+    Be aware that this endpoint will return different values depending on the permissions
+    of the caller. For more information, see `Authorization and Permissions`_, below.
 
 GET /times/:time-entry-uuid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -320,7 +324,7 @@ Parameter           Value(s)                Endpoint(s)
 ~~~~~~~~~~~~
 
 ``/times?start=:date``
-    Filters results to a set of time entries after a specified date.
+    Filters results to a set of time entries on or after a specified date.
 
 ``/times?end=:date&start=:date``
     Can be combined with ?end to create a date range.
@@ -329,7 +333,7 @@ Parameter           Value(s)                Endpoint(s)
 ~~~~~~~~~~
 
 ``/times?end=:date``
-    Filters results to a set of time entries before a specified date.
+    Filters results to a set of time entries on or before a specified date.
 
 ``/times?start=:date&end=:date``
     Can be combined with ?start to create a date range.
@@ -381,7 +385,7 @@ not in ISO-8601 format), a Bad Query Value error is returned.
 Any query parameter other than those specified in this document will be
 ignored.
 
-For more information about errors, check the :ref:`draft_errors<draft_errors>`
+For more information about errors, check the :ref:`errors<errors>`
 docs.
 
 If multiple ``start`` or ``end`` parameters are provided, the first one sent is
@@ -437,6 +441,11 @@ GET /projects/:slug?include_revisions=true
         ...
       }
     }
+
+.. note::
+
+    Member lists are not stored for old revisions, so when requesting projects with
+    ?include_revisions, the parents will not have "users" fields.
 
 GET /times/:uuid?include_revisions=true
 +++++++++++++++++++++++++++++++++++++++
@@ -595,7 +604,8 @@ GET /projects?include_deleted=true
     ]
 
 .. note::
-  Note that this now includes the Timesync project, which had previously been deleted.
+
+    Note that this now includes the Timesync project, which had previously been deleted.
 
 GET /activities?include_deleted=true
 ++++++++++++++++++++++++++++++++++++
@@ -626,7 +636,8 @@ GET /activities?include_deleted=true
     ]
 
 .. note::
-  Note that this now includes the Meetings activity, which had previously been deleted.
+
+    Note that this now includes the Meetings activity, which had previously been deleted.
 
 GET /times?include_deleted=true
 +++++++++++++++++++++++++++++++
@@ -665,7 +676,8 @@ GET /times?include_deleted=true
     ]
 
 .. note::
-  Note that this now includes the second time, which had previously been deleted.
+
+    Note that this now includes the second time, which had previously been deleted.
 
 GET /times/:uuid?include_deleted=true
 +++++++++++++++++++++++++++++++++++++
@@ -688,8 +700,9 @@ GET /times/:uuid?include_deleted=true
     }
 
 .. note::
-  As above, this time is deleted (note the deleted_at field), but instead of a 404, it
-  returns the object.
+
+    As above, this time is deleted (note the deleted_at field), but instead of a 404, it
+    returns the object.
 
 --------------
 
@@ -697,7 +710,7 @@ POST Endpoints
 --------------
 
 To add a new object, POST to */:object-name/* with a JSON body. The response
-body will contain the object in the same manner as the GET endpoints above.
+body will contain the object in a similar manner as the GET endpoints above.
 
 POST /projects/
 ~~~~~~~~~~~~~~~
@@ -760,10 +773,10 @@ Response body:
       }
     }
 
-Note that this endpoint, when called, will automatically set the currently
-authenticated user as a member, spectator, and manager of the project, allowing
-them to update and delete the project, add members to it, and promote/demote
-user roles on the project.
+.. note::
+
+    Because of sitewide manager and admin permissions, no users are automatically added to
+    a project, unless a ``users`` field is passed to add them.
 
 POST /activities/
 ~~~~~~~~~~~~~~~~~
@@ -835,6 +848,13 @@ Likewise, if you'd like to edit an existing object, POST to
 body.  The object only needs to contain the part that is being updated. The
 response body will contain the saved object, as shown above.
 
+.. note::
+
+    If a deleted time or user is updated using these endpoints, the new revision is no
+    longer deleted; the old revision still has its deleted_at set, but the new revision
+    does not, allowing it to appear in GET responses, etc. Note that this does not apply
+    to activities or projects; because their slugs are deleted, they cannot be referenced
+    by these endpoints, and thus must be recreated.
 
 POST /projects/:slug
 ~~~~~~~~~~~~~~~~~~~~
@@ -880,17 +900,13 @@ Response body:
       }
     }
 
-If a value of ``""`` (an empty string) or ``[]`` (an empty array) are passed as
-values for a string or array optional field (check the :ref:`model
-docs<draft_model>`), the value will be set to the empty string/array. If a
-value of undefined is provided (i.e.  the value is not provided), the current
-value of the object will be used.
+.. note::
 
-If a slugs field is passed to ``/projects/:slug``, it is assumed to overwrite
-the existing slugs for the object. Any slugs which already exist on the object
-but are not in the request are dropped, and the slugs field on the request
-becomes canonical, assuming all of the slugs do not already belong to another
-project.
+    If a slugs field is passed to ``/projects/:slug``, it is assumed to overwrite
+    the existing slugs for the object. Any slugs which already exist on the object
+    but are not in the request are dropped, and the slugs field on the request
+    becomes canonical, assuming all of the slugs do not already belong to another
+    project.
 
 
 POST /activities/:slug
@@ -971,10 +987,20 @@ The response body will be:
 
 ----
 
-In the case of a foreign key (such as project on a time) that does not point to
-a valid object or a malformed object sent in the request, an Object Not Found
-or Malformed Object error (respectively) will be returned, validation will
-return immediately, and the object will not be saved.
+.. note::
+
+    If a value of ``""`` (an empty string) or ``[]`` (an empty array) are passed as
+    values for a string or array optional field (check the :ref:`model
+    docs<model>`), the value will be set to the empty string/array. If a
+    value of undefined is provided (i.e.  the value is not provided), the current
+    value of the object will be used.
+
+.. note::
+
+    In the case of a foreign key (such as project on a time) that does not point to
+    a valid object or a malformed object sent in the request, an Object Not Found
+    or Malformed Object error (respectively) will be returned, validation will
+    return immediately, and the object will not be saved.
 
 ----
 
@@ -1027,20 +1053,20 @@ be a spectator, a manager, or an admin. In addition, each user may be a member, 
 or manager on an individual project.
 
 These permissions exist independently: for example, a user may be only a spectator,
-or may be a member and manager but not spectator, but sitewide permissions override
+or may be a member and manager but not spectator. Sitewide permissions override
 those of projects. Permissions are defined as follows:
 
-==================  ============================================
-    Permission                       Allowed to
-==================  ============================================
+==================  =================================================================
+    Permission                                  Allowed to
+==================  =================================================================
 Project member      Create time entries
-Project spectator   View time entries (see `GET /times`_, above)
+Project spectator   View time entries for that project (see ``GET Endpoints``, below)
 Project manager     Update projects and members
-------------------  --------------------------------------------
+------------------  -----------------------------------------------------------------
 Sitewide spectator  View all time entries
 Sitewide manager    Create projects and activities, create users
 Sitewide admin      Any action; promote users to managers
-==================  ============================================
+==================  =================================================================
 
 A user may be a member, spectator, and/or manager of multiple projects, and a project
 may have multiple members, spectators, and managers.
@@ -1049,8 +1075,9 @@ If a user attempts to access an endpoint which they are not authorized for, the
 server will return an Authorization Failure.
 
 .. note::
-  It is recommended that the site have one admin user which belongs to no one in
-  particular, similarly to the Linux ``root`` user.
+
+    It is recommended that the site have one admin user which belongs to no one in
+    particular, similarly to the Linux ``root`` user, which may add other users/admins.
 
 GET Endpoints
 ~~~~~~~~~~~~~
@@ -1070,25 +1097,23 @@ be in the results of /times, or Authentication Failure otherwise).
 POST Endpoints
 ~~~~~~~~~~~~~~
 
-POST /activities and POST /activities/:slug can be accessed by sitewide managers
+POST /activities and POST /activities/:slug can be accessed by sitewide managers.
 
-POST /projects is accessible to sitewide managers
+POST /projects is accessible to sitewide managers.
 
 POST /projects/:slug is accessible to the project's manager(s) and sitewide managers.
-In addition, note that project managers cannot promote another user to manager, nor demote
-other managers; only sitewide managers may. As well, note that while a project manager
-may in this way demote themselves or remove themselves from the project, a project is not
-allowed to have no managers.
+This includes the users list; a project or sitewide manager may promote or demote any user
+to any permission on the project, including demoting or removing themselves.
 
-POST /times is accessible to members of the project for which they intend to create a time
+POST /times is accessible to members of the project for which they intend to create a time.
 
-POST /times/:slug is accessible to the user who created the time originally
+POST /times/:slug is accessible to the user who created the time originally.
 
 DELETE Endpoints
 ~~~~~~~~~~~~~~~~
 
-DELETE /activities/:slug is accessible to sitewide managers
+DELETE /activities/:slug is accessible to sitewide managers.
 
-DELETE /projects/:slug is accessible to the project's manager(s) and sitewide managers
+DELETE /projects/:slug is accessible to the project's manager(s) and sitewide managers.
 
-DELETE /times/:uuid is accessible to the user who created the time and sitewide managers
+DELETE /times/:uuid is accessible to the user who created the time and sitewide managers.
