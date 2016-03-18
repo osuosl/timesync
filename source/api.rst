@@ -6,6 +6,9 @@ API Specification
 
 Below are the API specs for the TimeSync project.
 
+:ref:`Click here if you would like to skip the pre-amble and go straight to the
+endpoints examples<endpoints>`
+
 .. contents::
 
 .. note::
@@ -20,19 +23,20 @@ Below are the API specs for the TimeSync project.
 Connection
 ----------
 
-All requests will be made via HTTP. SSL/TLS security should be done through a reverse
-proxy and TLS terminator (e.g. HAproxy, Apache, etc.). Available methods are GET to
-request an object, POST to create and/or edit a new object, and DELETE to remove an
-object.
+All requests are made via HTTPS. Available methods include:
+  * GET to request an object
+  * POST to create and/or edit a new object
+  * DELETE to remove an object.
 
 ------
 
 Format
 ------
 
-Responses will be returned in standard JSON format. Multiple results will be
-sent as a list of JSON objects. Order of results is not guaranteed. Single
-results will be returned as a single JSON object.
+* Responses are returned in standard JSON.
+* Multiple results are sent as a list of JSON objects.
+* Order of results is not guaranteed.
+* Single results are be returned as a single JSON object.
 
 
 .. note::
@@ -48,48 +52,59 @@ results will be returned as a single JSON object.
 Versions
 --------
 
-The API will be versioned with the letter 'v' followed by increasing integers.
+The API is versioned with the letter 'v' followed by increasing integers.
 
-For example: https://timesync.osuosl.org/v1/projects
+For example: ``https://timesync.osuosl.org/v1/projects``
 
-Versions will be updated any time there is a significant change to the public
-API (not to the implementation).
+Versions are updated when time there is a significant change to the public
+API (not an implementation). A 'significant change' include updates which force
+a client to change how it interacts with the API (backward-compatiblity
+breaks, endpoint renaming, etc).
 
 -----
 
 Slugs
 -----
 
-Slugs appear in many places in TimeSync. They are used to get objects from the
-back-end, reference objects from within other objects, etc. A valid slug follows
-a very specific format:
+Slugs are used to get objects from the back-end, reference objects from within
+other objects, etc. A valid slug follows a very specific format:
 
-#) May only contain lowercase letters and numbers
+#) May only contain numbers and lowercase letters
 #) Sets of lowercase letters and numbers can be separated with a single hyphen
 #) Must contain at least one letter
+
+For instance:
+
+========== ===============
+Not a Slug A Slug
+---------- ---------------
+--2cool--  e
+!ir0ck~    my-username
+@username  bossperson
+========== ===============
 
 ---------
 
 Revisions
 ---------
 
-When an object is first created, it is assigned a tracking ID. This is a UUID
-which will refer to all versions of the same object. For example:
+When an object is first created, it is assigned a unique tracking ID (UUID).
+This UUID which will refer to all versions of the same object. For example:
 
 .. code-block:: none
 
   de305d54-75b4-431b-adb2-eb6b9e546014
 
 When an object is updated, a new revision is created. This allows one to easily
-keep track of the changes to an object over time (its *audit trail*). This
-means that a database key such as an auto-assigned ID is relatively meaningless
-in referring to an object, as it will only point to a revision.
+keep track of changes to an object over time (the object's *audit trail*). An
+implementation specific backend database key, like an auto-assigned ID (`1`,
+`9`, `2001`), would only be used to point to a revision of a given object.
 
-A revision can be referred to by its unique compound key (UUID, revision),
-where revision is a number which refers to the position of that version of the
-object in the audit trail (where 1 is the original version from object
-creation, 2 is created after the first update, etc.). This revision number is
-re-used between objects.
+A specific revision of an object can be referred to by its unique compound key
+(UUID, revision) where revision is a number which refers to the position of
+that version of the object in the audit trail (where 1 is the original version
+from object creation, 2 is created after the first update, etc.). This revision
+number is re-used between objects.
 
 ----------------
 
@@ -110,10 +125,20 @@ There are three variables in all objects that assist in an audit process
 
 
 **To view the audit trail of an object pass the** ``?include_revisions=true``
-**parameter to any endpoint and inspect the** ``parents`` **variable (a list of
+**parameter to an endpoint and inspect the** ``parents`` **variable (a list of
 object revisions).**
 
+.. note::
+
+    The ``include_revisions`` paramater does not work on all endpoints.
+
+    Check out the :ref:`GET Paramaters<query_parameters>` for more
+    details.
+
+
 -------------
+
+.. _endpoints:
 
 GET Endpoints
 -------------
@@ -268,6 +293,8 @@ GET /times/:time-entry-uuid
 
 ----------------------------
 
+.. _query_parameters:
+
 GET Request Query Parameters
 ----------------------------
 
@@ -289,19 +316,24 @@ Parameter           Value(s)                Endpoint(s)
 ?activity=          :activityslug           /times
 ?start=             :date (iso format)      /times
 ?end=               :date (iso format)      /times
-?include_revisions= :bool                   - /times
-                                            - /times/:uuid
-                                            - /activities/
+?include_revisions= :bool                   - /activities/
                                             - /activities/:slug
                                             - /projects/
                                             - /projects/:slug
-?include_deleted=   :bool                   - /times
+                                            - /times
                                             - /times/:uuid
-                                            - /activities
+?include_deleted=   :bool                   - /activities
                                             - /projects
+                                            - /times
+                                            - /times/:uuid
                                             - /users
                                             - /users/:username
 =================== ======================= =======================
+
+.. note::
+
+   A query parameter may only be used once in a given query. Duplicate instance
+   of the same query parameter will be discarded.
 
 ?user=:username
 ~~~~~~~~~~~~~~~
@@ -411,19 +443,17 @@ GET /projects/:slug?include_revisions=true
     "updated_at": "2015-04-17",
     "parents": [
       {
-        "duration": 20,
-        "user": "example-user",
-        "project": "gwm",
-        "activities": ["doc", "research"],
-        "notes": "Worked on documentation toward settings configuration.",
-        "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
-        "date_worked": "2015-04-17",
-        "created_at": "2014-06-12",
-        "updated_at": null,
-        "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
-        "deleted_at": null,
-        "revision": 1
-      }
+      "uri": "https://code.osuosl.org/projects/old-ganeti-webmgr",
+      "name": "Old Ganeti Web Manager",
+      "slugs": ["ganeti", "gwm"],
+      "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
+      "revision": 3,
+      "created_at": "2015-04-16",
+      "deleted_at": null,
+      "updated_at": "2015-04-15",
+      },
+      {...},
+      ...
     ],
     "users": {
       "user1": {
@@ -703,8 +733,8 @@ GET /times/:uuid?include_deleted=true
 
 .. note::
 
-  As above, this time is deleted (note the deleted_at field), but instead of a 404, it
-  returns the object.
+    As above, this time is deleted (note the deleted_at field), but instead of
+    a 404, it returns the object.
 
 --------------
 
@@ -837,7 +867,13 @@ Response body:
     "revision": 1
   }
 
-~~~~~~~~~~~~~~~~~~~~
+
+POST /users/
+~~~~~~~~~~~~
+
+User documentation can be found in the :ref:`User Documentation<users>`
+
+~~~~
 
 Likewise, if you'd like to edit an existing object, POST to
 ``/projects/:slug``, ``/activities/:slug``, or ``/times/:uuid`` with a JSON
@@ -980,20 +1016,27 @@ The response body will be:
 
 ----
 
+POST /users/:username
+~~~~~~~~~~~~~~~~~~~~~
+
+User documentation can be found in the :ref:`User Documentation<users>`
+
+----
+
 .. note::
 
-  If a value of ``""`` (an empty string) or ``[]`` (an empty array) are passed as
-  values for a string or array optional field (check the :ref:`model
-  docs<model>`), the value will be set to the empty string/array. If a
-  value of undefined is provided (i.e.  the value is not provided), the current
-  value of the object will be used.
+    If a value of ``""`` (an empty string) or ``[]`` (an empty array) are
+    passed as values for a string or array optional field (check the
+    :ref:`model docs<model>`), the value will be set to the empty string/array.
+    If a value of undefined is provided (i.e.  the value is not provided), the
+    current value of the object will be used.
 
 .. note::
 
-  In the case of a foreign key (such as project on a time) that does not point to
-  a valid object or a malformed object sent in the request, an Object Not Found
-  or Malformed Object error (respectively) will be returned, validation will
-  return immediately, and the object will not be saved.
+    In the case of a foreign key (such as project on a time) that does not
+    point to a valid object or a malformed object sent in the request, an
+    Object Not Found or Malformed Object error (respectively) will be returned,
+    validation will return immediately, and the object will not be saved.
 
 ----
 
@@ -1010,44 +1053,60 @@ The following content is checked by the API for validity:
 DELETE Endpoints
 ----------------
 
-The single object endpoints (e.g. ``/times/:uuid``, ``/projects/:slug``) support
-DELETE requests; these remove an object from the records.
+The single object endpoints (e.g. ``/times/:uuid``, ``/projects/:slug``)
+support DELETE requests; these remove an object from the records.
 
-If the object is successfully deleted, an empty response body is sent, with a 200 OK
-status. If the deletion fails for any reason, an error object is returned.
+If the object is successfully deleted, an empty response body is sent, with a
+200 OK status. If the deletion fails for any reason, an error object is
+returned.
 
-These objects must always be soft-deleted; that is, the object will still exist within the
-database. Nonetheless, requests for lists of objects (e.g. ``GET /projects``) will exclude
-the object from the results, and requests for single objects (e.g.
-``GET /times/:uuid``) will return a 404. The parameter ``?include_deleted``
-circumvents this requirement and allows deleted objects to be returned as well.
+These objects will always be soft-deleted; that is, the object will still
+exist, but will not be returned to a normal GET request. Requests for lists of
+objects (e.g. ``GET /projects``) will exclude the object from the results, and
+requests for single objects (e.g.  ``GET /times/:uuid``) will return a 404. The
+parameter ``?include_deleted`` circumvents this requirement and allows deleted
+objects to be returned in the returned set of objects.
 
-An object's deleted status is indicated by setting its ``deleted_at`` to the time of
-deletion; if the value is null, the object is not deleted. Only the most recent revision
-is set. In addition, activities and projects have their ``slugs`` removed, in order
-to allow these slugs to be reused by future objects.
+An object's deleted status is indicated by setting its ``deleted_at`` field to
+the datetime of deletion; if the value is null, the object is not deleted. Only
+the most recent revision is set. In addition, activities and projects have
+their ``slugs`` removed in order to allow these slugs to be reused by future
+objects.
 
-Unfortunately, this means that it is impossible to request or update a project or activity
-after it is deleted, even using the ``?include_deleted`` parameter. Instead, a new project
-or activity must be made; because the original slugs were deleted, the new object can
-share any or all of the original project's values.
+This means that it is impossible to request or update a project or activity
+after it is deleted, even with the using the ``?include_deleted`` parameter.
+Instead, a new project or activity must be made; because the original slugs
+were deleted, the new object can share any or all of the original project's
+user-defined metadata.
 
-When attempting to delete a project or activity, it must not be referenced by a current
-time (i.e. one which is neither deleted nor updated). If it is referenced by a current
-time, a Request Failure error is returned.
+When deleting a project or activity it must not be referenced by a current time
+entry (i.e. one which is neither deleted nor updated). If it is referenced by a
+current time then a Request Failure error is returned.
 
 -----------------------------
 
 Authorization and Permissions
 -----------------------------
 
-There are two types of permission in TimeSync: project roles and site roles. Each user may
-be a spectator, a manager, or an admin. In addition, each user may be a member, spectator,
-or manager on an individual project.
+There are two classes of permissions in TimeSync: project roles and site roles.
+Each user may be any combination of the following:
 
-These permissions exist independently: for example, a user may be only a spectator,
-or may be a member and manager but not spectator. Sitewide permissions override
-those of projects. Permissions are defined as follows:
+* site_spectator
+* site_manager
+* site_admin.
+
+In addition, each user may be any combination of the following:
+
+* project_member
+* project_spectator
+* project_manager
+
+for an individual project.
+
+These project permissions exist independently. A user may only be a
+site_spectator, or may be a project_member and project_manager but not
+project_spectator, but sitewide permissions override those of projects.
+Permissions are defined here:
 
 ==================  =================================================================
     Permission                                  Allowed to
@@ -1061,22 +1120,23 @@ Sitewide manager    Create projects and activities, create users
 Sitewide admin      Any action; promote users to managers
 ==================  =================================================================
 
-A user may be a member, spectator, and/or manager of multiple projects, and a project
-may have multiple members, spectators, and managers.
+A user may be a member, spectator, and/or manager of multiple projects, and a
+project may have multiple members, spectators, and managers.
 
 If a user attempts to access an endpoint which they are not authorized for, the
 server will return an Authorization Failure.
 
 .. note::
 
-  It is recommended that the site have one admin user which belongs to no one in
-  particular, similarly to the Linux ``root`` user, which may add other users/admins.
+    It is recommended that the site have one admin user which belongs to no one
+    in particular, similarly to the Linux ``root`` user, which may add other
+    users/admins.
 
 GET Endpoints
 ~~~~~~~~~~~~~
 
-GET /activities, GET /activities/:slug, GET /projects, and GET /projects/:slug are
-accessible to anyone who has successfully authenticated.
+GET /activities, GET /activities/:slug, GET /projects, and GET /projects/:slug
+are accessible to anyone who has successfully authenticated.
 
 GET /times will return:
 
@@ -1084,29 +1144,41 @@ GET /times will return:
 * All times in projects for which a user is a spectator or manager
 * All times if the user is a sitewide spectator or manager
 
-GET /times/:uuid follows the same rules (i.e. it will return the time if that time would
-be in the results of /times, or Authentication Failure otherwise).
+GET /times/:uuid follows the same rules (i.e. it will return the time if that
+time would be in the results of /times, or Authentication Failure otherwise).
+
+User documentation can be found in the :ref:`User Documentation<users>`
 
 POST Endpoints
 ~~~~~~~~~~~~~~
 
-POST /activities and POST /activities/:slug can be accessed by sitewide managers.
+POST /activities and POST /activities/:slug can be accessed by sitewide
+managers.
 
 POST /projects is accessible to sitewide managers.
 
-POST /projects/:slug is accessible to the project's manager(s) and sitewide managers.
-This includes the users list; a project or sitewide manager may promote or demote any user
-to any permission on the project, including demoting or removing themselves.
+POST /projects/:slug is accessible to the project's manager(s) and sitewide
+managers.  In addition, note that project managers cannot promote another user
+to manager, nor demote other managers; only sitewide managers may. As well,
+note that while a project manager may in this way demote themselves or remove
+themselves from the project, a project is not allowed to have no managers.
 
-POST /times is accessible to members of the project for which they intend to create a time.
+POST /times is accessible to members of the project for which they intend to
+create a time.
 
 POST /times/:slug is accessible to the user who created the time originally.
+
+User documentation can be found in the :ref:`User Documentation<users>`
 
 DELETE Endpoints
 ~~~~~~~~~~~~~~~~
 
 DELETE /activities/:slug is accessible to sitewide managers.
 
-DELETE /projects/:slug is accessible to the project's manager(s) and sitewide managers.
+DELETE /projects/:slug is accessible to the project's manager(s) and sitewide
+managers.
 
-DELETE /times/:uuid is accessible to the user who created the time and sitewide managers.
+DELETE /times/:uuid is accessible to the user who created the time and sitewide
+managers.
+
+User documentation can be found in the :ref:`User Documentation<users>`

@@ -8,7 +8,7 @@ Error types from the TimeSync API.
 
 .. contents::
 
-Errors will consist of:
+Errors consist of:
 
 #) a descriptive HTTP status code
 #) a standardized error name
@@ -17,8 +17,8 @@ Errors will consist of:
 
 The existence of an "error" key indicates an error.
 
-In the docs following, string literals are indicated by double quotes (as in
-JSON standard), but use the ECMAScript 6 string interpolation specification
+In the following docs string literals are indicated by double quotes (as in the
+JSON standard), but use the ECMAScript 2015 string interpolation specification
 to represent variables like slugs and object types.
 
 TimeSync uses the following error codes:
@@ -45,10 +45,10 @@ Slug) which does not match an object in the database.
 ---------------
 
 A generic catch-all for when there is a server error outside of the client's
-control.  This may be the result of an uncaught exception, a database error, or
+control. This may be the result of an uncaught exception, a database error, or
 any other condition which renders the server unable to process a valid request.
-Note that in a production environment, ``text`` may be empty to avoid disclosing
-sensitive information.
+Note that in a production environment, ``text`` may be empty to avoid
+disclosing sensitive information.
 
 .. code-block:: javascript
 
@@ -63,9 +63,9 @@ sensitive information.
 3. Invalid Foreign Key
 ----------------------
 
-A client attempts to make a POST request to create or update an object, but the
-new object sent by the client contains a foreign key parameter which does not
-point to a valid object in the database. (E.g. the client sends a new time
+If a client attempts to make a POST request to create or update an object, but
+the new object sent by the client contains a foreign key parameter which does
+not point to a valid object in the database. (E.g. the client sends a new time
 which does not have a valid project.)
 
 .. code-block:: javascript

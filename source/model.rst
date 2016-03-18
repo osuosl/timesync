@@ -102,8 +102,8 @@ meta                  string  Miscellaneous user meta-data.
 
 .. note::
 
-  Users are updated "in-place" (i.e. without an audit trail or revision system),
-  there is no ``uuid`` or ``revision`` field.
+    Users are updated "in-place" (i.e. without an audit trail or revision
+    system), there is no ``uuid`` or ``revision`` field.
 
 .. caution::
 

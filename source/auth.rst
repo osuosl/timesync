@@ -25,7 +25,7 @@ like this:
     }
   }
 
-In essence, there are two top-level blocks to an authenticated POST request:
+There are two top-level blocks to an authenticated POST request:
 
 * ``auth``, containing any authentication information necessary
 * ``object``, containing the data of the POST request (see the :ref:`API docs<api>`)
@@ -39,11 +39,12 @@ These other fields might be things like ``password``, ``token``, ``key``, etc.
 Token-based authentication
 --------------------------
 
-Token-based is the primary and default authentication method for TimeSync. TimeSync
-provides an endpoint at ``/login``, which should be sent a POST request, with the body
-fitting one of the other available authentication schemes (e.g. Password, LDAP). The
-endpoint will then return a `JWT token <http://jwt.io/>`_ string as its response body.
-This response body will be used to access the other endpoints:
+Token-based is the primary and default authentication method for TimeSync.
+TimeSync provides an endpoint at ``/login``, which should be sent a POST
+request, with the body fitting one of the other available authentication
+schemes (e.g. Password, LDAP). The endpoint returns a `JWT token
+<http://jwt.io/>`_ string as its response body.  This response body is
+used to access the other endpoints:
 
 POST endpoints:
 
@@ -141,14 +142,14 @@ Response:
     "deleted_at": null
   }
 
-API tokens have a life of 30 minutes, and must be used on the same timesync instance
-as they are created.
+API tokens have a life of 30 minutes, and must be used on the same timesync
+instance as they are created.
 
 Password authentication
 -----------------------
 
-When used with password-based authentication, TimeSync requires a username field
-and a password field:
+When used with password-based authentication, TimeSync requires a username
+field and a password field:
 
 .. code-block:: javascript
 
@@ -166,8 +167,8 @@ database for authentication.
 LDAP Authentication
 -------------------
 
-This form is nearly identical to password-based authentication, using a username
-and password:
+This form is nearly identical to password-based authentication, using a
+username and password:
 
 .. code-block:: javascript
 
