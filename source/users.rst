@@ -273,6 +273,12 @@ The response will be:
     "meta": "Different metadata about user1"
   }
 
+.. caution::
+
+  It is the client's responsibility to hash the password before sending it to
+  this endpoint, unlike the /login endpoint (see :ref:`auth<auth>`). The
+  password should be hashed with bcrypt, using 10 rounds.
+
 .. note::
 
   Site-wide admins can modify other users' site_spectator, site_manager, and site_admin
