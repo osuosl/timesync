@@ -203,6 +203,12 @@ Response:
     "meta": "Some metadata about the user"
   }
 
+.. caution::
+
+  It is the client's responsibility to hash the password before sending it to
+  this endpoint, unlike the /login endpoint (see :ref:`auth<auth>`). The
+  password should be hashed with bcrypt, using 10 rounds.
+
 .. note::
 
   This endpoint may only be accessed by admins and sitewide managers.
