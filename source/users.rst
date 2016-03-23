@@ -207,7 +207,9 @@ Response:
 
   It is the client's responsibility to hash the password before sending it to
   this endpoint, unlike the /login endpoint (see :ref:`auth<auth>`). The
-  password should be hashed with bcrypt, using 10 rounds.
+  password should be hashed with bcrypt, using 10 rounds. The bcrypt prefix
+  should be "2a" (different implementations may use different prefixes, but the
+  API requires consistency for authentication).
 
 .. note::
 
@@ -277,7 +279,9 @@ The response will be:
 
   It is the client's responsibility to hash the password before sending it to
   this endpoint, unlike the /login endpoint (see :ref:`auth<auth>`). The
-  password should be hashed with bcrypt, using 10 rounds.
+  password should be hashed with bcrypt, using 10 rounds. The bcrypt prefix
+  should be "2a" (different implementations may use different prefixes, but the
+  API requires consistency for authentication).
 
 .. note::
 
