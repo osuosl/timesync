@@ -22,6 +22,10 @@ user's lives easier:
 * a ``uri``: a uri linking to the project's homepage or repo.
 * a ``name``: this is the full name of the project that should be displayed
   to the user.
+* a ``default_activity``: if a time does not reference any activities, but *does*
+  reference a project which has a default activity, that default will be used for the
+  time's activities field. The default activity may be null, in which case times *must*
+  provide their own activities.
 * a list of ``slugs``: these are generally short things that people can refer
   to the project with. If your project is named Protein Geometry Database,
   it makes users' lives easier to only need to type in ``pgd`` when submitting
@@ -51,8 +55,8 @@ Getting a subset of time entries
 
 TimeSync lets you choose a subset of time entries based on things like the user
 that did the work, the project worked on, the date range, etc. All parameters
-can be done together, to limit a query to only a certain user's time entries on
-a certain project in a certain week.
+can be used in combination, for example to limit a query to only a certain user's time
+entries on a certain project in a certain week.
 
 Projects
 ~~~~~~~~

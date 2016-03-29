@@ -66,7 +66,7 @@ similar to the other endpoints, with certain key differences.
 GET /users
 ~~~~~~~~~~
 
-Returns a list of all user objects, sorted alphabetically by username.
+Returns a list of all user objects.
 
 .. code-block:: javascript
 
@@ -96,7 +96,7 @@ Returns a list of all user objects, sorted alphabetically by username.
 
 .. note::
 
-  Usernames are permanent.
+  Usernames are permanent, even upon deletion.
 
 GET /users/:username
 ~~~~~~~~~~~~~~~~~~~~
@@ -270,7 +270,7 @@ The response will be:
     "site_manager": true,
     "site_admin": false,
     "created_at": "2016-02-15",
-    "updated_at": "2016-02-15",
+    "updated_at": "2016-02-18",
     "deleted_at": null,
     "meta": "Different metadata about user1"
   }
@@ -290,8 +290,10 @@ The response will be:
 
   Site-wide managers can modify other users' site_spectator fields.
 
-This endpoint may be accessed by admins or the user who is being updated.
-However, the ``admin`` field may only be set by an admin.
+This endpoint may be accessed by admins, sitewide managers, or the user who is being
+updated. However, users may not set their own permissions unless they are an admin, and
+managers may *only* set the ``site_spectator`` field; thus the ``site_admin`` and
+``site_manager`` fields may only be set by an admin.
 
 DELETE /users/:username
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -312,7 +314,8 @@ The user object contains the ``site_spectator``, ``site_manager``, and
 ``site_admin`` fields, which are booleans designating those permissions. As
 stated above, a sitewide manager may promote a user to sitewide spectator or
 demote sitewide spectators; a sitewide admin may also promote a user to
-sitewide manager or to admin, or demote sitewide managers or other admins.
+sitewide manager or to admin, or demote sitewide managers or other admins (including
+themselves).
 
 The project object contains a ``users`` object, which map users (by username)
 to their permissions on the project. An admin, sitewide manager, or project

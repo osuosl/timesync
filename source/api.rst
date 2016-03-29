@@ -35,7 +35,9 @@ Format
 
 * Responses are returned in standard JSON.
 * Multiple results are sent as a list of JSON objects.
-* Order of results is not guaranteed.
+
+  * Order of results is not guaranteed.
+
 * Single results are be returned as a single JSON object.
 
 
@@ -54,7 +56,7 @@ Versions
 
 The API is versioned with the letter 'v' followed by increasing integers.
 
-For example: ``https://timesync.osuosl.org/v1/projects``
+For example: ``https://timesync.osuosl.org/v0/projects``
 
 Versions are updated when time there is a significant change to the public
 API (not an implementation). A 'significant change' include updates which force
@@ -118,7 +120,7 @@ There are three variables in all objects that assist in an audit process
   created.
 * ``updated_at``: The date at which an object was modified (the day this revision of the
   object was created).
-* ``deleted_at``: When the DELETE operation is performed on an object it's
+* ``deleted_at``: When the DELETE operation is performed on an object its
   ``deleted_at`` field is set to the date it was deleted. Historical
   (``parents``) copies of an object do not have ``deleted_at`` set unless the
   object was deleted for a given historical copy (and later un-deleted).
@@ -234,11 +236,11 @@ GET /activities/:slug
   {
     "name": "Documentation",
     "slugs": ["doc", "docs"],
-    "uuid": adf036f5-3d49-4a84-bef9-062b46380bbf,
+    "uuid": "adf036f5-3d49-4a84-bef9-062b46380bbf",
     "revision": 5,
     "created_at": "2014-04-17",
     "deleted_at": null,
-    "updated_at": null
+    "updated_at": "2014-04-26"
   }
 
 GET /times
@@ -248,9 +250,9 @@ GET /times
 
   [
     {
-      "duration": 12,
+      "duration": 12000,
       "user": "example-user",
-      "project": ["ganeti-webmgr", "gwm"],
+      "project": ["ganeti", "gwm"],
       "activities": ["docs", "planning"],
       "notes": "Worked on documentation toward settings configuration.",
       "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
@@ -277,17 +279,17 @@ GET /times/:time-entry-uuid
 .. code-block:: javascript
 
   {
-    "duration": 12,
+    "duration": 12000,
     "user": "example-user",
-    "project": ["gwm", "ganeti-webmgr"],
+    "project": ["gwm", "ganeti"],
     "activities": ["doc", "research"],
     "notes": "Worked on documentation toward settings configuration.",
     "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
-    "date_worked": "2014-06-12",
-    "created_at": "2014-06-12",
-    "updated_at": "2014-06-13",
+    "date_worked": "2014-04-17",
+    "created_at": "2014-04-17",
+    "updated_at": "2014-04-21",
     "deleted_at": null,
-    "uuid": c3706e79-1c9a-4765-8d7f-89b4544cad56,
+    "uuid": "c3706e79-1c9a-4765-8d7f-89b4544cad56",
     "revision": 3
   }
 
@@ -299,11 +301,14 @@ GET Request Query Parameters
 ----------------------------
 
 TimeSync's response data can be narrowed even further than the /:endpoints
-return statements by adding parameters.
+return statements by adding parameters:
 
-==== ======= ======== ========== ================ ===============
-user project activity date range object revisions deleted objects
-==== ======= ======== ========== ================ ===============
+* user
+* project
+* activity
+* date range
+* object revisions
+* deleted objects
 
 Reference Table
 ~~~~~~~~~~~~~~~
@@ -312,10 +317,10 @@ Reference Table
 Parameter           Value(s)                Endpoint(s)
 =================== ======================= =======================
 ?user=              :username               /times
-?project=           :projectslug            /times
-?activity=          :activityslug           /times
-?start=             :date (iso format)      /times
-?end=               :date (iso format)      /times
+?project=           :project-slug           /times
+?activity=          :activity-slug          /times
+?start=             :date (ISO format)      /times
+?end=               :date (ISO format)      /times
 ?include_revisions= :bool                   - /activities/
                                             - /activities/:slug
                                             - /projects/
@@ -374,8 +379,7 @@ Parameter           Value(s)                Endpoint(s)
 ?include_revisions=:bool
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-``/times?include_revisions=:bool``
-  * Adds the 'parents' field to the specified object.
+Adds the 'parents' field to the specified object.
   * This field is a list of all previous revisions of the object in
     descending order by revision number (i.e. ``time.parents[0]`` will be the
     previous revision, and ``time.parents[n-1]`` will be the first revision).
@@ -400,13 +404,6 @@ When multiple parameters are used, they narrow down the result set
   # This will return all time entries which were entered by example-user AND
   # which were spent doing development.
 
-When the same parameter is repeated, they expand the result set
-
-.. code-block:: none
-
-  $ GET /times?project=gwm&project=pgd&token=...
-  # This will return all time entries which were either for gwm OR pgd.
-
 Date ranges are inclusive on both ends.
 
 Malformed or Exceptional Parameter Usage
@@ -421,8 +418,9 @@ ignored.
 For more information about errors, check the :ref:`errors<errors>`
 docs.
 
-If multiple ``start`` or ``end`` parameters are provided, the first one sent is
-used. If a query parameter is not provided, it defaults to 'all values'.
+If multiple ``start``, ``end``, ``include_deleted``, or ``include_revisions`` parameters
+are provided, the first one sent is used. If a query parameter is not provided, it
+defaults to 'all values'.
 
 Including Revisions of Objects (include_revisions)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -440,7 +438,7 @@ GET /projects/:slug?include_revisions=true
     "revision": 4,
     "created_at": "2015-04-16",
     "deleted_at": null,
-    "updated_at": "2015-04-17",
+    "updated_at": "2015-04-23",
     "parents": [
       {
       "uri": "https://code.osuosl.org/projects/old-ganeti-webmgr",
@@ -450,10 +448,12 @@ GET /projects/:slug?include_revisions=true
       "revision": 3,
       "created_at": "2015-04-16",
       "deleted_at": null,
-      "updated_at": "2015-04-15",
+      "updated_at": "2015-04-21",
       },
-      {...},
-      ...
+      {
+        // ...
+      },
+      // ...
     ],
     "users": {
       "user1": {
@@ -475,20 +475,71 @@ GET /projects/:slug?include_revisions=true
   Member lists are not stored for old revisions, so when requesting projects with
   ?include_revisions, the parents will not have "users" fields.
 
+GET /projects?include_revisions=true
+++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: javascript
+
+  [
+    {
+      "uri": "https://code.osuosl.org/projects/ganeti-webmgr",
+      "name": "Ganeti Web Manager",
+      "slugs": ["ganeti", "gwm"],
+      "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
+      "revision": 4,
+      "created_at": "2015-04-16",
+      "deleted_at": null,
+      "updated_at": "2015-04-23",
+      "parents": [
+        {
+        "uri": "https://code.osuosl.org/projects/old-ganeti-webmgr",
+        "name": "Old Ganeti Web Manager",
+        "slugs": ["ganeti", "gwm"],
+        "uuid": "a034806c-00db-4fe1-8de8-514575f31bfb",
+        "revision": 3,
+        "created_at": "2015-04-16",
+        "deleted_at": null,
+        "updated_at": "2015-04-21",
+        },
+        {
+          // ...
+        },
+        // ...
+      ],
+      "users": {
+        "user1": {
+          "member": true,
+          "spectator": false,
+          "manager": false
+        },
+        "user2": {
+          "member": true,
+          "spectator": true,
+          "manager": true
+        },
+        // ...
+      }
+    },
+    {
+      // ...
+    },
+    // ...
+  ]
+
 GET /times/:uuid?include_revisions=true
 +++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: javascript
 
   {
-    "duration": 20,
+    "duration": 2000,
     "user": "example-user",
-    "project": "gwm",
+    "project": ["ganeti", "gwm"],
     "activities": ["doc", "research"],
     "notes": "Worked on documentation toward settings configuration.",
     "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
-    "date_worked": "2015-04-18",
-    "created_at": "2014-06-12",
+    "date_worked": "2015-04-12",
+    "created_at": "2014-04-12",
     "updated_at": "2015-04-18",
     "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
     "deleted_at": null,
@@ -497,12 +548,12 @@ GET /times/:uuid?include_revisions=true
       {
         "duration": 20,
         "user": "example-user",
-        "project": "gwm",
+        "project": ["ganeti", "gwm"],
         "activities": ["doc", "research"],
         "notes": "Worked on documentation toward settings configuration.",
         "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
-        "date_worked": "2015-04-17",
-        "created_at": "2014-06-12",
+        "date_worked": "2015-04-12",
+        "created_at": "2014-04-12",
         "updated_at": null,
         "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
         "deleted_at": null,
@@ -510,6 +561,58 @@ GET /times/:uuid?include_revisions=true
       }
     ]
   }
+
+GET /times?include_revisions=true
++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: javascript
+
+  [
+    {
+      "duration": 2000,
+      "user": "example-user",
+      "project": ["ganeti", "gwm"],
+      "activities": ["doc", "research"],
+      "notes": "Worked on documentation toward settings configuration.",
+      "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
+      "date_worked": "2015-04-12",
+      "created_at": "2014-04-12",
+      "updated_at": "2015-04-18",
+      "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+      "deleted_at": null,
+      "revision": 2,
+      "parents": [
+        {
+          "duration": 20,
+          "user": "example-user",
+          "project": ["ganeti", "gwm"],
+          "activities": ["doc", "research"],
+          "notes": "Worked on documentation toward settings configuration.",
+          "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
+          "date_worked": "2015-04-12",
+          "created_at": "2014-04-12",
+          "updated_at": null,
+          "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
+          "deleted_at": null,
+          "revision": 1
+        }
+      ]
+    },
+    {
+      "duration": 12000,
+      "user": "example-user",
+      "project": ["timesync", "ts"],
+      "activities": ["doc"],
+      "notes": "Improved readability of API documentation.",
+      "issue_uri": "https://github.com/osuosl/timesync/issues/66",
+      "date_worked": "2016-03-23",
+      "created_at": "2016-03-23",
+      "updated_at": "2016-03-25",
+      "uuid": "941a39b1-2507-48a6-8530-a83419661300",
+      "deleted_at": null,
+      "revision": 1
+    }
+  ]
 
 GET /activities/:slug?include_revisions=true
 ++++++++++++++++++++++++++++++++++++++++++++
@@ -622,7 +725,6 @@ GET /projects?include_deleted=true
     {
       "uri": "https:://github.com/osuosl/timesync",
       "name": "Timesync",
-      "slugs": ["ts", "timesync"],
       "uuid": "1f8788bd-0909-4397-be2c-79047f90c575",
       "revision": 1,
       "created_at": "2014-04-17",
@@ -648,7 +750,7 @@ GET /activities?include_deleted=true
       "revision": 5,
       "created_at": "2014-04-17",
       "deleted_at": null,
-      "updated_at": null
+      "updated_at": "2014-05-23"
     },
     {
       // ...
@@ -658,7 +760,6 @@ GET /activities?include_deleted=true
     },
     {
       "name": "Meetings"
-      "slugs": "meeting",
       "uuid": "6552d14e-12eb-4f1f-83d5-147f8452614c",
       "revision": 1,
       "created_at": "2014-04-17",
@@ -678,29 +779,29 @@ GET /times?include_deleted=true
 
   [
     {
-      "duration": 20,
+      "duration": 2000,
       "user": "example-user",
-      "project": "gwm",
+      "project": ["ganeti", "gwm"],
       "activities": ["doc", "research"],
       "notes": "Worked on documentation toward settings configuration.",
       "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
-      "date_worked": "2015-04-18",
-      "created_at": "2014-06-12",
+      "date_worked": "2015-04-12",
+      "created_at": "2014-04-12",
       "updated_at": "2015-04-18",
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
       "deleted_at": null,
       "revision": 2
     },
     {
-      "duration": 30,
+      "duration": 3000,
       "user": "example-user",
-      "project": "timesync",
+      "project": ["timesync", "ts"],
       "activities": ["doc"],
       "notes": "Worked on documentation toward include_deleted parameter.",
       "issue_uri": "https://github.com/osuosl/timesync/issues/52",
       "date_worked": "2015-08-18",
       "created_at": "2015-08-18",
-      "updated_at": null,
+      "updated_at": "2015-09-10",
       "deleted_at": "2015-10-12",
       "uuid": "e283a2cd-39c6-4133-95ec-5bc10dd9a9ef",
       "revision": 2
@@ -719,13 +820,13 @@ GET /times/:uuid?include_deleted=true
   {
     "duration": 30,
     "user": "example-user",
-    "project": "timesync",
+    "project": ["timesync", "ts"],
     "activities": ["doc"],
     "notes": "Worked on documentation toward include_deleted parameter.",
     "issue_uri": "https://github.com/osuosl/timesync/issues/52",
     "date_worked": "2015-08-18",
     "created_at": "2015-08-18",
-    "updated_at": null,
+    "updated_at": "2015-09-10",
     "deleted_at": "2015-10-12",
     "uuid": "e283a2cd-39c6-4133-95ec-5bc10dd9a9ef",
     "revision": 2
@@ -844,7 +945,7 @@ Request body:
     "project": "ganeti_web_manager",
     "activities": ["docs"],
     "notes": "Worked on documentation toward settings configuration.",
-    "issue_uri": "https://github.com/osu-cass/whats-fresh-api/issues/56",
+    "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/56",
     "date_worked": "2014-04-17"
   }
 
@@ -898,7 +999,7 @@ Request body:
   {
     "uri": "https://code.osuosl.org/projects/timesync",
     "name": "TimeSync API",
-    "slugs": ["timesync", "time"]
+    "slugs": ["timesync", "ts"]
   }
 
 Response body:
@@ -908,7 +1009,7 @@ Response body:
   {
     "uri": "https://code.osuosl.org/projects/timesync",
     "name": "TimeSync API",
-    "slugs": ["timesync", "time"],
+    "slugs": ["timesync", "ts"],
     "created_at": "2014-04-16",
     "updated_at": "2014-04-18",
     "deleted_at": null,
@@ -934,8 +1035,8 @@ Response body:
   If a slugs field is passed to ``/projects/:slug``, it is assumed to overwrite
   the existing slugs for the object. Any slugs which already exist on the object
   but are not in the request are dropped, and the slugs field on the request
-  becomes canonical, assuming all of the slugs do not already belong to another
-  project.
+  becomes canonical. (Assuming all of the slugs do not already belong to another
+  project.)
 
 
 POST /activities/:slug
@@ -971,13 +1072,13 @@ Original object:
 .. code-block:: javascript
 
   {
-    "duration": 12,
+    "duration": 12000,
     "user": "example-2",
     "activities": ["qa"],
     "project": ["gwm", "ganeti"],
     "notes": "",
     "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/56",
-    "date_worked": "2015-07-29",
+    "date_worked": "2014-06-10",
     "created_at": "2014-06-12",
     "updated_at": null,
     "deleted_at": null,
@@ -990,9 +1091,9 @@ Request body:
 .. code-block:: javascript
 
   {
-    "duration": 18,
+    "duration": 18000,
     "notes": "Initial duration was inaccurate. Date worked also updated.",
-    "date_worked": "2015-08-07"
+    "date_worked": "2014-06-07"
   }
 
 The response body will be:
@@ -1000,15 +1101,15 @@ The response body will be:
 .. code-block:: javascript
 
   {
-    "duration": 18,
+    "duration": 18000,
     "user": "example-2",
     "activities": ["qa"],
     "project": ["gwm", "ganeti"],
     "notes": "Initial duration was inaccurate. Date worked also updated.",
     "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/56",
-    "date_worked": "2015-08-07",
+    "date_worked": "2014-06-07",
     "created_at": "2014-06-12",
-    "updated_at": "2015-10-18",
+    "updated_at": "2014-07-02",
     "deleted_at": null,
     "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
     "revision": 2
@@ -1026,17 +1127,17 @@ User documentation can be found in the :ref:`User Documentation<users>`
 .. note::
 
     If a value of ``""`` (an empty string) or ``[]`` (an empty array) are
-    passed as values for a string or array optional field (check the
+    passed as values for a string or array optional field (see the
     :ref:`model docs<model>`), the value will be set to the empty string/array.
     If a value of undefined is provided (i.e.  the value is not provided), the
     current value of the object will be used.
 
 .. note::
 
-    In the case of a foreign key (such as project on a time) that does not
-    point to a valid object or a malformed object sent in the request, an
-    Object Not Found or Malformed Object error (respectively) will be returned,
-    validation will return immediately, and the object will not be saved.
+    In the case of a malformed object sent in the request, or a foreign key (such as
+    project on a time) that does not point to a valid object, a Malformed Object or Object
+    Not Found or error (respectively) will be returned, validation will return
+    immediately, and the object will not be saved.
 
 ----
 
@@ -1046,7 +1147,7 @@ The following content is checked by the API for validity:
 * URI must be a valid URI.
 * Activities must exist in the database.
 * The Project must exist in the database.
-* Project slugs must not already belong to another project.
+* Project and activity slugs must not already belong to another project/activity.
 
 ----------------
 
@@ -1061,14 +1162,14 @@ If the object is successfully deleted, an empty response body is sent, with a
 returned.
 
 These objects will always be soft-deleted; that is, the object will still
-exist, but will not be returned to a normal GET request. Requests for lists of
+exist, but will not be returned for a normal GET request. Requests for lists of
 objects (e.g. ``GET /projects``) will exclude the object from the results, and
 requests for single objects (e.g.  ``GET /times/:uuid``) will return a 404. The
 parameter ``?include_deleted`` circumvents this requirement and allows deleted
-objects to be returned in the returned set of objects.
+objects to be included in the returned set of objects.
 
 An object's deleted status is indicated by setting its ``deleted_at`` field to
-the datetime of deletion; if the value is null, the object is not deleted. Only
+the date of deletion; if the value is null, the object is not deleted. Only
 the most recent revision is set. In addition, activities and projects have
 their ``slugs`` removed in order to allow these slugs to be reused by future
 objects.
@@ -1081,7 +1182,7 @@ user-defined metadata.
 
 When deleting a project or activity it must not be referenced by a current time
 entry (i.e. one which is neither deleted nor updated). If it is referenced by a
-current time then a Request Failure error is returned.
+current time, then a Request Failure error is returned.
 
 -----------------------------
 
@@ -1105,7 +1206,7 @@ for an individual project.
 
 These project permissions exist independently. A user may only be a
 site_spectator, or may be a project_member and project_manager but not
-project_spectator, but sitewide permissions override those of projects.
+project_spectator; sitewide permissions override those of projects.
 Permissions are defined here:
 
 ==================  =================================================================
@@ -1117,7 +1218,7 @@ Project manager     Update projects and members
 ------------------  -----------------------------------------------------------------
 Sitewide spectator  View all time entries
 Sitewide manager    Create projects and activities, create users
-Sitewide admin      Any action; promote users to managers
+Sitewide admin      Any action, including promote users to managers and admins
 ==================  =================================================================
 
 A user may be a member, spectator, and/or manager of multiple projects, and a
@@ -1158,10 +1259,9 @@ managers.
 POST /projects is accessible to sitewide managers.
 
 POST /projects/:slug is accessible to the project's manager(s) and sitewide
-managers.  In addition, note that project managers cannot promote another user
-to manager, nor demote other managers; only sitewide managers may. As well,
-note that while a project manager may in this way demote themselves or remove
-themselves from the project, a project is not allowed to have no managers.
+managers.  In addition, note that both project managers and sitewide managers may promote
+another user to manager and demote other managers. As well, note that a project manager
+may in this way demote themselves or remove themselves from the project.
 
 POST /times is accessible to members of the project for which they intend to
 create a time.

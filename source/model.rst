@@ -75,13 +75,18 @@ Activities
 Name   Type   POST Required               Description                 Notes
 ====  ======  =============  =======================================  =====
 name  string  true           The human-readable name of the activity
-slug  string  true           A slug to identify the activity
+slug  string  true           A unique slug to identify the activity
 ====  ======  =============  =======================================  =====
 
 -----
 
 Users
 -----
+
+.. caution::
+
+  User objects do not include the 'Common' fields listed at the top of this
+  document.
 
 ===============  ======= ===============================  =============================================================
     Field         Type             Description                                        Notes
@@ -95,7 +100,7 @@ site_spectator   bool    Site-wide spectator flag.        Can be set by a manage
 site_manager     bool    Site-wide manager flag.          Can only be set by an admin.
 site_admin       bool    Site-wide admin flag.            Can only be set by another admin.
 created_at       date    Date account was created at.     Automatically set, unchangeable.
-updated_at       date    Date account was last update.    Automatically set upon POST updated.
+updated_at       date    Date account was last updated.   Automatically set when updated.
 deleted_at       date    Date account was soft-deleted.   Automatically set by server upon DELETE.
 meta             string  Miscellaneous user meta-data.
 ===============  ======= ===============================  =============================================================
@@ -104,8 +109,3 @@ meta             string  Miscellaneous user meta-data.
 
     Users are updated "in-place" (i.e. without an audit trail or revision
     system), there is no ``uuid`` or ``revision`` field.
-
-.. caution::
-
-  User objects do not include the 'Common' fields listed at the top of this
-  document.

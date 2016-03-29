@@ -58,8 +58,8 @@ POST endpoints:
     // ...
   }
 
-GET and DELETE endpoints: Use the query key ``token``, as in ``GET /times?token=<token>``
-or ``DELETE /activities/example?token=<token>``
+GET and DELETE endpoints: Use the query key ``token``, as in ``GET /times?token=:token``
+or ``DELETE /activities/example?token=:token``
 
 For example, the workflow may occur as follows:
 
@@ -115,7 +115,7 @@ Response:
     "owner": "example-user",
     "uuid": "9ac95604-28dd-44e0-9ba5-ff9c5e2b2212",
     "revision": 1,
-    "created_at": 1446495579967,
+    "created_at": "2015-11-02",
     "updated_at": null,
     "deleted_at": null
   }
@@ -137,12 +137,12 @@ Response:
     "owner": "example-user",
     "uuid": "9ac95604-28dd-44e0-9ba5-ff9c5e2b2212",
     "revision": 1,
-    "created_at": 1446495579967,
+    "created_at": "2015-11-02",
     "updated_at": null,
     "deleted_at": null
   }
 
-API tokens have a life of 30 minutes, and must be used on the same timesync
+API tokens have a life of 30 minutes, and must be used on the same TimeSync
 instance as they are created.
 
 Password authentication

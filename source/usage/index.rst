@@ -12,4 +12,3 @@ projects and activities.
     :maxdepth: 1
 
     Administration: activities and projects <administration>
-    Users: adding time entries <times>

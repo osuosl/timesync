@@ -15,7 +15,7 @@ Errors consist of:
 #) informational text
 #) a ``values`` array containing variables relevant to the error, if any
 
-The existence of an "error" key indicates an error.
+The existence of an ``error`` key indicates an error.
 
 In the following docs string literals are indicated by double quotes (as in the
 JSON standard), but use the ECMAScript 2015 string interpolation specification
@@ -211,12 +211,12 @@ another user.
 9. Request Failure
 -------------------
 
-This error is returned when a GET, POST, DELETE, etc. request is sent to an
-object and is rejected. It's used mainly in the instances when a user tries to
+This error is returned when a request is sent to an
+object and is rejected. This is used mainly in the instances when a user tries to
 delete something they are not supposed to. For example, a user may attempt to
 delete a project that has associated times.
 
-Allowed methods must be returned along with a 405 error. These will be listed
+Allowed methods must be returned along with the error object, which will be listed
 in the HTTP Allow header.
 
 .. code-block:: javascript
