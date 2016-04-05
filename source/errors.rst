@@ -143,9 +143,23 @@ With multiple invalid identifiers, the error is formatted like so:
     "values": [${bad}, ${bad}, ...]
   }
 
--------------------------
+-------------------
 
-6. Authentication Failure
+6. Invalid Username
+-------------------
+
+This error is returned when attempting to authenticate and an invalid (i.e. malformed)
+username is provided.
+
+.. code-block:: javascript
+
+  {
+    "status": 401,
+    "error": "Invalid username",
+    "text": "Invalid username ${username} is not a valid username"
+  }
+
+7. Authentication Failure
 -------------------------
 
 This error is returned when authentication fails for any reason. The text of
@@ -162,7 +176,7 @@ server is running.
 
 ----------------------
 
-7. Slug Already Exists
+8. Slug Already Exists
 ----------------------
 
 This error is returned when a new object is being created but the slugs provided
@@ -190,7 +204,7 @@ If multiple slugs are duplicated:
 
 ------------------------
 
-8. Authorization Failure
+9. Authorization Failure
 ------------------------
 
 This error is returned when the user is successfully authenticated, but lacks
@@ -208,7 +222,7 @@ another user.
 
 -------------------
 
-9. Request Failure
+10. Request Failure
 -------------------
 
 This error is returned when a request is sent to an
@@ -229,7 +243,7 @@ in the HTTP Allow header.
 
 -------------------
 
-10. Bad Query Value
+11. Bad Query Value
 -------------------
 
 This error is returned when a GET request is made with query parameters, but the value
@@ -244,4 +258,21 @@ an extra query parameter is used (nonexistent keys are ignored).
   "status": 400,
   "error": "Bad Query Value",
   "text": "Parameter ${key} contained invalid value ${value}"
+  }
+
+---------------------------
+
+12. Username Already Exists
+---------------------------
+
+This error is returned when creating a user and the username provided for the new user
+is already used by another user. Compare 8. Slug Already Exists.
+
+.. code-block:: javascript
+
+  {
+    "status": 409,
+    "error": "Username already exists",
+    "text": "username ${username} already exists",
+    "values": [${username}]
   }
