@@ -38,7 +38,7 @@ Format
 
   * Order of results is not guaranteed.
 
-* Single results are be returned as a single JSON object.
+* Single results are returned as a single JSON object.
 
 
 .. note::
@@ -58,10 +58,10 @@ The API is versioned with the letter 'v' followed by increasing integers.
 
 For example: ``https://timesync.osuosl.org/v0/projects``
 
-Versions are updated when time there is a significant change to the public
-API (not an implementation). A 'significant change' include updates which force
-a client to change how it interacts with the API (backward-compatiblity
-breaks, endpoint renaming, etc).
+Versions are updated each time there is a significant change to the public API
+(not an implementation). A 'significant change' include updates which force a
+client to change how it interacts with the API (backward-compatibility breaks,
+endpoint renaming, etc).
 
 -----
 
@@ -91,7 +91,7 @@ Revisions
 ---------
 
 When an object is first created, it is assigned a unique tracking ID (UUID).
-This UUID which will refer to all versions of the same object. For example:
+This UUID will refer to all versions of the same object. For example:
 
 .. code-block:: none
 
@@ -132,9 +132,9 @@ object revisions).**
 
 .. note::
 
-    The ``include_revisions`` paramater does not work on all endpoints.
+    The ``include_revisions`` parameter does not work on all endpoints.
 
-    Check out the :ref:`GET Paramaters<query_parameters>` for more
+    Check out the :ref:`GET Parameters<query_parameters>` for more
     details.
 
 
@@ -539,7 +539,7 @@ GET /times/:uuid?include_revisions=true
     "notes": "Worked on documentation toward settings configuration.",
     "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
     "date_worked": "2015-04-12",
-    "created_at": "2014-04-12",
+    "created_at": "2015-04-12",
     "updated_at": "2015-04-18",
     "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
     "deleted_at": null,
@@ -553,7 +553,7 @@ GET /times/:uuid?include_revisions=true
         "notes": "Worked on documentation toward settings configuration.",
         "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
         "date_worked": "2015-04-12",
-        "created_at": "2014-04-12",
+        "created_at": "2015-04-12",
         "updated_at": null,
         "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
         "deleted_at": null,
@@ -576,7 +576,7 @@ GET /times?include_revisions=true
       "notes": "Worked on documentation toward settings configuration.",
       "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
       "date_worked": "2015-04-12",
-      "created_at": "2014-04-12",
+      "created_at": "2015-04-12",
       "updated_at": "2015-04-18",
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
       "deleted_at": null,
@@ -590,7 +590,7 @@ GET /times?include_revisions=true
           "notes": "Worked on documentation toward settings configuration.",
           "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
           "date_worked": "2015-04-12",
-          "created_at": "2014-04-12",
+          "created_at": "2015-04-12",
           "updated_at": null,
           "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
           "deleted_at": null,
@@ -656,6 +656,7 @@ GET /activities?include_revisions=true
       "parents": [
         {
           "name": "Testing Infrastructure",
+          "slug": "test",
           "created_at": "2014-04-17",
           "deleted_at": null,
           "updated_at": null,
@@ -675,6 +676,7 @@ GET /activities?include_revisions=true
       "parents": [
         {
           "name": "Testing Infrastructure",
+          "slug": "build",
           "created_at": "2014-04-17",
           "deleted_at": null,
           "updated_at": null,
@@ -725,6 +727,7 @@ GET /projects?include_deleted=true
     {
       "uri": "https:://github.com/osuosl/timesync",
       "name": "Timesync",
+      "slugs": ["ganeti", "gwm"],
       "uuid": "1f8788bd-0909-4397-be2c-79047f90c575",
       "revision": 1,
       "created_at": "2014-04-17",
@@ -760,6 +763,7 @@ GET /activities?include_deleted=true
     },
     {
       "name": "Meetings"
+      "slug": "doc",
       "uuid": "6552d14e-12eb-4f1f-83d5-147f8452614c",
       "revision": 1,
       "created_at": "2014-04-17",
@@ -786,7 +790,7 @@ GET /times?include_deleted=true
       "notes": "Worked on documentation toward settings configuration.",
       "issue_uri": "https://github.com/osuosl/ganeti_webmgr/issues/40",
       "date_worked": "2015-04-12",
-      "created_at": "2014-04-12",
+      "created_at": "2015-04-12",
       "updated_at": "2015-04-18",
       "uuid": "aa800862-e852-4a40-8882-9b4a79aa3015",
       "deleted_at": null,
@@ -856,7 +860,6 @@ Request body:
     "uri": "https://code.osuosl.org/projects/timesync",
     "name": "TimeSync API",
     "slugs": ["timesync", "time"],
-    "owner": "example-2",
     "users": {
       "user1": {
         "member": true,
@@ -928,7 +931,7 @@ Response body:
     "created_at": "2014-04-17",
     "updated_at": null,
     "deleted_at": null,
-    "revision": 2
+    "revision": 1
   }
 
 
@@ -1134,10 +1137,11 @@ User documentation can be found in the :ref:`User Documentation<users>`
 
 .. note::
 
-    In the case of a malformed object sent in the request, or a foreign key (such as
-    project on a time) that does not point to a valid object, a Malformed Object or Object
-    Not Found or error (respectively) will be returned, validation will return
-    immediately, and the object will not be saved.
+    In the case of a malformed object sent in the request, or a foreign key
+    (such as project on a time) that does not point to a valid object, a
+    Malformed Object, Object Not Found or error (respectively) will be
+    returned, validation will return immediately, and the object will not be
+    saved.
 
 ----
 
@@ -1147,7 +1151,8 @@ The following content is checked by the API for validity:
 * URI must be a valid URI.
 * Activities must exist in the database.
 * The Project must exist in the database.
-* Project and activity slugs must not already belong to another project/activity.
+* Project and activity slugs must not already belong to another
+  project/activity.
 
 ----------------
 
@@ -1175,7 +1180,7 @@ their ``slugs`` removed in order to allow these slugs to be reused by future
 objects.
 
 This means that it is impossible to request or update a project or activity
-after it is deleted, even with the using the ``?include_deleted`` parameter.
+after it is deleted, even when using the ``?include_deleted`` parameter.
 Instead, a new project or activity must be made; because the original slugs
 were deleted, the new object can share any or all of the original project's
 user-defined metadata.

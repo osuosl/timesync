@@ -17,7 +17,7 @@ Projects
 
 A project is something that a TimeSync user works on -- a website, product,
 etc.  In TimeSync, a project contains a few pieces of information to make
-user's lives easier:
+users' lives easier:
 
 * a ``uri``: a uri linking to the project's homepage or repo.
 * a ``name``: this is the full name of the project that should be displayed
