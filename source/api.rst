@@ -316,7 +316,8 @@ Reference Table
 =================== ======================= =======================
 Parameter           Value(s)                Endpoint(s)
 =================== ======================= =======================
-?user=              :username               /times
+?user=              :username               - /times
+                                            - /projects
 ?project=           :project-slug           /times
 ?activity=          :activity-slug          /times
 ?start=             :date (ISO format)      /times
@@ -345,6 +346,9 @@ Parameter           Value(s)                Endpoint(s)
 
 ``/times?user=:username``
   Filters results to a set of time submitted entries by a specified user.
+
+``/projects?user=:username``
+  Filters results to a set of projects on which a specified user is a member.
 
 ?project=:projectslug
 ~~~~~~~~~~~~~~~~~~~~~

@@ -91,3 +91,14 @@ Example
 An administrator can opt to view only entries by ``alice`` and ``bob`` on the
 ``awesome-proj`` and ``boring-proj`` from ``2015-02-27`` to ``2015-03-14`` by
 setting the parameters on their client to the above values.
+
+----------------------------
+
+Getting a subset of projects
+----------------------------
+
+Users
+~~~~~
+
+You may also filter projects to only show those on which a given user is a
+member, using a query parameter similar to that used with times.
