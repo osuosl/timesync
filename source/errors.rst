@@ -35,7 +35,7 @@ Slug) which does not match an object in the database.
 
   {
     "status": 404,
-    "error": "Object not found",
+    "error": "Object Not Found",
     "text": "Nonexistent ${object}"
   }
 
@@ -54,7 +54,7 @@ disclosing sensitive information.
 
   {
     "status": 500,
-    "error": "Server error",
+    "error": "Server Error",
     "text": server_error // (e.g. exception text or sql error)
   }
 
@@ -72,7 +72,7 @@ which does not have a valid project.)
 
   {
     "status": 409,
-    "error": "Invalid foreign key",
+    "error": "Invalid Foreign Key",
     "text": "The ${object_type} does not contain a valid ${foreign_key} reference"
   }
 
@@ -90,17 +90,17 @@ duration field, or a project without a name.)
 
   unknown_field_error = {
     "status": 400,
-    "error": "Bad object",
+    "error": "Bad Object",
     "text": "${object_type} does not have a ${field_name} field"
   }
   missing_field_error = {
     "status": 400,
-    "error": "Bad object",
+    "error": "Bad Object",
     "text": "The ${object_type} is missing a ${field_name}"
   }
   invalid_field_error = {
     "status": 400,
-    "error": "Bad object",
+    "error": "Bad Object",
     "text": "Field ${field_name} of ${object_type} should be ${expected_type} but was sent as ${received_type}"
   }
 
@@ -127,7 +127,7 @@ error, pending changes to the specification).
 
   {
     "status": 400,
-    "error": "Invalid identifier",
+    "error": "Invalid Identifier",
     "text": "Expected ${slug/uuid} but received ${received_identifier}",
     "values": [${received_identifier}]
   }
@@ -138,7 +138,7 @@ With multiple invalid identifiers, the error is formatted like so:
 
   {
     "status": 400,
-    "error": "Invalid identifier",
+    "error": "Invalid Identifier",
     "text": "Expected ${slug/uuid} but received: ${bad}, ${bad}, ${bad}",
     "values": [${bad}, ${bad}, ...]
   }
@@ -155,7 +155,7 @@ username is provided.
 
   {
     "status": 401,
-    "error": "Invalid username",
+    "error": "Invalid Username",
     "text": "Invalid username ${username} is not a valid username"
   }
 
@@ -170,7 +170,7 @@ server is running.
 
   {
     "status": 401,
-    "error": "Authentication failure",
+    "error": "Authentication Failure",
     "text": "Invalid username or password" / "Bad oAuth token" / etc
   }
 
@@ -188,7 +188,7 @@ contain a slug that already exists.
 
   {
     "status": 409,
-    "error": "Slug already exists",
+    "error": "Slug Already Exists",
     "text": "Slug ${slug} already exists on another object",
     "values": [${slug}]
   }
@@ -199,7 +199,7 @@ If multiple slugs are duplicated:
 
   {
     "status": 409,
-    "error": "Slugs already exist",
+    "error": "Slugs Already Exist",
     "text": "Slugs ${slug}, ${slug} already exist on another object",
     "values": [${slug}, ${slug}, ...]
   }
@@ -218,7 +218,7 @@ another user.
 
   {
     "status": 401,
-    "error": "Authorization failure",
+    "error": "Authorization Failure",
     "text": "${user} is not authorized to ${action}"
   }
 
@@ -274,7 +274,7 @@ is already used by another user. Compare 8. Slug Already Exists.
 
   {
     "status": 409,
-    "error": "Username already exists",
-    "text": "username ${username} already exists",
+    "error": "Username Already Exists",
+    "text": "Username ${username} already exists",
     "values": [${username}]
   }
