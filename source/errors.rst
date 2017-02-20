@@ -237,7 +237,7 @@ in the HTTP Allow header.
 
   {
     "status": 405,
-    "error": "Method Not Allowed",
+    "error": "Method not allowed",
     "text": "The method specified is not allowed for the ${objectType} identified"
   }
 
@@ -256,7 +256,7 @@ an extra query parameter is used (nonexistent keys are ignored).
 
   {
   "status": 400,
-  "error": "Bad Query Value",
+  "error": "Bad query value",
   "text": "Parameter ${key} contained invalid value ${value}"
   }
 
