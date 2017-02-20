@@ -174,6 +174,8 @@ server is running.
     "text": "Invalid username or password" / "Bad oAuth token" / etc
   }
 
+.. _slug-already-exists:
+
 ----------------------
 
 8. Slug Already Exists

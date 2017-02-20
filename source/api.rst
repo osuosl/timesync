@@ -1044,8 +1044,11 @@ Response body:
   If a slugs field is passed to ``/projects/:slug``, it is assumed to overwrite
   the existing slugs for the object. Any slugs which already exist on the object
   but are not in the request are dropped, and the slugs field on the request
-  becomes canonical. (Assuming all of the slugs do not already belong to another
-  project.)
+  becomes canonical.
+
+  If any of the slugs provided belong to any other projects, a 
+  :ref:`Slug Already Exists<slug-already-exists>` error is returned
+  listing all slugs already associated with other projects, and no changes are made.
 
 
 POST /activities/:slug
