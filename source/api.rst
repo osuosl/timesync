@@ -4,7 +4,7 @@
 API Specification
 =================
 
-Below are the API specs for the TimeSync project.
+The current release of the API is v0.1.0.
 
 :ref:`Click here if you would like to skip the pre-amble and go straight to the
 endpoints examples<endpoints>`
