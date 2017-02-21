@@ -4,7 +4,7 @@
 API Specification
 =================
 
-Below are the API specs for the TimeSync project.
+The current release of the API is v0.1.0.
 
 :ref:`Click here if you would like to skip the pre-amble and go straight to the
 endpoints examples<endpoints>`
@@ -383,19 +383,21 @@ Parameter           Value(s)                Endpoint(s)
 ?include_revisions=:bool
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Adds the 'parents' field to the specified object.
-  * This field is a list of all previous revisions of the object in
-    descending order by revision number (i.e. ``time.parents[0]`` will be the
-    previous revision, and ``time.parents[n-1]`` will be the first revision).
-  * Without this field the object(s) do not include a 'parents' field and so
-    only the most recent revision of the object will be seen.
+The 'parents' field is added to the specified object when this parameter is
+included and not set to ``false``.
+
+This field is a list of all previous revisions of the object in descending
+order by revision number (i.e. ``time.parents[0]`` will be the previous
+revision, and ``time.parents[n-1]`` will be the first revision).
 
 ?include_deleted=:bool
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Includes deleted entries in the returned results.
-  These are objects which have the 'deleted_at' parameter set to an ISO date
-  (i.e., a non-null value).
+Deleted entries are included in the returned results when this parameter is
+included and not set to ``false``.
+
+These are objects which have the 'deleted_at' parameter set to an ISO date
+(i.e., a non-null value).
 
 Multiple Parameters Per Request
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1042,8 +1044,11 @@ Response body:
   If a slugs field is passed to ``/projects/:slug``, it is assumed to overwrite
   the existing slugs for the object. Any slugs which already exist on the object
   but are not in the request are dropped, and the slugs field on the request
-  becomes canonical. (Assuming all of the slugs do not already belong to another
-  project.)
+  becomes canonical.
+
+  If any of the slugs provided belong to any other projects, a 
+  :ref:`Slug Already Exists<slug-already-exists>` error is returned
+  listing all slugs already associated with other projects, and no changes are made.
 
 
 POST /activities/:slug

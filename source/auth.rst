@@ -181,5 +181,5 @@ username and password:
   }
 
 Instead of comparing the username/password combination to values in a local
-database, however, it provides it to a configured LDAP provider for
+database, however, the combination is provided to a configured LDAP provider for
 authentication.
