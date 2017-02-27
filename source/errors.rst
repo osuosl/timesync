@@ -148,8 +148,8 @@ With multiple invalid identifiers, the error is formatted like so:
 6. Invalid Username
 -------------------
 
-This error is returned when attempting to authenticate and an invalid (i.e. malformed)
-username is provided.
+This error is returned when creating a new user and a username with invalid
+characters is provided.
 
 .. code-block:: javascript
 
