@@ -173,7 +173,7 @@ server is running.
   {
     "status": 401,
     "error": "Authentication failure",
-    "text": "Invalid username or password" / "Bad oAuth token" / etc
+    "text": "${authentication_error}" // (e.g. "Invalid username or password")
   }
 
 ----------------------
