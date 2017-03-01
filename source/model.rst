@@ -88,13 +88,14 @@ Users
   User objects do not include the 'Common' fields listed at the top of this
   document.
 
-===============  ======= ===============================  =============================================================
-    Field         Type             Description                                        Notes
-===============  ======= ===============================  =============================================================
+===============  ======= ===============================  =========================================================================
+    Field         Type             Description                                             Notes
+===============  ======= ===============================  =========================================================================
 display_name     string  User's public display name.      While username cannot change, display_name can.
 username         string  Permanent username.              This username will remain in use even if the user is deleted.
 password         string  Password for user login.         Stored as hash; not returned in GET requests.
 email            string  Email address of user.
+roles            array   List of the user's org roles.    Array of strings; contains only values from the organization's role list.
 active           bool    Whether the user can login.      Used by admins to invalidate users.
 site_spectator   bool    Site-wide spectator flag.        Can be set by a manager or admin.
 site_manager     bool    Site-wide manager flag.          Can only be set by an admin.
@@ -103,7 +104,7 @@ created_at       date    Date account was created at.     Automatically set, unc
 updated_at       date    Date account was last updated.   Automatically set when updated.
 deleted_at       date    Date account was soft-deleted.   Automatically set by server upon DELETE.
 meta             string  Miscellaneous user meta-data.
-===============  ======= ===============================  =============================================================
+===============  ======= ===============================  =========================================================================
 
 .. note::
 

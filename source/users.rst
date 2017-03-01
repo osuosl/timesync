@@ -8,6 +8,29 @@ Users are managed primarily through the API, by admin users.
 
 .. contents::
 
+-----
+
+Roles
+-----
+
+The users model provides the concept of roles. These are string values which
+can be associated with users in order to help define what purpose the user
+serves within the organization (e.g. "Intern", "Project Manager", "Executive").
+A user may belong to one or more roles, which are defined by the `/users/roles`
+endpoint.
+
+A role consists of a human-readable name, which will be returned by all ``GET``
+endpoints, and a machine-readable slug, which will be passed to all ``POST``
+endpoints.
+
+The list of users may be filtered by roles, in order to get a list only of
+members of that role.
+
+Roles should not be confused with the authorization levels (e.g. site_manager),
+which configure what data a user is allowed to access or modify within the
+TimeSync system. Roles exist largely as metadata for use within the
+organization itself.
+
 -----------
 
 Users Model
@@ -23,6 +46,7 @@ Here is an example user object:
     "display_name": "User One",
     "username": "user1",
     "email": "user1@example.org",
+    "roles": ["Summer Intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -51,7 +75,7 @@ Here is an example user object:
 Admin Users
 -----------
 
-A site-wide admin user is defined by the boolean ``admin`` field. Admins
+A site-wide admin user is defined by the boolean ``site_admin`` field. Admins
 are able to access any endpoint, and manage all users (including being the only
 users which can promote others to admin status).
 
@@ -75,6 +99,7 @@ Returns a list of all user objects.
       "display_name": "User One",
       "username": "user1",
       "email": "user1@example.org",
+      "roles": ["Summer Intern"],
       "site_spectator": true,
       "site_manager": false,
       "site_admin": false,
@@ -98,6 +123,41 @@ Returns a list of all user objects.
 
   Usernames are permanent, even upon deletion.
 
+GET /users?role=:role
+~~~~~~~~~~~~~~~~~~~~~
+
+Similar to the base ``GET /users`` endpoint, this endpoint filters only for
+users matching the role slug provided. If the query is repeated, it functions as
+an "OR" statement.
+
+That is, ``GET /users?role=intern`` returns all interns in the system.
+
+``GET /users?role=intern&role=mentor`` returns everyone who is either an intern
+OR a mentor.
+
+.. code-block:: javascript
+
+  [
+    {
+      "display_name": "User One",
+      "username": "user1",
+      "email": "user1@example.org",
+      "roles": ["Summer Intern"],
+      "site_spectator": true,
+      "site_manager": false,
+      "site_admin": false,
+      "created_at": "2016-02-15",
+      "updated_at": "2016-02-15",
+      "deleted_at": null,
+      "active": true,
+      "meta": "extra metadata about user"
+    },
+    {
+      // ...
+    },
+    // ...
+  ]
+
 GET /users/:username
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -109,6 +169,7 @@ Returns a single user object.
     "display_name": "User One",
     "username": "user1",
     "email": "user1@example.org",
+    "roles": ["Summer Intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -129,6 +190,7 @@ GET /users?include_deleted=true
       "display_name": "User One",
       "username": user1,
       "email": "user1@example.org",
+      "roles": ["Summer Intern"],
       "site_spectator": true,
       "site_manager": false,
       "site_admin": false,
@@ -153,6 +215,7 @@ GET /users/:username?include_deleted=true
     "display_name": "User One",
     "username": "user1",
     "email": "user1@example.org",
+    "roles": ["Summer Intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -177,6 +240,7 @@ Request:
     "username": "example",
     "password": "password",
     "email": "example@example.com"
+    "roles": ["intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -192,6 +256,7 @@ Response:
     "displayname": "X. Ample User",
     "username": "example",
     "email": "example@example.com"
+    "roles": ["Summer Intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -220,6 +285,11 @@ Response:
   It is recommended that admins provide the user with a temporary password
   and have the user change the password when they log in.
 
+.. note::
+
+  If a role which does not exist in the system is provided to this endpoint,
+  a :ref:`Invalid Foreign Key error<errors>` will be returned.
+
 ~~~~~~~~~~~~~~~~~~~~~
 
 POST /users/:username
@@ -233,6 +303,7 @@ Original object:
     "display_name": "User One",
     "username": "user1",
     "email": "user1@example.org",
+    "roles": ["Summer Intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -252,6 +323,7 @@ Request body (made by a ``site_admin`` user):
     "display_name": "New Displayname",
     "password": "Battery Staple",
     "email": "user1+new@example.org",
+    "roles": ["developer"],
     "meta": "Different metadata about user1",
     "site_spectator": true,
     "site_manager": true,
@@ -266,6 +338,7 @@ The response will be:
     "display_name": "New Displayname",
     "username": "user1",
     "email": "user1+new@example.org",
+    "roles": ["Software Developer"],
     "site_spectator": true,
     "site_manager": true,
     "site_admin": false,
@@ -290,6 +363,19 @@ The response will be:
 
   Site-wide managers can modify other users' site_spectator fields.
 
+.. note::
+
+  If a role which does not exist in the system is provided to this endpoint,
+  a :ref:`Invalid Foreign Key error<errors>` will be returned.
+
+.. note::
+
+  The ``roles`` field, when passed to this endpoint, overwrites the existing
+  value, including if ``[]`` (an empty array) or ``null`` (which is treated like
+  an empty array) is passed as the value. To maintain the current role list, the
+  existing list must be passed as-is, or else the field must be omitted entirely
+  from the request.
+
 This endpoint may be accessed by admins, sitewide managers, or the user who is being
 updated. However, users may not set their own permissions unless they are an admin, and
 managers may *only* set the ``site_spectator`` field; thus the ``site_admin`` and
@@ -305,10 +391,109 @@ For more information on deletion, see the DELETE section of the :ref:`API<api>` 
 
 ---------------
 
-Role Management
+Roles Endpoints
 ---------------
 
-Role management is handled through the ``projects`` and ``users`` endpoints.
+The following endpoints retrieve or modify the list of roles to which users
+may belong.
+
+GET /users/roles
+~~~~~~~~~~~~~~~~
+
+This endpoint returns the list of roles in the system to which users may belong.
+
+.. code-block:: javascript
+
+  [
+    {
+      "name": "Summer Intern",
+      "slug": "intern"
+    },
+    {
+      "name": "Software Developer",
+      "slug": "developer"
+    },
+    ...
+  ]
+
+POST /users/roles
+~~~~~~~~~~~~~~~~~
+
+This endpoint creates a new role to which users may later be added.
+
+Both role names and slugs must be unique; if they are not, an error will be
+returned.
+
+Request body:
+
+.. code-block:: javascript
+
+  {
+    "name": "C-Level Executive",
+    "slug": "executive"
+  }
+
+Response will be identical to the request in case of success.
+
+POST /users/roles/:role
+~~~~~~~~~~~~~~~~~~~~~~
+
+This endpoint edits the name and/or slug of an existing role.
+
+As with the creation endpoint, both the new role name and slug must not exist.
+
+All users who currently have this role will return the new name after this
+request.
+
+Original object:
+
+.. code-block:: javascript
+
+  {
+    "name": "Summer Intern",
+    "slug": "intern"
+  }
+
+Request body:
+
+.. code-block:: javascript
+
+  {
+    "slug": "summer"
+  }
+
+Response body:
+
+.. code-block:: javascript
+
+  {
+    "name": "Summer Intern",
+    "slug": "summer"
+  }
+
+DELETE /users/roles/:role
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This endpoint deletes a role from the organization, preventing any new users
+from being given the role.
+
+Only roles to which no users belong may be deleted. If a role is passed to which
+users still belong, a :ref:`Request Failure error<errors>` will be returned.
+Edit users with this role to another role to delete the error.
+
+Unlike other objects in TimeSync, roles are permanently deleted by this request.
+This means that there is no way to retrieve them after this (and that there is
+no ``include_deleted`` query for roles). This also means that the name and slug
+previously taken by this role are freed, and a new role with the same name
+and/or slug may be created in the future.
+
+------------------------
+
+Authorization Management
+------------------------
+
+Authorization management is handled through the ``projects`` and ``users``
+endpoints.
 
 The user object contains the ``site_spectator``, ``site_manager``, and
 ``site_admin`` fields, which are booleans designating those permissions. As
