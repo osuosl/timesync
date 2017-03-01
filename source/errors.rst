@@ -55,7 +55,7 @@ disclosing sensitive information.
   {
     "status": 500,
     "error": "Server error",
-    "text": server_error // (e.g. exception text or sql error)
+    "text": "${server_error}" // (e.g. exception text or sql error)
   }
 
 ----------------------
@@ -159,6 +159,8 @@ characters is provided.
     "text": "Invalid username ${username} is not a valid username"
   }
 
+-------------------------
+
 7. Authentication Failure
 -------------------------
 
@@ -171,10 +173,8 @@ server is running.
   {
     "status": 401,
     "error": "Authentication failure",
-    "text": "Invalid username or password" / "Bad oAuth token" / etc
+    "text": "${authentication_error}" // (e.g. "Invalid username or password")
   }
-
-.. _slug-already-exists:
 
 ----------------------
 
@@ -257,9 +257,9 @@ an extra query parameter is used (nonexistent keys are ignored).
 .. code-block:: javascript
 
   {
-  "status": 400,
-  "error": "Bad query value",
-  "text": "Parameter ${key} contained invalid value ${value}"
+      "status": 400,
+      "error": "Bad query value",
+      "text": "Parameter ${key} contained invalid value ${value}"
   }
 
 ---------------------------
@@ -275,6 +275,6 @@ is already used by another user. Compare 8. Slug Already Exists.
   {
     "status": 409,
     "error": "Username already exists",
-    "text": "username ${username} already exists",
+    "text": "Username ${username} already exists",
     "values": [${username}]
   }
