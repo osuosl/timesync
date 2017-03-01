@@ -13,15 +13,17 @@ Users are managed primarily through the API, by admin users.
 Roles
 -----
 
-The users model provides the concept of roles. These are string values which
-can be associated with users in order to help define what purpose the user
-serves within the organization (e.g. "Intern", "Project Manager", "Executive").
-A user may belong to one or more roles, which are defined by the `/users/roles`
-endpoint.
+The users model provides the concept of organization roles. These are string
+values which can be associated with users in order to help define what purpose
+the user serves within the organization (e.g. "Intern", "Project Manager",
+"Executive"). A user may belong to one or more roles, which are defined by the
+`/users/roles` endpoints.
 
 A role consists of a human-readable name, which will be returned by all ``GET``
 endpoints, and a machine-readable slug, which will be passed to all ``POST``
 endpoints.
+
+Slugs follow the same rules as in the rest of the :ref:`API<api>`.
 
 The list of users may be filtered by roles, in order to get a list only of
 members of that role.
@@ -436,7 +438,7 @@ Request body:
 Response will be identical to the request in case of success.
 
 POST /users/roles/:role
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 This endpoint edits the name and/or slug of an existing role.
 
