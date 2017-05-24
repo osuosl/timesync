@@ -137,6 +137,25 @@ object revisions).**
     Check out the :ref:`GET Parameters<query_parameters>` for more
     details.
 
+----------
+
+Pagination
+----------
+
+All multiple-item GET endpoints support a pair of query parameters to be used in
+pagination: ``?skip`` and ``?limit``.
+
+GET results will always be returned in chronological order by updated_at value
+or by created_at where updated_at is NULL.
+
+?limit=n causes the endpoint to return at most *n* objects from its query.
+If *n = 0*, the full list of items is returned. The default is 25.
+
+?skip=s causes the first *s* items to be dropped from the result list; they are
+not counted in the limit.
+
+To count by an integer, zero-indexed page count *p*, you can request
+``?limit=n&skip=(p*n)``; for a one-indexed page count, ``skip=((p+1)*n)``.
 
 -------------
 
@@ -1046,7 +1065,7 @@ Response body:
   but are not in the request are dropped, and the slugs field on the request
   becomes canonical.
 
-  If any of the slugs provided belong to any other projects, a 
+  If any of the slugs provided belong to any other projects, a
   :ref:`Slug Already Exists<slug-already-exists>` error is returned
   listing all slugs already associated with other projects, and no changes are made.
 
