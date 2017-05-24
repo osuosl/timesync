@@ -8,20 +8,20 @@ Users are managed primarily through the API, by admin users.
 
 .. contents::
 
------
+------------------
 
-Roles
------
+Organization Roles
+------------------
 
 The users model provides the concept of organization roles. These are string
 values which can be associated with users in order to help define what purpose
 the user serves within the organization (e.g. "Intern", "Project Manager",
-"Executive"). A user may belong to one or more roles, which are defined by the
-`/users/roles` endpoints.
+"Executive"). A user may belong to one or more organization roles, which are
+defined by the ``/users/org-roles`` endpoints.
 
-A role consists of a human-readable name, which will be returned by all ``GET``
-endpoints, and a machine-readable slug, which will be passed to all ``POST``
-endpoints.
+An organization role consists of a machine-readable slug, which shall be passed
+to and from the API as references to roles, and a human-readable name, which
+shall be returned from the ``GET /users/org-roles/:slug`` endpoint.
 
 Slugs follow the same rules as in the rest of the :ref:`API<api>`.
 
@@ -48,7 +48,7 @@ Here is an example user object:
     "display_name": "User One",
     "username": "user1",
     "email": "user1@example.org",
-    "roles": ["Summer Intern"],
+    "org-roles": ["intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -101,7 +101,7 @@ Returns a list of all user objects.
       "display_name": "User One",
       "username": "user1",
       "email": "user1@example.org",
-      "roles": ["Summer Intern"],
+      "org-roles": ["intern"],
       "site_spectator": true,
       "site_manager": false,
       "site_admin": false,
@@ -144,7 +144,7 @@ OR a mentor.
       "display_name": "User One",
       "username": "user1",
       "email": "user1@example.org",
-      "roles": ["Summer Intern"],
+      "org-roles": ["intern"],
       "site_spectator": true,
       "site_manager": false,
       "site_admin": false,
@@ -171,7 +171,7 @@ Returns a single user object.
     "display_name": "User One",
     "username": "user1",
     "email": "user1@example.org",
-    "roles": ["Summer Intern"],
+    "org-roles": ["intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -192,7 +192,7 @@ GET /users?include_deleted=true
       "display_name": "User One",
       "username": user1,
       "email": "user1@example.org",
-      "roles": ["Summer Intern"],
+      "org-roles": ["intern"],
       "site_spectator": true,
       "site_manager": false,
       "site_admin": false,
@@ -217,7 +217,7 @@ GET /users/:username?include_deleted=true
     "display_name": "User One",
     "username": "user1",
     "email": "user1@example.org",
-    "roles": ["Summer Intern"],
+    "org-roles": ["intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -242,7 +242,7 @@ Request:
     "username": "example",
     "password": "password",
     "email": "example@example.com"
-    "roles": ["intern"],
+    "org-roles": ["intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -258,7 +258,7 @@ Response:
     "displayname": "X. Ample User",
     "username": "example",
     "email": "example@example.com"
-    "roles": ["Summer Intern"],
+    "org-roles": ["intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -289,8 +289,8 @@ Response:
 
 .. note::
 
-  If a role which does not exist in the system is provided to this endpoint,
-  a :ref:`Invalid Foreign Key error<errors>` will be returned.
+  If an organizational role which does not exist in the system is provided to
+  this endpoint, a :ref:`Invalid Foreign Key error<errors>` will be returned.
 
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -305,7 +305,7 @@ Original object:
     "display_name": "User One",
     "username": "user1",
     "email": "user1@example.org",
-    "roles": ["Summer Intern"],
+    "org-roles": ["intern"],
     "site_spectator": true,
     "site_manager": false,
     "site_admin": false,
@@ -325,7 +325,7 @@ Request body (made by a ``site_admin`` user):
     "display_name": "New Displayname",
     "password": "Battery Staple",
     "email": "user1+new@example.org",
-    "roles": ["developer"],
+    "org-roles": ["developer"],
     "meta": "Different metadata about user1",
     "site_spectator": true,
     "site_manager": true,
@@ -340,7 +340,7 @@ The response will be:
     "display_name": "New Displayname",
     "username": "user1",
     "email": "user1+new@example.org",
-    "roles": ["Software Developer"],
+    "org-roles": ["developer"],
     "site_spectator": true,
     "site_manager": true,
     "site_admin": false,
@@ -367,12 +367,12 @@ The response will be:
 
 .. note::
 
-  If a role which does not exist in the system is provided to this endpoint,
-  a :ref:`Invalid Foreign Key error<errors>` will be returned.
+  If an organizational role which does not exist in the system is provided to
+  this endpoint, a :ref:`Invalid Foreign Key error<errors>` will be returned.
 
 .. note::
 
-  The ``roles`` field, when passed to this endpoint, overwrites the existing
+  The ``org-roles`` field, when passed to this endpoint, overwrites the existing
   value, including if ``[]`` (an empty array) or ``null`` (which is treated like
   an empty array) is passed as the value. To maintain the current role list, the
   existing list must be passed as-is, or else the field must be omitted entirely
@@ -399,7 +399,7 @@ Roles Endpoints
 The following endpoints retrieve or modify the list of roles to which users
 may belong.
 
-GET /users/roles
+GET /users/org-roles
 ~~~~~~~~~~~~~~~~
 
 This endpoint returns the list of roles in the system to which users may belong.
@@ -418,10 +418,23 @@ This endpoint returns the list of roles in the system to which users may belong.
     ...
   ]
 
-POST /users/roles
+GET /usrs/org-roles/:slug
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This endpoint allows one to request the name of an organization role by its
+slug.
+
+.. code-block:: javascript
+
+  {
+    "name": "Summer Intern",
+    "slug": "intern"
+  }
+
+POST /users/org-roles
 ~~~~~~~~~~~~~~~~~
 
-This endpoint creates a new role to which users may later be added.
+This endpoint creates a new organization role to which users may later be added.
 
 Both role names and slugs must be unique; if they are not, an error will be
 returned.
@@ -437,14 +450,15 @@ Request body:
 
 Response will be identical to the request in case of success.
 
-POST /users/roles/:role
-~~~~~~~~~~~~~~~~~~~~~~~
+POST /users/org-roles/:slug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This endpoint edits the name and/or slug of an existing role.
 
-As with the creation endpoint, both the new role name and slug must not exist.
+As with the creation endpoint, both the new role name and slug must not already
+exist.
 
-All users who currently have this role will return the new name after this
+All users who currently have this role will return the new slug after this
 request.
 
 Original object:
@@ -473,8 +487,8 @@ Response body:
     "slug": "summer"
   }
 
-DELETE /users/roles/:role
-~~~~~~~~~~~~~~~~~~~~~~~~~
+DELETE /users/org-roles/:slug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This endpoint deletes a role from the organization, preventing any new users
 from being given the role.

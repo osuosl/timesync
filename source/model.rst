@@ -110,3 +110,20 @@ meta             string  Miscellaneous user meta-data.
 
     Users are updated "in-place" (i.e. without an audit trail or revision
     system), there is no ``uuid`` or ``revision`` field.
+
+------------------
+
+Organization Roles
+------------------
+
+.. caution::
+
+  Roles do not include any of the 'Common' fields listed at the top of this
+  document. They are solely a name and a slug.
+
+===== ====== ================================================================ ==============
+Field  Type                        Description                                    Notes
+===== ====== ================================================================ ==============
+name  string A human-readable name for the role, such as "Software Developer" Must be unique
+slug  string A machine-readable slug (see API docs) which identifies the role Must be unique
+===== ====== ================================================================ ==============
